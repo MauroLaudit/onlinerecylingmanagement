@@ -1,0 +1,32 @@
+/* General CSS Style */
+@font-face {
+    src: url('/font/Poppins-Regular.ttf');
+    font-family: Poppins-Regular;
+}
+
+@font-face {
+    src: url('/font/Poppins-Bold.ttf');
+    font-family: Poppins-Bold;
+}
+
+* {
+    font-family: Poppins-Regular, sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6{
+    font-family: Poppins-Bold, sans-serif;
+    font-weight: 700;
+}
+
+.btn{
+    font-family: Poppins-Bold, sans-serif;
+    font-weight: 700;
+}
+
+form input:-webkit-autofill,
+form input:-webkit-autofill:hover, 
+form input:-webkit-autofill:focus, 
+form input:-webkit-autofill:active{
+    box-shadow: 0 0 0 30px white inset !important;
+    -webkit-box-shadow: 0 0 0 30px white inset !important;
+}

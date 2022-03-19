@@ -1,0 +1,209 @@
+/* Login Layout Design */
+.login-section{
+    box-shadow: 0px 5px 8px 1px rgba(71,71,71,0.75);
+    -webkit-box-shadow: 0px 5px 8px 1px rgba(71,71,71,0.75);
+    -moz-box-shadow: 0px 5px 8px 1px rgba(71,71,71,0.75);
+    padding: 0;
+}
+
+.login-section .logo-section{
+    background-color: #ffffff;
+    padding: 30px 0;
+}
+
+.login-section .img-logo img{
+    width: 150px;
+    height: auto;
+}
+
+.login-section .title{
+    font-size: 27px;
+}
+
+.login-section .btn-signup{
+    padding: 10px 50px;
+    margin-top: 130px;
+    background-color: #1268cd;
+    color: #ffffff;
+    font-size: 18px;
+    font-weight: 500;
+    border-radius: 30px;
+}
+
+/* Modal Design */
+.modal .modal-content{
+    width: 390px;
+    height: 500px;
+    overflow: hidden;
+}
+
+.modal .modal-body{
+    margin: 0 !important;
+}
+
+.modal .step-row{
+    width: 100%;
+    height: 25px;
+    position: relative;
+    border-bottom: 2px solid #1268cd;
+    padding: 0;
+    z-index: 5;
+}
+
+.modal .step-col{
+    width: 120px;
+    height: 23px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    margin: 0;
+    transform-origin: bottom right;
+    transition: 0.9s ease-out;
+}
+
+.modal #s1{
+    color: #ffffff;
+}
+
+.modal #process{
+    width: 120px;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    background-color: #1268cd;
+    transition: 1s;
+}
+
+/* .modal #process::after{
+    content: "";
+    height: 0;
+    width: 0;
+    border-top: 12px solid transparent;
+    border-bottom: 12px solid transparent;
+    position: absolute;
+    right: -12px;
+    border-left: 12px solid #1268cd;
+} */
+
+.modal .header-form{
+    font-size: 22px;
+}
+
+.modal .input-group{
+    margin: 0;
+}
+
+.modal .signup-section {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    padding: 50px 30px 20px 30px;
+    transition: 0.5s;
+}
+
+.modal #form2,
+.modal #form3 {
+    left: 500px;
+}
+
+.modal .signup-section input,
+.modal .signup-section select {
+    font-size: 16px;
+    display: block;
+    width: 100%;
+    padding: 0.375rem 0.75rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #212529;
+    background-color: transparent;
+    background-clip: padding-box;
+    border-radius: 8px;
+    margin: 0 0 10px 0;
+    border: 1px solid #52bffd;
+}
+
+.modal .signup-section input:focus,
+.modal .signup-section select:focus {
+    outline: none;
+    border-radius: 8px;
+    margin: 0 0 10px 0;
+    border: 1px solid rgba(155,202,62,0.5);
+}
+
+.modal .signup-section input:valid{
+    border: 1px solid rgba(155,202,62,0.5);
+    border-bottom: 3px solid rgba(155,202,62,0.5);
+}
+
+/* Login Design */
+.login-section .form-section{
+    background-image: url(/images/bg-form-section.jpg);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 100%;    
+}
+
+.login-section .form-title{
+    color: #ffffff;
+    margin-bottom: 60px;
+}
+
+.login-section .form-section input{
+    margin-bottom: 20px;
+    font-size: 18px;
+    display: block;
+    width: 100%;
+    padding: 0.375rem 0.75rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #212529;
+    background-color: #ffffff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    border-radius: 0 8px 8px 0;
+}
+
+.login-section span > .fa{
+    margin-bottom: 20px;
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #212529;
+    background-color: #ffffff;
+    padding: 10px;
+    border-radius: 8px 0 0 8px;
+}
+
+.login-section span > .fa-lock{
+    padding:  9px 13px;
+    
+}
+
+.login-section .fp{
+    text-align: center;
+}
+
+.login-section .fp a{
+    font-size: 18px;
+    color: #ffffff;
+    text-decoration: none;
+}
+
+.login-section .btn-signin{
+    padding: 8px 50px;
+    margin-top: 20px;
+    background-color: #ffffff;
+    width: 100%;
+    color: #1268cd;
+    font-size: 18px;
+    font-weight: 700;
+    border-radius: 30px;
+}
+
+.login-section #siEmail{
+    font-family: 'FontAwesome', 'Poppins';
+    font-style: normal;
+    font-weight: normal;
+    text-decoration: inherit;
+}
