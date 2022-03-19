@@ -28,3 +28,5 @@ Route::get('/orm-login', [App\Http\Controllers\ormLoginController::class, 'login
 Route::get('/inventory', function () {
     return view('ormInventory');
 });
+
+//trial
