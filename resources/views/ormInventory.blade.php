@@ -1,8 +1,8 @@
 @extends('layouts.ormApp')
-@include('view.name', ['status' => 'complete'])
+@include('view.header', ['status' => 'complete'])
 
 @push('styles')
-    <!-- Styles and Scriot Here -->
+    <!-- Styles and Script Here -->
 @endpush
 
 @section('content')
