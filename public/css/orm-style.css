@@ -30,3 +30,7 @@ form input:-webkit-autofill:active{
     box-shadow: 0 0 0 30px white inset !important;
     -webkit-box-shadow: 0 0 0 30px white inset !important;
 }
+
+.side-nav em{
+    color: #1268cd;
+}
