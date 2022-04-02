@@ -1,26 +1,32 @@
+/* Hide Sidebar */
+.side-nav {
+    display: none;
+    visibility: hidden;
+}
+
 /* Login Layout Design */
-.login-section{
-    box-shadow: 0px 5px 8px 1px rgba(71,71,71,0.75);
-    -webkit-box-shadow: 0px 5px 8px 1px rgba(71,71,71,0.75);
-    -moz-box-shadow: 0px 5px 8px 1px rgba(71,71,71,0.75);
+.login-section {
+    box-shadow: 0px 5px 8px 1px rgba(71, 71, 71, 0.75);
+    -webkit-box-shadow: 0px 5px 8px 1px rgba(71, 71, 71, 0.75);
+    -moz-box-shadow: 0px 5px 8px 1px rgba(71, 71, 71, 0.75);
     padding: 0;
 }
 
-.login-section .logo-section{
+.login-section .logo-section {
     background-color: #ffffff;
     padding: 30px 0;
 }
 
-.login-section .img-logo img{
+.login-section .img-logo img {
     width: 150px;
     height: auto;
 }
 
-.login-section .title{
+.login-section .title {
     font-size: 27px;
 }
 
-.login-section .btn-signup{
+.login-section .btn-signup {
     padding: 10px 50px;
     margin-top: 130px;
     background-color: #1268cd;
@@ -31,17 +37,17 @@
 }
 
 /* Modal Design */
-.modal .modal-content{
+.modal .modal-content {
     width: 390px;
     height: 500px;
     overflow: hidden;
 }
 
-.modal .modal-body{
+.modal .modal-body {
     margin: 0 !important;
 }
 
-.modal .step-row{
+.modal .step-row {
     width: 100%;
     height: 25px;
     position: relative;
@@ -50,7 +56,7 @@
     z-index: 5;
 }
 
-.modal .step-col{
+.modal .step-col {
     width: 120px;
     height: 23px;
     display: flex;
@@ -62,11 +68,11 @@
     transition: 0.9s ease-out;
 }
 
-.modal #s1{
+.modal #s1 {
     color: #ffffff;
 }
 
-.modal #process{
+.modal #process {
     width: 120px;
     height: 100%;
     position: absolute;
@@ -86,11 +92,11 @@
     border-left: 12px solid #1268cd;
 } */
 
-.modal .header-form{
+.modal .header-form {
     font-size: 22px;
 }
 
-.modal .input-group{
+.modal .input-group {
     margin: 0;
 }
 
@@ -128,28 +134,28 @@
     outline: none;
     border-radius: 8px;
     margin: 0 0 10px 0;
-    border: 1px solid rgba(155,202,62,0.5);
+    border: 1px solid rgba(155, 202, 62, 0.5);
 }
 
-.modal .signup-section input:valid{
-    border: 1px solid rgba(155,202,62,0.5);
-    border-bottom: 3px solid rgba(155,202,62,0.5);
+.modal .signup-section input:valid {
+    border: 1px solid rgba(155, 202, 62, 0.5);
+    border-bottom: 3px solid rgba(155, 202, 62, 0.5);
 }
 
 /* Login Design */
-.login-section .form-section{
+.login-section .form-section {
     background-image: url(/images/bg-form-section.jpg);
     background-position: center;
     background-repeat: no-repeat;
-    background-size: 100%;    
+    background-size: 100%;
 }
 
-.login-section .form-title{
+.login-section .form-title {
     color: #ffffff;
     margin-bottom: 60px;
 }
 
-.login-section .form-section input{
+.login-section .form-section input {
     margin-bottom: 20px;
     font-size: 18px;
     display: block;
@@ -164,7 +170,7 @@
     border-radius: 0 8px 8px 0;
 }
 
-.login-section span > .fa{
+.login-section span>.fa {
     margin-bottom: 20px;
     font-size: 18px;
     font-weight: 400;
@@ -175,22 +181,22 @@
     border-radius: 8px 0 0 8px;
 }
 
-.login-section span > .fa-lock{
-    padding:  9px 13px;
-    
+.login-section span>.fa-lock {
+    padding: 9px 13px;
+
 }
 
-.login-section .fp{
+.login-section .fp {
     text-align: center;
 }
 
-.login-section .fp a{
+.login-section .fp a {
     font-size: 18px;
     color: #ffffff;
     text-decoration: none;
 }
 
-.login-section .btn-signin{
+.login-section .btn-signin {
     padding: 8px 50px;
     margin-top: 20px;
     background-color: #ffffff;
@@ -201,7 +207,7 @@
     border-radius: 30px;
 }
 
-.login-section #siEmail{
+.login-section #siEmail {
     font-family: 'FontAwesome', 'Poppins';
     font-style: normal;
     font-weight: normal;

@@ -24,6 +24,11 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 Route::get('/orm-login', [App\Http\Controllers\ormLoginController::class, 'login'])->name('ormlogin');
 
+/* show Dashboard Page */
+Route::get('/dashboard', function () {
+    return view('ormDashboard');
+});
+
 /* show Inventory Page */
 Route::get('/inventory', function () {
     return view('ormInventory');

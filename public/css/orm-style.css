@@ -13,24 +13,66 @@
     font-family: Poppins-Regular, sans-serif;
 }
 
-h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6{
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.h1,
+.h2,
+.h3,
+.h4,
+.h5,
+.h6 {
     font-family: Poppins-Bold, sans-serif;
     font-weight: 700;
 }
 
-.btn{
+.btn {
     font-family: Poppins-Bold, sans-serif;
     font-weight: 700;
 }
 
 form input:-webkit-autofill,
-form input:-webkit-autofill:hover, 
-form input:-webkit-autofill:focus, 
-form input:-webkit-autofill:active{
+form input:-webkit-autofill:hover,
+form input:-webkit-autofill:focus,
+form input:-webkit-autofill:active {
     box-shadow: 0 0 0 30px white inset !important;
     -webkit-box-shadow: 0 0 0 30px white inset !important;
 }
 
-.side-nav em{
-    color: #1268cd;
+/* SIDE NAVIGATION */
+.side-nav .side-col {
+    height: 600px !important;
+}
+
+.sidenav .orm-tooltip {
+    position: relative;
+    display: inline-block;
+}
+
+.sidenav .orm-tooltip span.orm-tooltiptext {
+    display: none;
+    visibility: hidden;
+    width: 120px;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+
+    /* Position the tooltip */
+    position: absolute;
+    z-index: 1;
+    top: -5px;
+    left: 105%;
+}
+
+.sidenav .orm-tooltip:hover .orm-tooltiptext {
+    visibility: visible;
+}
+
+.side-nav em {
+    color: #ffffff;
 }
