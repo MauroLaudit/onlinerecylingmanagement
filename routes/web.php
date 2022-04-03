@@ -34,4 +34,7 @@ Route::get('/inventory', function () {
     return view('ormInventory');
 });
 
-//trial
+/* show Transaction Page */
+Route::get('/transaction', function () {
+    return view('ormTransaction');
+});

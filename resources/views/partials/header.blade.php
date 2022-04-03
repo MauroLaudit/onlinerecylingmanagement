@@ -107,8 +107,8 @@
                         </a>
                     </li>
                     <li class="nav-item orm-tooltip" data-text="Transaction">
-                        <a href="#" class="nav-link py-3" title="" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Orders">
-                            <em class="fa fa-home fs-3"></em>
+                        <a href="{{ url('transaction') }}" class="nav-link py-3 {{Request::is('transaction') ? 'active':'' }}" title="" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Orders">
+                            <em class="fa fa-shopping-cart fs-3"></em>
                         </a>
                     </li>
                     <li class="nav-item orm-tooltip" data-text="Dashboard">
@@ -123,10 +123,12 @@
                     </li>
                 </ul>
                 <div class="dropdown">
-                    <a href="#" class="d-flex align-items-center justify-content-center p-3 link-dark text-decoration-none dropdown-toggle" id="dropdownUser3" data-bs-toggle="dropdown" aria-expanded="false">
+                    <a href="#" class="d-flex align-items-center justify-content-center p-3 link-dark text-decoration-none dropdown-toggle" id="dropdownUser" data-bs-toggle="dropdown" aria-expanded="false">
                         <img src="https://github.com/mdo.png" alt="mdo" width="40px" height="40px" class="rounded-circle">
                     </a>
-                    <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser3" style="">
+                    <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser" style="">
+                        <li><span class="text-nowrap ps-3 fw-bold">Mauro</span></li>
+                        <li><hr class="dropdown-divider"></li>
                         <li><a class="dropdown-item" href="#">New project...</a></li>
                         <li><a class="dropdown-item" href="#">Settings</a></li>
                         <li><a class="dropdown-item" href="#">Profile</a></li>
