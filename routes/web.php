@@ -14,7 +14,7 @@ use App\Http\Controllers\ormLoginController;
 |
 */
 
-Route::get('/', function () {
+Route::get('/login', function () {
     return view('auth.ormlogin');
 });
 
@@ -25,7 +25,7 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Route::get('/orm-login', [App\Http\Controllers\ormLoginController::class, 'login'])->name('ormlogin');
 
 /* show Dashboard Page */
-Route::get('/dashboard', function () {
+Route::get('/', function () {
     return view('ormDashboard');
 });
 

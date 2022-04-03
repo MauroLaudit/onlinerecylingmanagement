@@ -1,6 +1,5 @@
 @extends('layouts.ormApp')
 
-
 @push('styles')
     <!-- Styles and Script Here -->
 @endpush
@@ -9,7 +8,7 @@
     <section class="stock-section">
         <div class="container">
             <div class="row">
-                <div class="col-sm-auto bg-light sticky-top">
+                <div class="col-sm-auto">
                     
                 </div>
             </div>
