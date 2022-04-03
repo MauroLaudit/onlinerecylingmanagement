@@ -14,7 +14,6 @@
     width: auto;
     height: 40px;
     text-decoration: none;
-    color: #ffffff;
     padding: 10px 20px;
     border-radius: 10px;
 }
@@ -28,8 +27,36 @@
 /* Content Inventory CSS Style */
 .stock-section input[type=search] {
     width: 300px;
+    outline: none;
+}
+
+.stock-section .dataTables_length {
+    visibility: hidden;
+}
+
+.stock-section input[type=search]:focus {
+    border: 1px solid #1268cd;
 }
 
 .stock-section #inventoryTable_wrapper {
     max-height: 300px !important;
+}
+
+.stock-section .btn-inner a {
+    color: #000000;
+    text-decoration: none;
+    padding: 0 10px;
+}
+
+.stock-section .btn-inner em {
+    font-size: 20px;
+    padding: 0 3px;
+}
+
+.stock-section .btn-update em {
+    color: #9bca3e;
+}
+
+.stock-section .btn-delete em {
+    color: #cc1919;
 }

@@ -50,7 +50,21 @@
 
 <script>
     $(document).ready( function () {
-        $('#inventoryTable').DataTable();
+        $('#inventoryTable').DataTable({
+            aLengthMenu: [
+                [50],
+                [50]
+            ],
+            iDisplayLength: -1,
+
+            "columnDefs": [
+                { "width": "10%", "targets": 4 },
+                {
+                    'targets': [4], // column index (start from 0)
+                    'orderable': false, // set orderable false for selected columns
+                }
+            ]
+        });
     } );
 </script>
 

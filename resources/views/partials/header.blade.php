@@ -71,6 +71,7 @@
 
 .side-nav .nav-link.active {
     cursor: default;
+    pointer-events: none;
 }
 
 .side-nav .dropdown-toggle::after{
