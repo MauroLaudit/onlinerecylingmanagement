@@ -46,3 +46,29 @@ form input:-webkit-autofill:active {
 main {
     margin-left: 80px;
 }
+
+/* Page Header */
+.head-title {
+    border-bottom: 5px solid #9bca3e;
+    padding: 10px 0;
+    margin-bottom: 20px;
+    box-shadow: 0px 5px 8px 1px rgba(71, 71, 71, 0.75);
+    -webkit-box-shadow: 0px 5px 8px 1px rgba(71, 71, 71, 0.75);
+    -moz-box-shadow: 0px 5px 8px 1px rgba(71, 71, 71, 0.75);
+}
+
+.head-title .btn-nav {
+    background-color: #1268cd;
+    color: #ffffff;
+    width: auto;
+    height: 40px;
+    text-decoration: none;
+    padding: 10px 20px;
+    border-radius: 10px;
+}
+
+.head-title .btn-nav em {
+    color: #ffffff;
+    font-size: 20px;
+    padding-right: 5px;
+}

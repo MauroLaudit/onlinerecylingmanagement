@@ -129,8 +129,6 @@
                     <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser" style="">
                         <li><span class="text-nowrap ps-3 fw-bold">Mauro</span></li>
                         <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item" href="#">New project...</a></li>
-                        <li><a class="dropdown-item" href="#">Settings</a></li>
                         <li><a class="dropdown-item" href="#">Profile</a></li>
                         <li><hr class="dropdown-divider"></li>
                         <li><a class="dropdown-item" href="#">Sign out</a></li>
