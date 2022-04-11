@@ -60,3 +60,111 @@
 .stock-section .btn-delete em {
     color: #cc1919;
 }
+
+/* Modal Design CSS */
+.modal .modal-content {
+    width: 800px;
+    height: 500px;
+    overflow-y: auto;
+}
+
+.modal .company-info button {
+    width: 200px;
+}
+
+.modal .company-info input {
+    width: 450px;
+    outline: none;
+    border: none;
+    border-bottom: 1px solid #01122c;
+}
+
+.modal .company-info select {
+    border-radius: 0;
+    width: 435px;
+    outline: none;
+    border: none;
+    border-bottom: 1px solid #01122c;
+}
+
+.modal .option-tooltip {
+    position: relative;
+    display: inline-block;
+    z-index: 1;
+}
+
+.modal .option-tooltip::before {
+    content: attr(data-text);
+    /* here's the magic */
+    position: absolute;
+
+    /* vertically center */
+    top: 50%;
+    transform: translateY(-50%);
+
+    /* move to right */
+    left: 100%;
+    margin-right: 0px;
+    /* and add a small left margin */
+
+    /* basic styles */
+    width: auto;
+    height: auto;
+    padding: 8px;
+    background: #040123;
+    color: #fff;
+    font-size: 15px !important;
+    white-space: normal;
+    transition: 1s ease-in;
+    z-index: 3;
+
+    display: none;
+    /* hide by default */
+}
+
+.modal .option-tooltip:hover:before {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal .option-viewer {
+    position: relative;
+    display: inline-block;
+}
+
+.modal .option-viewer::before {
+    content: attr(data-text);
+    /* here's the magic */
+    position: absolute;
+
+    /* vertically center */
+    top: 100%;
+    transform: translateY(0%);
+
+    /* move to right */
+    right: 0%;
+    margin-right: 0px;
+    /* transform: translateX(-5%); */
+    /* and add a small left margin */
+
+    /* basic styles */
+    width: 200px;
+    height: auto;
+    padding: 8px;
+    background: #040123;
+    color: #fff;
+    text-align: center;
+    font-size: 15px !important;
+    overflow-wrap: break-word;
+    transition: 1s ease-in;
+
+    display: none;
+    /* hide by default */
+}
+
+.modal .option-viewer:hover:before {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

@@ -44,14 +44,25 @@
                             </div>
                             <div class="inner-form mb-3 d-flex justify-content-between align-items-center">
                                 <label for="fname">Recyclable Commodity:</label>
-                                <div class="item-selection">
-                                    <select class="form-select" aria-label="Default select example" required>
-                                        <option selected>Choose Recyclable Items</option>
-                                        <option value="1">One</option>
-                                        <option value="2">Two</option>
-                                        <option value="3">Three</option>
+                                <div class="item-selection d-flex align-items-center">
+                                    <select class="select-form" id="rec-item" aria-label="Default select example" required>
+                                        <option selected>Choose Recyclable Item</option>
+                                        <option class="option-tooltip" data-text="Used Bond Paper" value="White Paper">White Paper</option>
+                                        <option value="Cartons">Cartons</option>
+                                        <option value="Newspaper">Newspaper</option>
+                                        <option value="Assorted or Mixed Waste Papers">Assorted or Mixed Waste Papers</option>
+                                        <option value="PET Bottle">PET Bottle</option>
+                                        <option value="Aluminum Cans">Aluminum Cans</option>
+                                        <option value="Plastic HDPE">Plastic HDPE</option>
+                                        <option value="Plastic LDPE">Plastic LDPE</option>
+                                        <option value="Engineering Plastics">Engineering Plastics</option>
+                                        <option value="Copper Wire">Copper Wire</option>
+                                        <option value="Steel">Steel</option>
+                                        <option value="Tin Can">Tin Can</option>
+                                        <option value="Liquor Bottle">Liquor Bottle</option>
+                                        <option value="Glass Cullets">Glass Cullets (Bubog)</option>
                                     </select>
-                                    <span type="button"><em class="fa fa-question-circle-o" aria-hidden="true"></em></span>
+                                    <span class="option-viewer" data-text="Please Choose An Item"><em class="fa fa-question-circle-o" aria-hidden="true"></em></span>
                                 </div>
                             </div>
                             <div class="inner-form mb-3 d-flex justify-content-between align-items-center">
@@ -70,38 +81,6 @@
                                 <button type="submit" class="btn btn-primary">Add Record</button>
                             </div>
                         </form>
-                    </div>
-                    <hr>
-                    <div class="company-order col-12">
-                        <h4>Orders</h4>
-                        <form action="">
-                            <table id="" class="table">
-                                <thead>
-                                    <tr>
-                                        <th scope="col">Commodity</th>
-                                        <th scope="col">Amount (per kl)</th>
-                                        <th scope="col">Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="table-order">
-                                    <tr>
-                                        <!-- <th scope="row">1</th> -->
-                                        <td><input type="text" id="commodity" name="commodity" class="form-input" required></td>
-                                        <td><input type="text" id="amount" name="amount" class="form-input" required></td>
-                                        <td class="d-flex justify-content-center align-items-center">
-                                            <button type="button" class="btn btn-success btn-inner d-flex justify-content-center align-items-center" id="add_btn">
-                                                <em class="fa fa-plus" aria-hidden="true"></em>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-
-                            <div class="btn-nav d-flex justify-content-center">
-                                <button type="submit" class="btn btn-primary">Order</button>
-                            </div>
-                        </form>
-                        
                     </div>
                 </div>
             </div>
@@ -297,4 +276,61 @@
             </div>
         </div>
     </section>
+
+    <script>
+        $(document).ready(function(){
+            $('#rec-item').on('change', function(){
+                var items = $('#rec-item option').val();
+
+                /* alert($(this).val()); */
+
+                if($(this).val() == 'White Paper') {
+                    $( "span" ).attr( "data-text", "Used bond paper" );
+                }
+                else if($(this).val() == 'Cartons') {
+                    $( "span" ).attr( "data-text", "Appliance boxes, Packaging boxes" );
+                }
+                else if($(this).val() == 'Newspaper') {
+                    $( "span" ).attr( "data-text", "Newspapers" );
+                }
+                else if($(this).val() == 'Assorted or Mixed Waste Papers') {
+                    $( "span" ).attr( "data-text", "Colored papers, papers with heavy prints & others not falling into the previous 3 categories" );
+                }
+                else if($(this).val() == 'PET Bottle') {
+                    $( "span" ).attr( "data-text", "Mineral water bottle, clear softdrinks bottle" );
+                }
+                else if($(this).val() == 'Aluminum Cans') {
+                    $( "span" ).attr( "data-text", "Softdrink cans" );
+                }
+                else if($(this).val() == 'Plastic HDPE') {
+                    $( "span" ).attr( "data-text", "Food bottles used for vinegar, soy sauce, ketchup, etc." );
+                }
+                else if($(this).val() == 'Plastic LDPE') {
+                    $( "span" ).attr( "data-text", "Ice Cream & Margarine Lids" );
+                }
+                else if($(this).val() == 'Engineering Plastic ') {
+                    $( "span" ).attr( "data-text", "Computer & printer casing " );
+                }
+                else if($(this).val() == 'Copper Wire') {
+                    $( "span" ).attr( "data-text", "Heavy duty wires used in aircons" );
+                }
+                else if($(this).val() == 'Steel') {
+                    $( "span" ).attr( "data-text", "Steel tubes used for plumbing" );
+                }
+                else if($(this).val() == 'Tin Can') {
+                    $( "span" ).attr( "data-text", "Sardine can, corned beef can, etc" );
+                }
+                else if($(this).val() == 'Liquor Bottle') {
+                    $( "span" ).attr( "data-text", "Emperador long neck, Emperador lapad, Ginebra gin, Ketchup, Softdrinks bottle" );
+                }
+                else if($(this).val() == 'Glass Cullets') {
+                    $( "span" ).attr( "data-text", "Broken glass bottles, colorless" );
+                }
+                else{
+                    $( "span" ).attr( "data-text", "Please Choose An Item" );
+                }
+
+            })
+        });
+    </script>
 @endsection
