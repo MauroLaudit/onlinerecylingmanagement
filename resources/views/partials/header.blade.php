@@ -111,16 +111,6 @@
                             <em class="fa fa-shopping-cart fs-3"></em>
                         </a>
                     </li>
-                    <li class="nav-item orm-tooltip" data-text="Dashboard">
-                        <a href="#" class="nav-link py-3">
-                            <em class="fa fa-home fs-3"></em>
-                        </a>
-                    </li>
-                    <li class="nav-item orm-tooltip" data-text="Dashboard">
-                        <a href="#" class="nav-link py-3">
-                            <em class="fa fa-home fs-3"></em>
-                        </a>
-                    </li>
                 </ul>
                 <div class="dropdown">
                     <a href="#" class="d-flex align-items-center justify-content-center p-3 link-dark text-decoration-none dropdown-toggle" id="dropdownUser" data-bs-toggle="dropdown" aria-expanded="false">

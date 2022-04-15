@@ -62,9 +62,13 @@
 }
 
 /* Modal Design CSS */
+.modal .modal-body {
+    padding-top: 0px;
+}
+
 .modal .modal-content {
-    width: 800px;
-    height: 500px;
+    width: 500px;
+    height: auto;
     overflow-y: auto;
 }
 
@@ -73,18 +77,18 @@
 }
 
 .modal .company-info input {
-    width: 450px;
+    width: 100%;
     outline: none;
-    border: none;
-    border-bottom: 1px solid #01122c;
+    /* border: none;
+    border-bottom: 1px solid #01122c; */
 }
 
 .modal .company-info select {
     border-radius: 0;
-    width: 435px;
+    width: 100%;
     outline: none;
-    border: none;
-    border-bottom: 1px solid #01122c;
+    /* border: none;
+    border-bottom: 1px solid #01122c; */
 }
 
 .modal .option-tooltip {

@@ -38,44 +38,40 @@
                     </div>
                     <div class="col-12 d-flex justify-content-center">
                         <form action="" class="company-info d-flex row justify-content-between">
-                            <div class="inner-form mb-3 d-flex justify-content-between align-items-center">
-                                <label for="fname" class="fw-bold">Stock ID:</label>
+                            <div class="inner-form mb-3">
+                                <label for="fname">Stock ID:</label>
                                 <input type="text" id="tr-id" name="tr-id" class="form-input transac_id" placeholder="0000" required>
                             </div>
-                            <div class="inner-form mb-3 d-flex justify-content-between align-items-center">
-                                <label for="fname">Recyclable Commodity:</label>
+                            <div class="inner-form mb-3">
                                 <div class="item-selection d-flex align-items-center">
-                                    <select class="select-form" id="rec-item" aria-label="Default select example" required>
-                                        <option selected>Choose Recyclable Item</option>
-                                        <option class="option-tooltip" data-text="Used Bond Paper" value="White Paper">White Paper</option>
-                                        <option value="Cartons">Cartons</option>
-                                        <option value="Newspaper">Newspaper</option>
-                                        <option value="Assorted or Mixed Waste Papers">Assorted or Mixed Waste Papers</option>
-                                        <option value="PET Bottle">PET Bottle</option>
-                                        <option value="Aluminum Cans">Aluminum Cans</option>
-                                        <option value="Plastic HDPE">Plastic HDPE</option>
-                                        <option value="Plastic LDPE">Plastic LDPE</option>
-                                        <option value="Engineering Plastics">Engineering Plastics</option>
-                                        <option value="Copper Wire">Copper Wire</option>
-                                        <option value="Steel">Steel</option>
-                                        <option value="Tin Can">Tin Can</option>
-                                        <option value="Liquor Bottle">Liquor Bottle</option>
-                                        <option value="Glass Cullets">Glass Cullets (Bubog)</option>
-                                    </select>
-                                    <span class="option-viewer" data-text="Please Choose An Item"><em class="fa fa-question-circle-o" aria-hidden="true"></em></span>
+                                    <label for="fname">Recyclable Commodity:</label>
+                                    <span class="option-viewer ps-2" data-text="Please Choose An Item"><em class="fa fa-question-circle-o" aria-hidden="true"></em></span>
                                 </div>
+                                <select class="select-form" id="rec-item" aria-label="Default select example" required>
+                                    <option selected>Choose Recyclable Item</option>
+                                    <option class="option-tooltip" data-text="Used Bond Paper" value="White Paper">White Paper</option>
+                                    <option value="Cartons">Cartons</option>
+                                    <option value="Newspaper">Newspaper</option>
+                                    <option value="Assorted or Mixed Waste Papers">Assorted or Mixed Waste Papers</option>
+                                    <option value="PET Bottle">PET Bottle</option>
+                                    <option value="Aluminum Cans">Aluminum Cans</option>
+                                    <option value="Plastic HDPE">Plastic HDPE</option>
+                                    <option value="Plastic LDPE">Plastic LDPE</option>
+                                    <option value="Engineering Plastics">Engineering Plastics</option>
+                                    <option value="Copper Wire">Copper Wire</option>
+                                    <option value="Steel">Steel</option>
+                                    <option value="Tin Can">Tin Can</option>
+                                    <option value="Liquor Bottle">Liquor Bottle</option>
+                                    <option value="Glass Cullets">Glass Cullets (Bubog)</option>
+                                </select>
                             </div>
-                            <div class="inner-form mb-3 d-flex justify-content-between align-items-center">
-                                <label for="fname">Client Name:</label>
-                                <input type="text" id="fname" name="fname" class="form-input " placeholder="Lastname, Firstname M.I." autocomplete="off" required>
+                            <div class="inner-form mb-3">
+                                <label for="fname">Amount (Weight):</label>
+                                <input type="number" id="amount" name="amount" class="form-input " placeholder="per kilo" autocomplete="off" required>
                             </div>
-                            <div class="inner-form mb-3 d-flex justify-content-between align-items-center">
-                                <label for="fname">Address:</label>
-                                <input type="text" id="fname" name="fname" class="form-input " placeholder="Address" autocomplete="off" required>
-                            </div>
-                            <div class="inner-form mb-3 d-flex justify-content-between align-items-center">
-                                <label for="fname">Contact No.:</label>
-                                <input type="tel" id="fname" name="fname" class="form-input " placeholder="09 ---- -----" autocomplete="off" maxlength="11" required>
+                            <div class="inner-form mb-3">
+                                <label for="fname">Price:</label>
+                                <input type="number" id="price" name="price" class="form-input " placeholder="per kilo" autocomplete="off" required>
                             </div>
                             <div class="btn-nav d-flex justify-content-center">
                                 <button type="submit" class="btn btn-primary">Add Record</button>
