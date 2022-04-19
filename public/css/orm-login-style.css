@@ -137,10 +137,10 @@
     border: 1px solid rgba(155, 202, 62, 0.5);
 }
 
-.modal .signup-section input:valid {
+/* .modal .signup-section input:valid {
     border: 1px solid rgba(155, 202, 62, 0.5);
     border-bottom: 3px solid rgba(155, 202, 62, 0.5);
-}
+} */
 
 /* Login Design */
 .login-section .form-section {

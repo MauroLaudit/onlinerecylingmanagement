@@ -108,7 +108,7 @@
                                 <div id="s2" class="step-col"><small>Step 2</small></div>
                                 <div id="s3" class="step-col"><small>Step 3</small></div>
                             </div>
-                            <form class="signup-form needs-validation" action="">
+                            <form class="signup-form needs-validation" action="" method="post">
                                 @csrf
                                 <div id="form1" class="signup-section">
                                     <div class="d-flex justify-content-between">
@@ -117,25 +117,17 @@
                                     <div class="input-group row">
                                         <div class="inner-form">
                                             <label for="fname">First Name:</label>
-                                            <input type="text" id="fname" name="fname" class="form-input " placeholder="Firstname" required>
-                                            <div class="invalid-feedback">
-                                                Please enter your First Name
-                                            </div>
+                                            <input type="text" id="fname" name="fname" class="form-input " placeholder="First Name" required>
+                                        </div>
+                                        
+                                        <div class="inner-form">
+                                            <label for="mname">Middle Name: (optional)</label>
+                                            <input type="text" id="mname" name="mname" class="form-input" placeholder="Middle Name">
                                         </div>
 
                                         <div class="inner-form">
-                                            <label for="lname">Last Name:</label><br>
-                                            <input type="text" id="lname" name="lname" class="form-input" placeholder="Lastname" required>
-                                            <div class="invalid-feedback">
-                                                Please enter your Last Name
-                                            </div>
-                                        </div>
-                                        <div class="inner-form">
-                                            <label for="bday">Birth Date:</label>
-                                            <input type="date" id="bday" name="bday" class="form-input" required>
-                                            <div class="invalid-feedback">
-                                                Please select your Birth Date
-                                            </div>
+                                            <label for="lname">Last Name:</label>
+                                            <input type="text" id="lname" name="lname" class="form-input" placeholder="Last Name" required>
                                         </div>
 
                                         <div class="inner-form">
@@ -145,9 +137,6 @@
                                                 <option value="Male">Male</option>
                                                 <option value="Female">Female</option>
                                             </select>
-                                            <div class="invalid-feedback">
-                                                Please select your Gender
-                                            </div>
                                         </div>
 
                                     </div>
@@ -175,18 +164,18 @@
                                         </div>
 
                                         <div class="inner-form">
-                                            <label for="email_su">Email:</label><br>
-                                            <input type="email" id="email_su" name=email_su class="form-iput" placeholder="Email Address" required>
+                                            <label for="email">Email:</label><br>
+                                            <input type="email" id="email" name="email" class="form-iput" placeholder="Email Address" required>
                                         </div>
                                     
                                         <div class="inner-form">
                                             <label for="password_su">Password:</label>
-                                            <input type="password" id="password_su" name=password_su class="form-input" placeholder="Password" required>
+                                            <input type="password" id="password" name="password" class="form-input" placeholder="Password" required>
                                         </div>
                                         
-                                        <div class="inner-form>
-                                            <label for="re-pass_su">Confirm Password:</label>
-                                            <input type="password" id="re-pass_su" name=re-pass_su class="form-input" placeholder="Confirm Password" required>
+                                        <div class="inner-form">
+                                            <label for="confirm_password">Confirm Password:</label>
+                                            <input type="password" id="confirm_password" name="confirm_password" class="form-input" placeholder="Confirm Password" required>
                                         </div>
                                     </div>
 
@@ -203,8 +192,8 @@
 
                                     <div class="input-group row">
                                         <div class="inner-form">
-                                            <label for="imageUpload">Your Profile Image:</label>
-                                            <input id="imageUpload" type="file" name="profile_photo" placeholder="Photo" required="" accept="image/*" capture>
+                                            <label for="upload_img">Your Profile Image:</label>
+                                            <input id="upload_img" type="file" name="upload_img" placeholder="Photo" required="" accept="image/*" capture>
                                         </div>
                                     </div>
 

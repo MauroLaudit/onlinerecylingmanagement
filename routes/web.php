@@ -38,3 +38,7 @@ Route::get('/inventory', function () {
 Route::get('/transaction', function () {
     return view('ormTransaction');
 });
+
+
+Route::post('registerUser', 'ormLoginController@registerUser');
+Route::post('loginUser', 'ormLoginController@loginUser');

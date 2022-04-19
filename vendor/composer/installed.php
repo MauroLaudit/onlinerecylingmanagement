@@ -1,11 +1,11 @@
 <?php return array(
     'root' => array(
-        'pretty_version' => '1.0.0+no-version-set',
-        'version' => '1.0.0.0',
+        'pretty_version' => 'dev-main',
+        'version' => 'dev-main',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
-        'reference' => NULL,
+        'reference' => '3f4f6b6a4a5bc2be1241f55bb0a60c225d574557',
         'name' => 'laravel/laravel',
         'dev' => true,
     ),
@@ -358,6 +358,15 @@
                 0 => 'v9.3.1',
             ),
         ),
+        'kkszymanowski/traitor' => array(
+            'pretty_version' => '1.0.0',
+            'version' => '1.0.0.0',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../kkszymanowski/traitor',
+            'aliases' => array(),
+            'reference' => 'c16d90149e807d71562953eb5c9279e75170b63f',
+            'dev_requirement' => false,
+        ),
         'kodova/hamcrest-php' => array(
             'dev_requirement' => true,
             'replaced' => array(
@@ -374,12 +383,12 @@
             'dev_requirement' => false,
         ),
         'laravel/laravel' => array(
-            'pretty_version' => '1.0.0+no-version-set',
-            'version' => '1.0.0.0',
+            'pretty_version' => 'dev-main',
+            'version' => 'dev-main',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
-            'reference' => NULL,
+            'reference' => '3f4f6b6a4a5bc2be1241f55bb0a60c225d574557',
             'dev_requirement' => false,
         ),
         'laravel/sail' => array(
@@ -805,6 +814,15 @@
             'replaced' => array(
                 0 => '4.2.3',
             ),
+        ),
+        'santigarcor/laratrust' => array(
+            'pretty_version' => '7.1.0',
+            'version' => '7.1.0.0',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../santigarcor/laratrust',
+            'aliases' => array(),
+            'reference' => '8a18c70bb1ced09baed361b68c432b0bedb74f16',
+            'dev_requirement' => false,
         ),
         'sebastian/cli-parser' => array(
             'pretty_version' => '1.0.1',
