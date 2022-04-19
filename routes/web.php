@@ -13,15 +13,9 @@ use App\Http\Controllers\ormLoginController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-Route::get('/login', function () {
-    return view('auth.ormlogin');
-});
-
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
+/* show Login Page */
 Route::get('/orm-login', [App\Http\Controllers\ormLoginController::class, 'login'])->name('ormlogin');
 
 /* show Dashboard Page */
