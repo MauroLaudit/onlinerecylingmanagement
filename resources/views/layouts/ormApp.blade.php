@@ -33,6 +33,8 @@
     <link href="{{ asset('css/orm-style.css') }}" rel="stylesheet">
 
     @stack('styles')
+    <!-- Sweetalert -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.8/dist/sweetalert2.all.min.js"></script>
 
 </head>
 <body>
@@ -44,6 +46,7 @@
             @yield('content')
         </main>
     </div>
+    @include('sweetalert::alert')
 
     
 </body>

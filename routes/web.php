@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ormLoginController;
+use App\Http\Controllers\ormUserController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -15,13 +17,22 @@ use App\Http\Controllers\ormLoginController;
 */
 Auth::routes();
 
+Route::get('/', [ormLoginController::class, 'dashboard'])->name('dashboard'); 
+Route::get('/login', [ormLoginController::class, 'index'])->name('ormLogin');
+Route::post('custom-login', [ormLoginController::class, 'userLogin'])->name('login.user'); 
+/* Route::get('/registration', [ormLoginController::class, 'registration'])->name('ormRegistration');
+Route::post('/custom-registration', [ormLoginController::class, 'userRegistration'])->name('register.user'); */
+Route::get('signout', [ormLoginController::class, 'signOut'])->name('signout');
+
+Route::resource('register', ormUserController::class);
+
 /* show Login Page */
-Route::get('/orm-login', [App\Http\Controllers\ormLoginController::class, 'login'])->name('ormlogin');
+/* Route::get('/orm-login', [App\Http\Controllers\ormLoginController::class, 'login'])->name('ormlogin'); */
 
 /* show Dashboard Page */
-Route::get('/', function () {
+/* Route::get('/', function () {
     return view('ormDashboard');
-});
+}); */
 
 /* show Inventory Page */
 Route::get('/inventory', function () {
@@ -34,5 +45,3 @@ Route::get('/transaction', function () {
 });
 
 
-Route::post('registerUser', 'ormLoginController@registerUser');
-Route::post('loginUser', 'ormLoginController@loginUser');

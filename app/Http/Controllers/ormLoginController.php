@@ -2,18 +2,22 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Hash;
-use Session;
+use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Providers\RouteServiceProvider;
+use Illuminate\Auth\Events\Registered;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
+use Alert;
 
 class ormLoginController extends Controller
 {
     /* SHow Login Page */
-    public function login()
+    public function index()
     {
-        return view('auth.ormlogin');
+        return view('auth.ormLogin');
     }
 
     public function userLogin(Request $request)
@@ -34,34 +38,46 @@ class ormLoginController extends Controller
 
     public function registration()
     {
-        return view('auth.registration');
+        return view('auth.ormRegistration');
     }
     
     public function userRegistration(Request $request)
     {  
-        $request->validate([
-            'fname' => 'required|regex:/^[a-z A-Z]+s/u',
-            'mname' => 'regex:/^[a-z A-Z]+s/u',
-            'lname' => 'required|regex:/^[a-z A-Z]+s/u',
-            'gender' => 'required|in:male,female',
-            'role' => 'required',
-            'email' => 'required|email|unique:users',
-            'password' => 'required|min:8|regex:/^.*(?=.{3,})(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[\d\x])(?=.*[!$#%]).*$/',
-            'confirm_password' => 'required|same:password',
-            'upload_img' => 'required|file|max:1024'
+        $validator = Validator::make($request->all(), [
+            'fname' => ['required', 'regex:/^[a-z A-Z]+s/u'],
+            'mname' => ['regex:/^[a-z A-Z]+s/u'],
+            'lname' => ['required','regex:/^[a-z A-Z]+s/u'],
+            'gender' => ['required','in:male,female'],
+            'role' => ['required'],
+            'email' => ['required','email','unique:users'],
+            'password' => ['required','min:8','regex:/^.*(?=.{3,})(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[\d\x])(?=.*[!$#%]).*$/'],
+            'confirm_password' => ['required','same:password'],
+            'upload_img' => ['required','file','max:1024'],
         ]);
-    
-        $data = $request->all();
-        $check = $this->create($data);
 
-        return redirect("dashboard")->withSuccess('You have signed-in');
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors('Required field is empty')->withInput();
+        }
+
+        /* $user = User::create($request->all()); */
+
+        Auth::login($user = User::create([
+            'fname' => $request['fname'],
+            'mname' => $request['mname'],
+            'lname' => $request['lname'],
+            'gender' => $request['gender'],
+            'role' => $request['role'],
+            'email' => $request['email'],
+            'password' => Hash::make($request['password'])
+        ]));
+        /* $user->attachRole($request->role_id);   */
+        event(new Registered($user));
+
+        return redirect()->route('dashboard')->with('success', 'Login Successfully!');
+        
     }
-    function registerUser(Request $request){
-        $validateUserData = $request->validate([
-            
-        ]);
-    }
-    public function create(array $data)
+    
+    /* public function create(array $data)
     {
         return User::create([
         'fname' => $data['fname'],
@@ -72,12 +88,12 @@ class ormLoginController extends Controller
         'email' => $data['email'],
         'password' => Hash::make($data['password'])
         ]);
-    }    
+    }   */  
     
     public function dashboard()
     {
         if(Auth::check()){
-            return view('dashboard');
+            return view('ormDashboard');
         }
 
         return redirect("login")->withSuccess('You are not allowed to access');
