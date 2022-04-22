@@ -60,7 +60,7 @@
                             <div class="inner-form">
                                 <label for="role">Role in the Company:</label>
                                 <select name="role" id="role" class="form-option">
-                                    <option selected></option>
+                                    <option selected>Choose Role</option>
                                     <option value="Owner">Owner</option>
                                     <option value="Assisstant Manager">Assistant Manager</option>
                                     <option value="Cashier">Cashier</option>
@@ -70,17 +70,26 @@
 
                             <div class="inner-form">
                                 <label for="email">Email:</label><br>
-                                <input type="email" id="email" name="email" class="form-iput" placeholder="Email Address" required>
+                                <input type="email" id="email" name="email" class="form-iput" placeholder="Email Address" required autocomplete="off">
                             </div>
                         
                             <div class="inner-form">
-                                <label for="password">Password:</label>
-                                <input type="password" id="password" name="password" class="form-input" placeholder="Password" required>
+                                <div class="pass-rules d-flex align-items-center">
+                                    <label for="password">Password:</label>
+                                    <span class="password-viewer" data-text="Please Choose An Item"><em class="fa fa-question-circle-o m-0 p-0" aria-hidden="true"></em></span>
+                                </div>
+                                <div class="d-flex">
+                                    <input type="password" id="password" name="password" class="form-input" placeholder="Password" required autocomplete="off">
+                                    <span class="show-password d-flex align-items-center justify-content-end" id="show-pass"><i class="fa fa-eye-slash" aria-hidden="true"></i></span>
+                                </div>
                             </div>
                             
                             <div class="inner-form">
                                 <label for="confirm_password">Confirm Password:</label>
-                                <input type="password" id="confirm_password" name="confirm_password" class="form-input" placeholder="Confirm Password" required>
+                                <div class="d-flex">
+                                    <input type="password" id="confirm_password" name="confirm_password" class="form-input" placeholder="Confirm Password" required>
+                                    <span class="show-password d-flex align-items-center justify-content-end" id="show-confirm-pass"><i class="fa fa-eye-slash" aria-hidden="true"></i></span>
+                                </div>
                             </div>
                         </div>
 
@@ -114,45 +123,4 @@
     </div>
 </div>
 
-<script>
-    // $(document).ready(function(){
-    //     $('#ajaxSubmit').click(function(e){
-    //         e.preventDefault();
-    //         $.ajaxSetup({
-    //             headers: {
-    //                 'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
-    //             }
-    //         });
-    //         $.ajax({
-    //             url: "{{ url('/register') }}",
-    //             method: 'post',
-    //             data: {
-    //                 fname: $('#fname').val(),
-    //                 mname: $('#mname').val(),
-    //                 lname: $('#lname').val(),
-    //                 gender: $('#gender :selected').val(),
-    //                 role: $('#role :selected').val(),
-    //                 email: $('#email').val(),
-    //                 password: $('#password').val(),
-    //                 upload_img: $('#upload_img').val(),
-    //             },
-    //             success: function(result){
-    //             if(result.errors)
-    //             {
-    //                 $('.alert-danger').html('');
 
-    //                 $.each(result.errors, function(key, value){
-    //                     $('.alert-danger').show();
-    //                     $('.alert-danger').append('<li>'+value+'</li>');
-    //                 });
-    //             }
-    //             else
-    //             {
-    //                 $('.alert-danger').hide();
-    //                 $('#open').hide();
-    //                 $('#myModal').modal('hide');
-    //             }
-    //             }});
-    //         });
-    // });
-</script>

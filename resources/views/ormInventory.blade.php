@@ -45,11 +45,11 @@
                             <div class="inner-form mb-3">
                                 <div class="item-selection d-flex align-items-center">
                                     <label for="fname">Recyclable Commodity:</label>
-                                    <span class="option-viewer ps-2" data-text="Please Choose An Item"><em class="fa fa-question-circle-o" aria-hidden="true"></em></span>
+                                    <span class="option-viewer ps-2 m-0" data-text="Please Choose An Item"><em class="fa fa-question-circle-o" aria-hidden="true"></em></span>
                                 </div>
                                 <select class="select-form" id="rec-item" aria-label="Default select example" required>
                                     <option selected>Choose Recyclable Item</option>
-                                    <option class="option-tooltip" data-text="Used Bond Paper" value="White Paper">White Paper</option>
+                                    <option value="White Paper">White Paper</option>
                                     <option value="Cartons">Cartons</option>
                                     <option value="Newspaper">Newspaper</option>
                                     <option value="Assorted or Mixed Waste Papers">Assorted or Mixed Waste Papers</option>

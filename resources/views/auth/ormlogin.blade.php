@@ -4,6 +4,7 @@
     <!-- Styles -->
     <link href="{{ asset('css/orm-login-style.css') }}" rel="stylesheet">
 
+    <!-- Clear All Input After Closing The Modal -->
     <script>
         $('#signupModal'). on('hidden.bs.modal', function () {
             $('#signupModal form')[0]. reset();
@@ -14,25 +15,81 @@
         });
     </script>
 
-    <!-- <script>
-        const input = document.getElementById('imageUpload')
-            input.addEventListener('change', (event) => {
-            const target = event.target
-                if (target.files && target.files[0]) {
-
-                /*Maximum allowed size in bytes
-                    5MB Example
-                    Change first operand(multiplier) for your needs*/
-                const maxAllowedSize = 1 * 1024 * 1024;
-                if (target.files[0].size > maxAllowedSize) {
-                    // Here you can ask your users to load correct file
-                    target.value = ''
+    <!-- Show Password in Registration Modal -->
+    <script>
+        $(document).ready(function(){
+            $('#show-pass').on('click', function() {
+                event.preventDefault();
+                if($('#password').attr("type") == "text"){
+                    $('#password').attr('type', 'password');
+                    $('#show-pass i').addClass( "fa-eye-slash" );
+                    $('#show-pass i').removeClass( "fa-eye" );
+                }else if($('#password').attr("type") == "password"){
+                    $('#password').attr('type', 'text');
+                    $('#show-pass i').removeClass( "fa-eye-slash" );
+                    $('#show-pass i').addClass( "fa-eye" );
                 }
+            })
+
+            $('#show-confirm-pass').on('click', function() {
+                event.preventDefault();
+                if($('#confirm_password').attr("type") == "text"){
+                    $('#confirm_password').attr('type', 'password');
+                    $('#show-confirm-pass i').addClass( "fa-eye-slash" );
+                    $('#show-confirm-pass i').removeClass( "fa-eye" );
+                }else if($('#confirm_password').attr("type") == "password"){
+                    $('#confirm_password').attr('type', 'text');
+                    $('#show-confirm-pass i').removeClass( "fa-eye-slash" );
+                    $('#show-confirm-pass i').addClass( "fa-eye" );
+                }
+            })
+        });
+    </script>
+
+    <!-- Check if Middle Name InputBox is empty -->
+    <script>
+        $('#up-submit').on('click', function() {
+            if($('#mname').val() == ""){
+                $('#mname').val("-");
             }
+        });
+    </script>
+
+    <!-- Check if the Inputs is Empty Before Next Step -->
+    <script>
+        $(document).ready(function(){
+            $('#btn-register').on('click', function(){
+                $("#pi-next").prop("disabled", true);
+                $("#ai-next").prop("disabled", true);
+            });
+            
+            // #form1 checking Inputs
+            $("#form1 input, #form1 select").each(function(){
+                $(this).on('change', function(){
+                    if(($('#fname').val() != "") && ($('#lname').val() != "") && ($('#gender :selected').val() != "Choose Gender")){
+                        $("#pi-next").removeAttr('disabled');
+                    }else{
+                        $("#pi-next").prop("disabled", true);
+                    }
+                });
+                
+            });
+
+            // #form2 checking Inputs
+            $("#form2 input, #form2 select").each(function(){
+                $(this).keyup(function(){
+                    if(($('#role :selected').val() != "Choose Role") && ($('#email').val() != "") && ($('#password').val() != "") && ($('#confirm_password').val() != "")){
+                        $("#ai-next").removeAttr('disabled');
+                    }else{
+                        $("#ai-next").prop("disabled", true);
+                    }
+                });
+                
+            });
         })
-    </script> -->
+    </script>
     
-    <!-- Scripts -->
+    <!-- Modal Function Buttons -->
     <script>
         var f1 = document.getElementById("form1");
         var f2 = document.getElementById("form2");
@@ -93,7 +150,7 @@
                 </div>
                 <div class="title h1 text-center">Online Waste Recycling Management System</div>
                 <div class="text-button d-flex justify-content-center align-items-end">
-                    <div type="button" class="btn btn-signup" data-bs-toggle="modal" data-bs-target="#signupModal">SIGN UP</div>
+                    <div id="btn-register" type="button" class="btn btn-signup" data-bs-toggle="modal" data-bs-target="#signupModal">SIGN UP</div>
                 </div>
             </div>
 

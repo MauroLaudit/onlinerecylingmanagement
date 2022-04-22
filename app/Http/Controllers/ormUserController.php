@@ -103,7 +103,7 @@ class ormUserController extends Controller
         //$user->attachRole($request->role);  
         event(new Registered($user));
 
-        return redirect()->intended(route('ormLogin'))->with('success', 'Login Successfully!');
+        return redirect()->intended(route('dashboard'))->with('success', 'Login Successfully!');
         
         
     }
