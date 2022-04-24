@@ -41,6 +41,7 @@
     <div id="orm-app">
         <div class="container-fluid side-nav flex-shrink-0 sticky-top">
             @include('partials.header', ['status' => 'complete'])
+            
         </div>
         <main class="">
             @yield('content')

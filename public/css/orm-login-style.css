@@ -151,42 +151,33 @@
 .modal .password-viewer {
     position: relative;
     display: inline-block;
+    padding: 0 5px;
 }
 
-.modal .password-viewer::before {
-    content: attr(data-text);
-    /* here's the magic */
+.modal .password-viewer .password-rules {
     position: absolute;
-
-    /* vertically center */
-    top: 100%;
-    transform: translateY(0%);
-
-    /* move to right */
-    right: 0%;
-    margin-right: 0px;
-    /* transform: translateX(-5%); */
-    /* and add a small left margin */
-
-    /* basic styles */
-    width: 200px;
-    height: auto;
-    padding: 8px;
-    background: #040123;
-    color: #fff;
-    text-align: center;
-    font-size: 15px !important;
-    overflow-wrap: break-word;
-    transition: 1s ease-in;
-
     display: none;
-    /* hide by default */
+    border: 1px solid #ced4da;
+    background-color: #ffffff;
+    padding: 10px;
+    transform: translateY(-200px);
+    left: -100px;
+    font-size: 12px;
+    width: 350px;
+    z-index: 10;
 }
 
-.modal .password-viewer:hover:before {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.modal .password-viewer:hover .password-rules {
+    display: block;
+}
+
+.modal .password-viewer .password-rules h6 {
+    font-size: 14px;
+}
+
+.modal .password-viewer .password-rules p {
+    margin: 0 0 5px 0;
+    color: #ff0000;
 }
 
 .modal .signup-section input:focus,
@@ -196,11 +187,6 @@
     margin: 0 0 10px 0;
     border: 1px solid rgba(155, 202, 62, 0.5);
 }
-
-/* .modal .signup-section input:valid {
-    border: 1px solid rgba(155, 202, 62, 0.5);
-    border-bottom: 3px solid rgba(155, 202, 62, 0.5);
-} */
 
 /* Login Design */
 .login-section .form-section {
@@ -230,7 +216,18 @@
     border-radius: 0 8px 8px 0;
 }
 
-.login-section span>.fa {
+/* .login-section .form-section input[type=password] {
+    padding: 0.375rem 0.75rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #212529;
+    background-color: #ffffff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    border-radius: 0;
+} */
+
+.login-section .login-icon .fa {
     margin-bottom: 20px;
     font-size: 18px;
     font-weight: 400;
@@ -241,9 +238,21 @@
     border-radius: 8px 0 0 8px;
 }
 
-.login-section span>.fa-lock {
+.login-section .login-icon .fa-lock {
     padding: 9px 13px;
+}
 
+.login-section .show_li_password {
+    height: 43px;
+    position: absolute;
+    display: inline;
+    transform: translateX(350px);
+}
+
+.login-section .show_li_password i {
+    margin: 0;
+    padding: 0;
+    font-size: 20px !important;
 }
 
 .login-section .fp {

@@ -1,10 +1,9 @@
 <?php
+use Illuminate\Support\Facades\Routes;
 
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ormLoginController;
 use App\Http\Controllers\ormUserController;
-
-
+use App\Http\Controllers\UpdateProfileimgController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -15,17 +14,27 @@ use App\Http\Controllers\ormUserController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Auth::routes();
+Route::get('/', function () {
+    return view('auth.ormLogin');
+});
 
-Route::get('/', [ormLoginController::class, 'dashboard'])->name('dashboard'); 
 Route::get('/login', [ormLoginController::class, 'index'])->name('ormLogin');
 Route::post('custom-login', [ormLoginController::class, 'userLogin'])->name('login.user'); 
-/* Route::get('/registration', [ormLoginController::class, 'registration'])->name('ormRegistration');
-Route::post('/custom-registration', [ormLoginController::class, 'userRegistration'])->name('register.user'); */
 Route::get('signout', [ormLoginController::class, 'signOut'])->name('signout');
+
+Route::post('update_img', [UpdateProfileimgController::class, 'updatePicture'])->name('PictureUpdate');
 
 Route::resource('register', ormUserController::class);
 
+Route::group([ 'middleware' => ['auth']], function () {
+    Route::get('/', [ormLoginController::class, 'dashboard'])->name('dashboard'); 
+    /* show Inventory Page */
+    Route::get('/inventory', function () { return view('ormInventory'); });
+
+    /* show Transaction Page */
+    Route::get('/transaction', function () { return view('ormTransaction'); });
+
+    
 /* show Login Page */
 /* Route::get('/orm-login', [App\Http\Controllers\ormLoginController::class, 'login'])->name('ormlogin'); */
 
@@ -34,14 +43,4 @@ Route::resource('register', ormUserController::class);
     return view('ormDashboard');
 }); */
 
-/* show Inventory Page */
-Route::get('/inventory', function () {
-    return view('ormInventory');
 });
-
-/* show Transaction Page */
-Route::get('/transaction', function () {
-    return view('ormTransaction');
-});
-
-

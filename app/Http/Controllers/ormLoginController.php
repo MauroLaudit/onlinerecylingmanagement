@@ -2,14 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
-use App\Models\User;
-use App\Providers\RouteServiceProvider;
-use Illuminate\Auth\Events\Registered;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Models\User;
+use Session;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Validator;
 use Alert;
 
 class ormLoginController extends Controller
@@ -22,81 +19,34 @@ class ormLoginController extends Controller
 
     public function userLogin(Request $request)
     {
-        $request->validate([
-            'email' => 'required',
-            'password' => 'required',
-        ]);
+        $email = $request->input('email');
+        $password = $request->input('password');
 
-        $credentials = $request->only('email', 'password');
-        if (Auth::attempt($credentials)) {
-            return redirect()->intended('dashboard')
-                        ->withSuccess('Signed in');
+        $credential = User::where('email', '=', $request->email)->first();
+        if (!$credential) {
+            return back()->with('toast_error', 'Email Not Recognized!');
         }
-
-        return redirect("login")->withSuccess('Login details are not valid');
-    }
-
-    public function registration()
-    {
-        return view('auth.ormRegistration');
-    }
-    
-    public function userRegistration(Request $request)
-    {  
-        $validator = Validator::make($request->all(), [
-            'fname' => ['required', 'regex:/^[a-z A-Z]+s/u'],
-            'mname' => ['regex:/^[a-z A-Z]+s/u'],
-            'lname' => ['required','regex:/^[a-z A-Z]+s/u'],
-            'gender' => ['required','in:male,female'],
-            'role' => ['required'],
-            'email' => ['required','email','unique:users'],
-            'password' => ['required','min:8','regex:/^.*(?=.{3,})(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[\d\x])(?=.*[!$#%]).*$/'],
-            'confirm_password' => ['required','same:password'],
-            'upload_img' => ['required','file','max:1024'],
-        ]);
-
-        if ($validator->fails()) {
-            return redirect()->back()->withErrors('Required field is empty')->withInput();
+        else {
+            if (Hash::check($password, optional($credential)->password))
+            {
+                $request->session()->put('success');
+                if (Auth::attempt(['email' => $email, 'password' => $password]))
+                    {
+                        return redirect()->intended(route('dashboard'))->with('success', 'Login Successfully!');
+                    }
+            }
+            else {
+                return back()->with('toast_error','Password Is Incorrect!');
+            }
+            
         }
-
-        /* $user = User::create($request->all()); */
-
-        Auth::login($user = User::create([
-            'fname' => $request['fname'],
-            'mname' => $request['mname'],
-            'lname' => $request['lname'],
-            'gender' => $request['gender'],
-            'role' => $request['role'],
-            'email' => $request['email'],
-            'password' => Hash::make($request['password'])
-        ]));
-        /* $user->attachRole($request->role_id);   */
-        event(new Registered($user));
-
-        return redirect()->route('dashboard')->with('success', 'Login Successfully!');
-        
     }
-    
-    /* public function create(array $data)
-    {
-        return User::create([
-        'fname' => $data['fname'],
-        'mname' => $data['mname'],
-        'lname' => $data['lname'],
-        'gender' => $data['gender'],
-        'role' => $data['role'],
-        'email' => $data['email'],
-        'password' => Hash::make($data['password'])
-        ]);
-    }   */  
     
     public function dashboard()
     {
-        if(Auth::check()){
-            return view('ormDashboard');
-        }
+        return view('ormDashboard');
 
-        return redirect("login")->withSuccess('You are not allowed to access');
+        //return redirect("login")->withErrors('You are not allowed to access');
     }
     
     public function signOut() {
