@@ -7,9 +7,8 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use DB;
 
-class UpdateProfileimgController extends Controller
+class ormProfileController extends Controller
 {
-    
     public function updatePicture(Request $request){
         $path = '/avatars/';
         $file = $request->file('upload_img');

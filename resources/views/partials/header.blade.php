@@ -114,13 +114,13 @@
                 </ul>
                 <div class="dropdown">
                     <a href="#" class="d-flex align-items-center justify-content-center p-3 link-dark text-decoration-none dropdown-toggle" id="dropdownUser" data-bs-toggle="dropdown" aria-expanded="false">
-                        
-                        @if(Auth::user()->upload_img)
-                            <img class="image rounded-circle" src="{{asset('/storage/avatars/'.Auth::user()->upload_img)}}" alt="profile_image" style="width: 80px;height: 80px; padding: 10px; margin: 0px; ">
-                        @else
-                        <img src="https://github.com/mdo.png" alt="mdo" width="40px" height="40px" class="rounded-circle">
-                        @endif
-                    </a>
+                    @unless (Auth::check())    
+                    <img class="image rounded-circle" src="images/user.png" alt="profile_image" style="width: 55px;height: 55px; padding: 5px; margin: 0px; ">
+                    @endunless
+                    <img class="image rounded-circle" src="images/{{Auth::user()->upload_img}}" alt="profile_image" style="width: 55px;height: 55px; padding: 5px; margin: 0px; ">
+
+                    
+                </a>
                     
                     <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser" style="">
                         <li><span class="text-nowrap ps-3 fw-bold">{{Auth::User()->fname ?? 'None'}}</span></li>

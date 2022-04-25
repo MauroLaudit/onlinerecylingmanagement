@@ -13,17 +13,16 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('users', function (Blueprint $table) {
+        /* Schema::table('inventory', function (Blueprint $table) {
+        }); */
+
+        Schema::create('inventory', function (Blueprint $table) {
             $table->id();
-            $table->string('fname');
-            $table->string('mname');
-            $table->string('lname');
-            $table->string('gender');
-            $table->string('role');
-            $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
-            $table->string('upload_img')->default('user.png');
+            $table->string('stock_id');
+            $table->string('recyclable');
+            $table->string('amount');
+            $table->string('price');
+            
             $table->rememberToken();
             $table->timestamps();
             $table->timestamp('deleted_at')->nullable();
@@ -37,6 +36,8 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users');
+        /* Schema::table('inventory', function (Blueprint $table) {
+        }); */
+            Schema::dropIfExists('inventory');
     }
 };

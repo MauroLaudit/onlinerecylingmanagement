@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use Session;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Alert;
 
@@ -44,9 +44,11 @@ class ormLoginController extends Controller
     
     public function dashboard()
     {
-        return view('ormDashboard');
+        if(Auth::check()){
+            return view('ormDashboard');
+        }
 
-        //return redirect("login")->withErrors('You are not allowed to access');
+        return redirect("login")->withErrors('You are not allowed to access');
     }
     
     public function signOut() {

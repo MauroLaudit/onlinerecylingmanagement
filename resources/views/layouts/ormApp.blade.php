@@ -40,8 +40,9 @@
 <body>
     <div id="orm-app">
         <div class="container-fluid side-nav flex-shrink-0 sticky-top">
+        @auth    
             @include('partials.header', ['status' => 'complete'])
-            
+        @endauth    
         </div>
         <main class="">
             @yield('content')

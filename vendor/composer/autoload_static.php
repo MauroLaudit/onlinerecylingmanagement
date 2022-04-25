@@ -540,6 +540,7 @@ class ComposerStaticInit69690f184365df26793d7ac765a41e51
         'App\\Http\\Controllers\\Auth\\VerificationController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/VerificationController.php',
         'App\\Http\\Controllers\\Controller' => __DIR__ . '/../..' . '/app/Http/Controllers/Controller.php',
         'App\\Http\\Controllers\\HomeController' => __DIR__ . '/../..' . '/app/Http/Controllers/HomeController.php',
+        'App\\Http\\Controllers\\UpdateProfileimgController' => __DIR__ . '/../..' . '/app/Http/Controllers/UpdateProfileimgController.php',
         'App\\Http\\Controllers\\ormLoginController' => __DIR__ . '/../..' . '/app/Http/Controllers/ormLoginController.php',
         'App\\Http\\Controllers\\ormUserController' => __DIR__ . '/../..' . '/app/Http/Controllers/ormUserController.php',
         'App\\Http\\Kernel' => __DIR__ . '/../..' . '/app/Http/Kernel.php',

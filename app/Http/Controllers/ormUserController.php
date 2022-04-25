@@ -96,14 +96,20 @@ class ormUserController extends Controller
             'gender' => $request['gender'],
             'role' => $request['role'],
             'email' => $request['email'],
-            'password' => $request['password'],
-            'confirm_password' => $request['confirm_password'],
-            'upload_img' => $request['upload_img'],
+            'password' => Hash::make($request['password']),
+            'confirm_password' => Hash::make($request['confirm_password']),
+            // 'upload_img' => $request['upload_img'],
         ]));
-        //$user->attachRole($request->role);  
-        event(new Registered($user));
 
-        return redirect()->intended(route('dashboard'))->with('success', 'Login Successfully!');
+        $file = $request->hasFile('upload_img');
+        if ($file)
+        {
+            $upload_img = request()->file('upload_img')->getClientOriginalName();
+            request()->file('upload_img')->move('images/', $upload_img);
+            $user->update(['upload_img' => $upload_img]);
+        }
+
+        return redirect()->intended(route('dashboard'))->with('success', 'Login Successfully!', $user, 'user');
         
         
     }

@@ -136,7 +136,7 @@
                 pass_strength-=1;
             }
 
-            if ((pass_strength >= 5) && (uppercase == true) && (lowercase == true) && (digits == true) && (characters == true) && (length == true)) {
+            if ((uppercase == true) && (lowercase == true) && (digits == true) && (characters == true) && (length == true)) {
                 $("#password").css('border-color', '#00ff00');
                 pass_contain = true;
             } else{
