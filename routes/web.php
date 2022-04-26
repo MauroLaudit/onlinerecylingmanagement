@@ -3,7 +3,8 @@ use Illuminate\Support\Facades\Routes;
 
 use App\Http\Controllers\ormLoginController;
 use App\Http\Controllers\ormUserController;
-use App\Http\Controllers\UpdateProfileimgController;
+use App\Http\Controllers\ormProfileController;
+use App\Http\Controllers\ormInventoryController;
 use All\Models\User;
 /*
 |--------------------------------------------------------------------------
@@ -29,13 +30,11 @@ Route::post('update_img', [ormProfileController::class, 'updatePicture'])->name(
 Route::resource('register', ormUserController::class);
 
 Route::group([ 'middleware' => ['auth']], function () {
-    Route::get('/', [ormLoginController::class, 'dashboard'])->name('dashboard'); 
-    /* show Inventory Page */
-    Route::get('/inventory', function () { return view('ormInventory'); });
+    Route::get('/', [ormLoginController::class, 'dashboard'])->name('dashboard'); /* Show Dashboard */
 
-    /* show Transaction Page */
-    Route::get('/transaction', function () { return view('ormTransaction'); });
+    Route::resource('recyclable', ormInventoryController::class);
 
+    Route::get('/inventory', [ormInventoryController::class, 'index'])->name('inventory'); /* show Inventory Page */
 
-
+    Route::get('/transaction', function () { return view('ormTransaction'); }); //show Transaction Page
 });
