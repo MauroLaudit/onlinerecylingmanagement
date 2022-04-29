@@ -32,6 +32,10 @@
     <!-- Styles -->
     <link href="{{ asset('css/orm-style.css') }}" rel="stylesheet">
 
+    <!-- Select2 -->
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
     @stack('styles')
     <!-- Sweetalert -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.8/dist/sweetalert2.all.min.js"></script>
@@ -54,8 +58,26 @@
 </body>
 
 <script>
-    $(document).ready( function () {
+    $(document).ready(function(){
         $('#inventoryTable').DataTable({
+            searching: true,
+            aLengthMenu: [
+                [50],
+                [50]
+            ],
+            iDisplayLength: -1,
+
+            "columnDefs": [
+                { "width": "10%", "targets": 5,'orderable': false, },
+                {
+                    "targets":2, "searchable":true,
+                }
+            ]
+        })
+    });
+
+    $(document).ready( function () {
+        $('#transactTable').DataTable({
             aLengthMenu: [
                 [50],
                 [50]

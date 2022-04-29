@@ -5,7 +5,6 @@
     <!-- Style External File -->
     <link href="{{ asset('css/orm-inventory-style.css') }}" rel="stylesheet">
 
-    
 @endpush
 
 @section('content')
@@ -48,7 +47,7 @@
                         @if($inventory)
                         @foreach($inventory as $inventoryList)
                         <tr>
-                            <th data-label="ID">{{ $inventoryList->id }}</th>
+                            <th data-label="ID" scope="row">{{ $inventoryList->id }}</th>
                             <td data-label="Category_ID">{{ $inventoryList->stock_id }}</td>
                             <td data-label="Recyclables">{{ $inventoryList->recyclable }}</td>
                             <td data-label="Amount">{{ $inventoryList->amount }} kg</td>
@@ -215,8 +214,8 @@
         })
     </script>
 
-     <!-- Delete_Inventory -->
-     <script>    
+    <!-- Delete_Inventory -->
+    <script>    
         $('#ormDeleteStock').on('show.bs.modal', function(event) {
             var button = $(event.relatedTarget)
             var id = button.data('id')            
@@ -226,7 +225,4 @@
         })
     </script>
 
-
-
-    
 @endsection

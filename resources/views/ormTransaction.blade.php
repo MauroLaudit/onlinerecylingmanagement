@@ -25,86 +25,13 @@
         </div>
     </section>
 
-    <!-- Modal -->
-    <div class="modal fade" id="ormAddOrder" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="ormAddOrderModal" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered d-flex justify-content-center">
-            <div class="modal-content col-lg-auto">
-                <div class="modal-body">
-                    <!-- <hr>
-                    <h4>Company Information</h4>
-                    <hr> -->
-                    <div class="col-md-12 d-flex justify-content-end sticky-top pt-3">
-                        <button type="button" id="modal-close" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="col-12 d-flex justify-content-center">
-                        <form action="" class="company-info d-flex row justify-content-between">
-                            <div class="inner-form mb-3 d-flex justify-content-between align-items-center">
-                                <label for="fname" class="fw-bold">Transaction ID:</label>
-                                <input type="text" id="tr-id" name="tr-id" class="form-input transac_id" placeholder="0000" required>
-                            </div>
-                            <div class="inner-form mb-3 d-flex justify-content-between align-items-center">
-                                <label for="fname">Company Name:</label>
-                                <input type="text" id="fname" name="fname" class="form-input " placeholder="Company Name" autocomplete="off" required>
-                            </div>
-                            <div class="inner-form mb-3 d-flex justify-content-between align-items-center">
-                                <label for="fname">Client Name:</label>
-                                <input type="text" id="fname" name="fname" class="form-input " placeholder="Lastname, Firstname M.I." autocomplete="off" required>
-                            </div>
-                            <div class="inner-form mb-3 d-flex justify-content-between align-items-center">
-                                <label for="fname">Address:</label>
-                                <input type="text" id="fname" name="fname" class="form-input " placeholder="Address" autocomplete="off" required>
-                            </div>
-                            <div class="inner-form mb-3 d-flex justify-content-between align-items-center">
-                                <label for="fname">Contact No.:</label>
-                                <input type="tel" id="fname" name="fname" class="form-input " placeholder="09 ---- -----" autocomplete="off" maxlength="11" required>
-                            </div>
-                            <div class="btn-nav d-flex justify-content-center">
-                                <button type="submit" class="btn btn-primary">Add Record</button>
-                            </div>
-                        </form>
-                    </div>
-                    <hr>
-                    <div class="company-order col-12">
-                        <h4>Orders</h4>
-                        <form action="">
-                            <table id="" class="table">
-                                <thead>
-                                    <tr>
-                                        <th scope="col">Commodity</th>
-                                        <th scope="col">Amount (per kl)</th>
-                                        <th scope="col">Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="table-order">
-                                    <tr>
-                                        <!-- <th scope="row">1</th> -->
-                                        <td><input type="text" id="commodity" name="commodity" class="form-input" required></td>
-                                        <td><input type="text" id="amount" name="amount" class="form-input" required></td>
-                                        <td class="d-flex justify-content-center align-items-center">
-                                            <button type="button" class="btn btn-success btn-inner d-flex justify-content-center align-items-center" id="add_btn">
-                                                <em class="fa fa-plus" aria-hidden="true"></em>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-
-                            <div class="btn-nav d-flex justify-content-center">
-                                <button type="submit" class="btn btn-primary">Order</button>
-                            </div>
-                        </form>
-                        
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    @include('transaction_views.add_transaction')
 
     <section class="form-order">
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
-                    <table id="inventoryTable" class="table table-striped table-hover">
+                    <table id="transactTable" class="table table-striped table-hover">
                         <thead>
                             <tr>
                                 <th scope="col">#</th>
@@ -304,8 +231,15 @@
             $('#add_btn').on('click', function(){
                 var new_order='';
                 new_order+='<tr>';
-                new_order+='<td><input type="text" id="commodity" name="commodity" class="form-input" required></td>';
+                new_order+='<td><select id="commodity"  name="commodity" class="form-input" required>';
+                new_order+='@if($inventory)';
+                new_order+='@foreach($inventory as $inventoryList)';
+                new_order+='<option value="{{ $inventoryList-> stock_id }}"> {{ $inventoryList->recyclable }} </option>';
+                new_order+='@endforeach';
+                new_order+='@endif';
+                new_order+='</select></td>';
                 new_order+='<td><input type="text" id="amount" name="amount" class="form-input" required></td>';
+                new_order+='<td><input type="number" id="tot_price" name="tot_price" min="0.00" max="10000.00" step="0.01" class="form-input" required readonly></td>';
                 new_order+='<td class="d-flex justify-content-center align-items-center">';
                 new_order+='<button type="button" class="btn btn-danger btn-inner d-flex justify-content-center align-items-center" id="remove_btn"><em class="fa fa-remove" aria-hidden="true"></em></button>'
                 new_order+='</td>';
@@ -322,5 +256,11 @@
         $(document).on('click', '#modal-close', function(){
             $(this).closest('tr').remove();
         });
+    </script>
+
+    <script>
+        /* $(document).ready(function() {
+            $('#commodity').select2();
+        }); */
     </script>
 @endsection

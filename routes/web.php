@@ -5,6 +5,7 @@ use App\Http\Controllers\ormLoginController;
 use App\Http\Controllers\ormUserController;
 use App\Http\Controllers\ormProfileController;
 use App\Http\Controllers\ormInventoryController;
+use App\Http\Controllers\ormTransactionController;
 use All\Models\User;
 /*
 |--------------------------------------------------------------------------
@@ -36,5 +37,11 @@ Route::group([ 'middleware' => ['auth']], function () {
 
     Route::get('/inventory', [ormInventoryController::class, 'index'])->name('inventory'); /* show Inventory Page */
 
-    Route::get('/transaction', function () { return view('ormTransaction'); }); //show Transaction Page
+    Route::resource('orders', ormTransactionController::class);
+
+    Route::get('/transaction', [ormTransactionController::class, 'index'])->name('transaction'); //show Transaction Page
+
+    Route::get('forecasting', function () {
+        return view('ormForecasting');
+    });
 });
