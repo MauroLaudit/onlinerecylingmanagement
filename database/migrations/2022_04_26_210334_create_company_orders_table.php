@@ -13,13 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('transaction_company', function (Blueprint $table) {
+        Schema::create('company_orders', function (Blueprint $table) {
             $table->id();
             $table->string('transaction_id');
             $table->string('stock_id');
-            $table->string('order_amount');
-            $table->string('address');
-            $table->string('contact_no');
+            $table->string('quantity');
+            $table->string('total_price');
             
             $table->rememberToken();
             $table->timestamps();

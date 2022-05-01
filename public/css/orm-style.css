@@ -42,6 +42,18 @@ form input:-webkit-autofill:active {
     -webkit-box-shadow: 0 0 0 30px white inset !important;
 }
 
+/* Chrome, Safari, Edge, Opera */
+form input::-webkit-outer-spin-button,
+form input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Firefox */
+form input[type=number] {
+    -moz-appearance: textfield;
+}
+
 /* Main Content CSS Design */
 main {
     margin-left: 80px;
@@ -50,6 +62,7 @@ main {
 /* Page Header */
 .head-title {
     border-bottom: 5px solid #9bca3e;
+    background-color: #ffffff;
     padding: 10px 0;
     margin-bottom: 20px;
     box-shadow: 0px 5px 8px 1px rgba(71, 71, 71, 0.75);

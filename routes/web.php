@@ -37,7 +37,7 @@ Route::group([ 'middleware' => ['auth']], function () {
 
     Route::get('/inventory', [ormInventoryController::class, 'index'])->name('inventory'); /* show Inventory Page */
 
-    Route::resource('orders', ormTransactionController::class);
+    Route::resource('client_transactions', ormTransactionController::class);
 
     Route::get('/transaction', [ormTransactionController::class, 'index'])->name('transaction'); //show Transaction Page
 

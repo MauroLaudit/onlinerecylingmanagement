@@ -1,9 +1,9 @@
 /* Order Form Designs */
-.form-order {
+.transact-section {
     margin-top: 20px;
 }
 
-.form-order input {
+.transact-section input {
     width: 320px !important;
 }
 
@@ -45,6 +45,10 @@
     width: 100%;
 }
 
+.modal .company-order select#commodity {
+    width: 300px;
+}
+
 .modal .company-order .btn-inner {
     width: 100%;
     height: 30px;
@@ -55,30 +59,30 @@
 }
 
 /* Table Section Designs */
-.form-order input[type=search] {
+.transact-section input[type=search] {
     width: 300px;
     outline: none;
 }
 
-.form-order .dataTables_length {
+.transact-section .dataTables_length {
     visibility: hidden;
 }
 
-.form-order .btn-inner a {
+.transact-section .btn-inner a {
     color: #000000;
     text-decoration: none;
     padding: 0 10px;
 }
 
-.form-order .btn-inner em {
+.transact-section .btn-inner em {
     font-size: 20px;
     padding: 0 3px;
 }
 
-.form-order .btn-update em {
+.transact-section .btn-update em {
     color: #9bca3e;
 }
 
-.form-order .btn-delete em {
+.transact-section .btn-delete em {
     color: #cc1919;
 }

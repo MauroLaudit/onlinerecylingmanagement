@@ -11,6 +11,7 @@ use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use RealRashid\SweetAlert\Facades\Alert;
+use Illuminate\Support\Facades\Response;
 
 class ormTransactionController extends Controller
 {
@@ -43,27 +44,33 @@ class ormTransactionController extends Controller
      */
     public function store(Request $request)
     {
-        $client = Goodsreceiveheader::findorNew($request->id);
-        $head->referencenumber=$request->referencenumber;
-        $head->vendorid=$request->vendorid;
-        $head->date=$request->date;
-        $head->createdby=$request->createdby;
-        if ($head->save()){
-            $id = $head->id;
-            foreach($request->itemid as $key =>$item_id){
-                $data = array(
-                                'goodsreceiveheader_id'=>$id,
-                                'itemid'=>$request->itemid [$key],
-                                'quantity'=>$request->quantity [$key],
-                                'costprice'=>$request->costprice [$key],
-                    );
-                Goodsreceivedetail::insert($data);
-            }
-        }
 
-        Session::flash('message','You have successfully create goods receive.');
+        $client = Company::create([
+            'transaction_id' => $request['transaction_id'],
+            'company_name' => $request['company_name'],
+            'client_name' => $request['client_name'],
+            'address' => $request['address'],
+            'contact_no' => $request['contact'],
+        ]); 
+        // if ($client->save()){
+        //     $id = $client->transaction_id;
+        //     $data = $request->all();
+        //     $finalArray = array();    
+            
+        //     foreach($data as $key => $item_id){
+        //         array_push($finalArray, array(
+        //             'transaction_id'=>$id,
+        //             'stock_id'=>$item_id['commodity'],
+        //             'quantity'=>$item_id['quantity'], 
+        //             'total_price'=>$item_id['tot_price'] ,
+        //         ));
+        //     }
+        //     Orders::insert($finalArray);
+        // }
 
-        return redirect('goodsreceive/goodsreceiveheader_list');
+        dd($request->all());
+
+        return redirect()->intended(route('transaction'))->with('success', 'Added Successfully!');
     }
 
     /**

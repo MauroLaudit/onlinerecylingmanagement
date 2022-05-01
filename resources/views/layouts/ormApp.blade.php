@@ -10,7 +10,6 @@
     <title>OWRMS - Login</title>
 
     <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     
     <!-- Fonts -->
@@ -33,8 +32,9 @@
     <link href="{{ asset('css/orm-style.css') }}" rel="stylesheet">
 
     <!-- Select2 -->
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <!-- <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script> -->
+    <link rel="stylesheet" href="{{asset('select2/dist/css/select2.css')}}"/>
 
     @stack('styles')
     <!-- Sweetalert -->
@@ -53,44 +53,25 @@
         </main>
     </div>
     @include('sweetalert::alert')
-
     
 </body>
 
+@yield('script')
+
 <script>
     $(document).ready(function(){
-        $('#inventoryTable').DataTable({
-            searching: true,
-            aLengthMenu: [
-                [50],
-                [50]
-            ],
-            iDisplayLength: -1,
-
-            "columnDefs": [
-                { "width": "10%", "targets": 5,'orderable': false, },
-                {
-                    "targets":2, "searchable":true,
-                }
-            ]
-        })
+        $('#inventoryTable').DataTable({})
     });
 
     $(document).ready( function () {
         $('#transactTable').DataTable({
-            aLengthMenu: [
-                [50],
-                [50]
-            ],
-            iDisplayLength: -1,
-
             "columnDefs": [
                 { "width": "10%", "targets": 4 },
                 {
                     'targets': [4], // column index (start from 0)
                     'orderable': false, // set orderable false for selected columns
                 }
-            ]
+            ],
         });
     });
 </script>
