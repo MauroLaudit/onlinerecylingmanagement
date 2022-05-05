@@ -225,21 +225,25 @@
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script>
         $(document).ready(function(){
+            var count = 0;
             $('#add_btn').on('click', function(){
+                count++;
                 var new_order='';
                 new_order+='<tr id="row_new_orders">';
-                new_order+='<td><select id="commodity"  name="commodity[]" class="js-example-basic-single" required>';
+                new_order+='<td><select name="commodity[]" class="js-example-basic-single itemList" required>';
                 new_order+='<option selected>Choose order</option>';
                 new_order+='@if($inventory)';
                 new_order+='@foreach($inventory as $inventoryList)';
-                new_order+='<option value="{{ $inventoryList-> stock_id }}">{{ $inventoryList-> stock_id }} {{ $inventoryList->recyclable }} </option>';
+                new_order+='<option value="{{ $inventoryList-> stock_id }}" data-amount="{{ $inventoryList-> amount }}" data-price="{{ $inventoryList-> price }}">';
+                new_order+='{{ $inventoryList->recyclable }}';
+                new_order+='</option>';
                 new_order+='@endforeach';
                 new_order+='@endif';
-                new_order+='</select>';
-                new_order+='<input type="text" id="stock_id" name="stock_id" class="form-input" required>';
-                new_order+='</td>';
-                new_order+='<td><input type="number " id="quantity" name="quantity[]" class="form-input" required></td>';
-                new_order+='<td><input type="number" id="tot_price" name="tot_price[]" min="0.00" max="10000.00" step="0.01" class="form-input" required></td>';
+                new_order+='</select></td>';
+                // new_order+='<input type="text" id="stock_id" name="stock_id" class="form-input">';
+                // new_order+='</td>';
+                new_order+='<td><input type="number" name="quantity[]" class="form-input itemQuantity" required></td>';
+                new_order+='<td><input type="number" name="tot_price[]" min="0.00" max="10000.00" step="0.01" class="form-input itemPrice" required></td>';
                 new_order+='<td class="d-flex justify-content-center align-items-center">';
                 new_order+='<button type="button" class="btn btn-danger btn-inner d-flex justify-content-center align-items-center" id="remove_btn"><em class="fa fa-remove" aria-hidden="true"></em></button>'
                 new_order+='</td>';
@@ -262,39 +266,34 @@
         $('#btn-add-new').click(function(){ 
             $("#order_tbl").find("tr:gt(1)").remove();
         });
+    </script>
 
-        $('#quantity').on('change', function(){
-            if($('#quantity').val() != ""){
-                var quantity = $('#quantity').val();
-                var price = $('#item_price').val();
-                $(this).closest('tot_price').val(quantity * price);
-            }
-            
+    <script>
+        var sel_amount = 0;
+        var sel_price = 0;
+        $('select.itemList').on('change', function(event){
+            var selected = $(this).find(':selected')
+            var amount = selected.data('amount')
+            var price = selected.data('price')
+
+            sel_amount = amount;
+            sel_price = price;
+            alert(sel_price);
         });
+        
     </script>
 
     <script>
-            $('#commodity').on('change', function() {
-                $("#commodity option:selected").attr('disabled','disabled');
-            });
-    </script>
-
-    <script>
-        $('#commodity').select2({
+        $('.itemList').select2({
             dropdownParent: $('#ormAddOrder')
         })
 
         $(document).ready(function(){
             $('#add_btn').on('click', function(){
-                $('select').select2({
-                    dropdownParent: $('#ormAddOrder')
+                $('.itemList').select2({
+                    dropdownParent: $('#ormAddOrder'),
                 });
-            })
-        });
-
-        $('#commodity').on('change', function() {
-            var data = $("#commodity option:selected").val();
-            $("#stock_id").val(data);
+            });
         });
     </script>
 
@@ -316,6 +315,4 @@
             });
         });
     </script>
-
-    
 @endsection

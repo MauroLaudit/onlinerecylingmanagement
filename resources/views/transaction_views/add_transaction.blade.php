@@ -54,16 +54,19 @@
                                 </thead>
                                 <tbody id="table-order">
                                     <tr id="row_new_orders">
-                                        <td><select id="commodity"  name="commodity[]" class="js-example-basic-single" required>
+                                        <td><select name="commodity[]" class="js-example-basic-single itemList" required>
                                             <option selected>Choose order</option>
                                             @if($inventory)
                                             @foreach($inventory as $inventoryList)
-                                            <option value="{{ $inventoryList-> stock_id }}">{{ $inventoryList-> stock_id }}{{ $inventoryList->recyclable }} </option>
+                                            <option value="{{ $inventoryList-> stock_id }}" data-amount="{{ $inventoryList-> amount }}" data-price="{{ $inventoryList-> price }}">
+                                                {{ $inventoryList->recyclable }}
+                                            </option>
                                             @endforeach
                                             @endif
-                                        </select><input type="text" name="stock_id" id="stock_id" readonly></td>
-                                        <td><input type="number " id="quantity" name="quantity[]" class="form-input" required></td>
-                                        <td><input type="number" id="tot_price" name="tot_price[]" min="0.00" max="10000.00" step="0.01" class="form-input" required></td>
+                                            </select>
+                                        </td>
+                                        <td><input type="number" name="quantity[]" class="form-input itemQuantity" required></td>
+                                        <td><input type="number" name="tot_price[]" min="0.00" max="10000.00" step="0.01" class="form-input itemPrice" required></td>
                                         <td class="d-flex justify-content-center align-items-center">
                                         <button type="button" class="btn btn-danger btn-inner d-flex justify-content-center align-items-center" id="remove_btn"><em class="fa fa-remove" aria-hidden="true"></em></button>
                                         </td>
@@ -83,8 +86,3 @@
     </div>
 </div>
 
-<script>
-        $('#formid').on('submit', function(){
-            $('#commodity').val($('#commodity').val().join(','));
-        });
-    </script>

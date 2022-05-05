@@ -52,23 +52,26 @@ class ormTransactionController extends Controller
             'address' => $request['address'],
             'contact_no' => $request['contact'],
         ]); 
-        // if ($client->save()){
-        //     $id = $client->transaction_id;
-        //     $data = $request->all();
-        //     $finalArray = array();    
-            
-        //     foreach($data as $key => $item_id){
-        //         array_push($finalArray, array(
-        //             'transaction_id'=>$id,
-        //             'stock_id'=>$item_id['commodity'],
-        //             'quantity'=>$item_id['quantity'], 
-        //             'total_price'=>$item_id['tot_price'] ,
-        //         ));
-        //     }
-        //     Orders::insert($finalArray);
-        // }
+        if ($client->save()){
+            $id = $request['transaction_id'];
+            $finalArray = array();    
 
-        dd($request->all());
+            $commodity = $request['commodity'];
+            $quantity = $request['quantity'];
+            $tot_price = $request['tot_price'];
+            $loop = 0;
+            
+            foreach($request['commodity'] as $orders => $items){
+                // dd($orders);
+                $orderItems = new Orders;
+                $orderItems['transaction_id'] = $id;
+                $orderItems['stock_id'] = $commodity[$loop];
+                $orderItems['quantity'] = $quantity[$loop];
+                $orderItems['total_price'] = $tot_price[$loop];
+                $orderItems->save();
+                $loop+=1;
+            }
+        }
 
         return redirect()->intended(route('transaction'))->with('success', 'Added Successfully!');
     }

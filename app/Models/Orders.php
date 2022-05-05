@@ -10,6 +10,8 @@ class Orders extends Model
     use HasFactory;
     public $table = 'company_orders';
 
+    protected $casts = [ 'commodity' => 'array' ];
+
     protected $fillable = [
         'transaction_id',
         'stock_id',

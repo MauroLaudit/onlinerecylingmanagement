@@ -33,44 +33,6 @@ class ormUserController extends Controller
         return view('auth.ormRegistration');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    // public function store(Request $request)
-    // {
-    //     $validator = \Validator::make($request->all(), [
-    //         'fname' => ['required', 'regex:/^[a-z A-Z]+s/u'],
-    //         'mname' => ['regex:/^[a-z A-Z]+s/u'],
-    //         'lname' => ['required','regex:/^[a-z A-Z]+s/u'],
-    //         'gender' => ['required','in:male,female'],
-    //         'role' => ['required'],
-    //         'email' => ['required','email','unique:users'],
-    //         'password' => ['required','min:8','regex:/^.*(?=.{3,})(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[\d\x])(?=.*[!$#%]).*$/'],
-    //         'confirm_password' => ['required','same:password'],
-    //         'upload_img' => ['required','file','max:1024'],
-    //     ]);
-        
-    //     if ($validator->fails())
-    //     {
-    //         return redirect()->back()->withErrors('Required field is empty')->withInput();
-    //     }
-    //     $data= new Data();
-    //     $data->fname=$request->get('fname');
-    //     $data->mname=$request->get('mname');
-    //     $data->lname=$request->get('lname');
-    //     $data->gender=$request->get('gender');
-    //     $data->role=$request->get('role');
-    //     $data->email=$request->get('email');
-    //     $data->password=$request->get('password');
-    //     $data->upload_img=$request->get('upload_img');
-    //     $data->save();
-   
-    //     return response()->json(['success'=>'Data is successfully added']);
-    // }
-
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
