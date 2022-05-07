@@ -40,6 +40,8 @@ Route::group([ 'middleware' => ['auth']], function () {
     Route::resource('client_transactions', ormTransactionController::class);
 
     Route::get('/transaction', [ormTransactionController::class, 'index'])->name('transaction'); //show Transaction Page
+    Route::get('stocks', [ormTransactionController::class, 'getStocks'])->name('stockItems');
+    Route::get('fetchStocks', [ormTransactionController::class, 'fetchStocksInfo'])->name('fetchItems');
 
     Route::get('forecasting', function () {
         return view('ormForecasting');

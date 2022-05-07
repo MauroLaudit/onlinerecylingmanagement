@@ -54,15 +54,9 @@
                                 </thead>
                                 <tbody id="table-order">
                                     <tr id="row_new_orders">
-                                        <td><select name="commodity[]" class="js-example-basic-single itemList" required>
-                                            <option selected>Choose order</option>
-                                            @if($inventory)
-                                            @foreach($inventory as $inventoryList)
-                                            <option value="{{ $inventoryList-> stock_id }}" data-amount="{{ $inventoryList-> amount }}" data-price="{{ $inventoryList-> price }}">
-                                                {{ $inventoryList->recyclable }}
-                                            </option>
-                                            @endforeach
-                                            @endif
+                                        <td>
+                                            <select name="commodity[]" class="js-example-basic-single itemList" required>
+                                            <option selected>-- Choose item --</option>
                                             </select>
                                         </td>
                                         <td><input type="number" name="quantity[]" class="form-input itemQuantity" required></td>
@@ -72,6 +66,9 @@
                                         </td>
                                     </tr>
                                 </tbody>
+                                <tfoot>
+
+                                </tfoot>
                             </table>
 
                             <div class="btn-nav d-flex justify-content-center">

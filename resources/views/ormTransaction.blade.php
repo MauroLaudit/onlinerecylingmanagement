@@ -56,160 +56,6 @@
                                     </div>
                                 </td>
                             </tr>
-                            <tr>
-                                <th scope="row">2</th>
-                                <td>Jacob</td>
-                                <td>Thornton</td>
-                                <td>@fat</td>
-                                <td class="d-flex">
-                                    <div type="button" class="btn-inner">
-                                        <a href="#" class="text-nav btn-update d-flex align-items-center justify-content-center"><em class="fa fa-pencil" aria-hidden="true"></em>Edit</a>
-                                    </div>
-                                    <div type="button" class="btn-inner">
-                                        <a href="#" class="text-nav btn-delete d-flex align-items-center justify-content-center"><em class="fa fa-trash" aria-hidden="true"></em>Delete</a>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row">3</th>
-                                <td>Larry the Bird</td>
-                                <td>Thornton</td>
-                                <td>@twitter</td>
-                                <td class="d-flex">
-                                    <div type="button" class="btn-inner">
-                                        <a href="#" class="text-nav btn-update d-flex align-items-center justify-content-center"><em class="fa fa-pencil" aria-hidden="true"></em>Edit</a>
-                                    </div>
-                                    <div type="button" class="btn-inner">
-                                        <a href="#" class="text-nav btn-delete d-flex align-items-center justify-content-center"><em class="fa fa-trash" aria-hidden="true"></em>Delete</a>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row">1</th>
-                                <td>Mark</td>
-                                <td>Otto</td>
-                                <td>@mdo</td>
-                                <td class="d-flex">
-                                    <div type="button" class="btn-inner">
-                                        <a href="#" class="text-nav btn-update d-flex align-items-center justify-content-center"><em class="fa fa-pencil" aria-hidden="true"></em>Edit</a>
-                                    </div>
-                                    <div type="button" class="btn-inner">
-                                        <a href="#" class="text-nav btn-delete d-flex align-items-center justify-content-center"><em class="fa fa-trash" aria-hidden="true"></em>Delete</a>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row">2</th>
-                                <td>Jacob</td>
-                                <td>Thornton</td>
-                                <td>@fat</td>
-                                <td class="d-flex">
-                                    <div type="button" class="btn-inner">
-                                        <a href="#" class="text-nav btn-update d-flex align-items-center justify-content-center"><em class="fa fa-pencil" aria-hidden="true"></em>Edit</a>
-                                    </div>
-                                    <div type="button" class="btn-inner">
-                                        <a href="#" class="text-nav btn-delete d-flex align-items-center justify-content-center"><em class="fa fa-trash" aria-hidden="true"></em>Delete</a>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row">3</th>
-                                <td>Larry the Bird</td>
-                                <td>Thornton</td>
-                                <td>@twitter</td>
-                                <td class="d-flex">
-                                    <div type="button" class="btn-inner">
-                                        <a href="#" class="text-nav btn-update d-flex align-items-center justify-content-center"><em class="fa fa-pencil" aria-hidden="true"></em>Edit</a>
-                                    </div>
-                                    <div type="button" class="btn-inner">
-                                        <a href="#" class="text-nav btn-delete d-flex align-items-center justify-content-center"><em class="fa fa-trash" aria-hidden="true"></em>Delete</a>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row">1</th>
-                                <td>Mark</td>
-                                <td>Otto</td>
-                                <td>@mdo</td>
-                                <td class="d-flex">
-                                    <div type="button" class="btn-inner">
-                                        <a href="#" class="text-nav btn-update d-flex align-items-center justify-content-center"><em class="fa fa-pencil" aria-hidden="true"></em>Edit</a>
-                                    </div>
-                                    <div type="button" class="btn-inner">
-                                        <a href="#" class="text-nav btn-delete d-flex align-items-center justify-content-center"><em class="fa fa-trash" aria-hidden="true"></em>Delete</a>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row">2</th>
-                                <td>Jacob</td>
-                                <td>Thornton</td>
-                                <td>@fat</td>
-                                <td class="d-flex">
-                                    <div type="button" class="btn-inner">
-                                        <a href="#" class="text-nav btn-update d-flex align-items-center justify-content-center"><em class="fa fa-pencil" aria-hidden="true"></em>Edit</a>
-                                    </div>
-                                    <div type="button" class="btn-inner">
-                                        <a href="#" class="text-nav btn-delete d-flex align-items-center justify-content-center"><em class="fa fa-trash" aria-hidden="true"></em>Delete</a>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row">3</th>
-                                <td>Larry the Bird</td>
-                                <td>Thornton</td>
-                                <td>@twitter</td>
-                                <td class="d-flex">
-                                    <div type="button" class="btn-inner">
-                                        <a href="#" class="text-nav btn-update d-flex align-items-center justify-content-center"><em class="fa fa-pencil" aria-hidden="true"></em>Edit</a>
-                                    </div>
-                                    <div type="button" class="btn-inner">
-                                        <a href="#" class="text-nav btn-delete d-flex align-items-center justify-content-center"><em class="fa fa-trash" aria-hidden="true"></em>Delete</a>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row">1</th>
-                                <td>Mark</td>
-                                <td>Otto</td>
-                                <td>@mdo</td>
-                                <td class="d-flex">
-                                    <div type="button" class="btn-inner">
-                                        <a href="#" class="text-nav btn-update d-flex align-items-center justify-content-center"><em class="fa fa-pencil" aria-hidden="true"></em>Edit</a>
-                                    </div>
-                                    <div type="button" class="btn-inner">
-                                        <a href="#" class="text-nav btn-delete d-flex align-items-center justify-content-center"><em class="fa fa-trash" aria-hidden="true"></em>Delete</a>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row">2</th>
-                                <td>Jacob</td>
-                                <td>Thornton</td>
-                                <td>@fat</td>
-                                <td class="d-flex">
-                                    <div type="button" class="btn-inner">
-                                        <a href="#" class="text-nav btn-update d-flex align-items-center justify-content-center"><em class="fa fa-pencil" aria-hidden="true"></em>Edit</a>
-                                    </div>
-                                    <div type="button" class="btn-inner">
-                                        <a href="#" class="text-nav btn-delete d-flex align-items-center justify-content-center"><em class="fa fa-trash" aria-hidden="true"></em>Delete</a>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row">3</th>
-                                <td>Larry the Bird</td>
-                                <td>Thornton</td>
-                                <td>@twitter</td>
-                                <td class="d-flex">
-                                    <div type="button" class="btn-inner">
-                                        <a href="#" class="text-nav btn-update d-flex align-items-center justify-content-center"><em class="fa fa-pencil" aria-hidden="true"></em>Edit</a>
-                                    </div>
-                                    <div type="button" class="btn-inner">
-                                        <a href="#" class="text-nav btn-delete d-flex align-items-center justify-content-center"><em class="fa fa-trash" aria-hidden="true"></em>Delete</a>
-                                    </div>
-                                </td>
-                            </tr>
                         </tbody>
                     </table>    
                 </div>
@@ -223,25 +69,38 @@
 
 @section('script')
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    
     <script>
-        $(document).ready(function(){
-            var count = 0;
+    
+        $(document).ready(function() {
+            initializeSelect2();
+            fetchItemData();
+
             $('#add_btn').on('click', function(){
-                count++;
+                $.ajax({
+                    url: "{{ route('stockItems') }}",
+                    type: "get",
+                    delay: 250,
+                    dataType: 'json',
+                    data: function(params) {
+                        return {
+                            query: params.term, // search term
+                            "_token": "{{ csrf_token() }}",
+                        };
+                    },
+                    processResults: function(response) {
+                        return {
+                            results: response
+                        };
+                    },
+                    cache: true
+                });
+
                 var new_order='';
                 new_order+='<tr id="row_new_orders">';
                 new_order+='<td><select name="commodity[]" class="js-example-basic-single itemList" required>';
-                new_order+='<option selected>Choose order</option>';
-                new_order+='@if($inventory)';
-                new_order+='@foreach($inventory as $inventoryList)';
-                new_order+='<option value="{{ $inventoryList-> stock_id }}" data-amount="{{ $inventoryList-> amount }}" data-price="{{ $inventoryList-> price }}">';
-                new_order+='{{ $inventoryList->recyclable }}';
-                new_order+='</option>';
-                new_order+='@endforeach';
-                new_order+='@endif';
+                new_order+='<option selected>-- Choose item --</option>';
                 new_order+='</select></td>';
-                // new_order+='<input type="text" id="stock_id" name="stock_id" class="form-input">';
-                // new_order+='</td>';
                 new_order+='<td><input type="number" name="quantity[]" class="form-input itemQuantity" required></td>';
                 new_order+='<td><input type="number" name="tot_price[]" min="0.00" max="10000.00" step="0.01" class="form-input itemPrice" required></td>';
                 new_order+='<td class="d-flex justify-content-center align-items-center">';
@@ -250,11 +109,59 @@
                 new_order+='</tr>';
                 
                 $('#table-order').append(new_order);
-            })
+
+                
+
+                initializeSelect2();
+            });
+
+
+            function initializeSelect2(){
+                $(".itemList").select2({
+                    selectOnClose: true,
+                    dropdownParent: $('#ormAddOrder'),
+                    ajax: {
+                        url: "{{ route('stockItems') }}",
+                        type: "get",
+                        delay: 250,
+                        dataType: 'json',
+                        data: function(params) {
+                            return {
+                                query: params.term, // search term
+                                "_token": "{{ csrf_token() }}",
+                            };
+                        },
+                        processResults: function(response) {
+                            return {
+                                results: response
+                            };
+                        },
+                        cache: true
+                    }
+                });
+            }
+            
+            function fetchItemData(){
+                $('.itemList').on('change', function(event){
+                    var selected = $(this).find(':selected').val();           
+                    var itemAmount = 0;
+                    var itemProduct = 0;
+                    $.ajax({
+                        url: "{{ route('fetchItems') }}",
+                        type: "get",
+                        data:{stock_id:$(this).find(':selected').val()}, // the value of input having id vid
+                        success: function(response){ // What to do if we succeed
+                            $(this).closest('.itemPrice').val(response[0].price);
+                            itemProduct = response[0].price;
+                            console.log(itemProduct);
+                        }
+                    });
+                });
+            }
         });
+    </script>
 
-
-
+    <script>
         $(document).on('click', '#remove_btn', function(){
             $(this).closest('tr').remove();
         });
@@ -265,35 +172,6 @@
 
         $('#btn-add-new').click(function(){ 
             $("#order_tbl").find("tr:gt(1)").remove();
-        });
-    </script>
-
-    <script>
-        var sel_amount = 0;
-        var sel_price = 0;
-        $('select.itemList').on('change', function(event){
-            var selected = $(this).find(':selected')
-            var amount = selected.data('amount')
-            var price = selected.data('price')
-
-            sel_amount = amount;
-            sel_price = price;
-            alert(sel_price);
-        });
-        
-    </script>
-
-    <script>
-        $('.itemList').select2({
-            dropdownParent: $('#ormAddOrder')
-        })
-
-        $(document).ready(function(){
-            $('#add_btn').on('click', function(){
-                $('.itemList').select2({
-                    dropdownParent: $('#ormAddOrder'),
-                });
-            });
         });
     </script>
 

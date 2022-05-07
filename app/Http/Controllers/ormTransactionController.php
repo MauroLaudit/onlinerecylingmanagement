@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Validator;
 use RealRashid\SweetAlert\Facades\Alert;
 use Illuminate\Support\Facades\Response;
 
+
 class ormTransactionController extends Controller
 {
     /**
@@ -75,6 +76,66 @@ class ormTransactionController extends Controller
 
         return redirect()->intended(route('transaction'))->with('success', 'Added Successfully!');
     }
+
+    public function getStocks(Request $request)
+    {
+        $input = $request->all();
+
+        if (!empty($input['query'])) {
+
+            $data = Inventory::select(["id", "stock_id", "recyclable", "amount", "price"])
+                ->where("recyclable", "LIKE", "%{$input['query']}%")
+                ->get();
+        } else {
+
+            $data = Inventory::select(["id", "stock_id", "recyclable", "amount", "price"])
+                ->get();
+        }
+
+        $recylables = [];
+
+        if (count($data) > 0) {
+
+            foreach ($data as $stocks) {
+                $recylables[] = array(
+                    "id" => $stocks->stock_id,
+                    "text" => $stocks->recyclable,
+                );
+            }
+        }
+        return response()->json($recylables);
+    }
+
+    public function fetchStocksInfo(Request $request){
+        $stock_id = $request->all();
+        $stockItems = Inventory::select('price', 'amount')->where('stock_id','=', $stock_id)->get();
+        return response()->json($stockItems);
+    }
+
+    /* public function getStocks(Request $request){
+        $search = $request->all();
+        if($search == '')
+        {
+            $data = Inventory::select('id', 'stock_id', 'recyclable', 'amount', 'price')
+            ->get();
+        }
+        
+        else
+        {
+            $data = Inventory::select('id', 'stock_id', 'recyclable', 'amount', 'price')
+            ->where('recyclable','like', '%' .$search . '%')
+            ->get();
+        }
+        $recylables = array();
+            foreach ($data as $stocks) {
+                $recylables[] = array(
+                    "id" => $stocks->id,
+                    "text" => $stocks->recyclable,
+                );
+                dd($recylables);
+            }
+        return response()->json($recylables);
+    } */
 
     /**
      * Display the specified resource.
