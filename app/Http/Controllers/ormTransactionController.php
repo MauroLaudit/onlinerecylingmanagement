@@ -23,8 +23,8 @@ class ormTransactionController extends Controller
      */
     public function index()
     {
-        $inventory = Inventory::all();
-        return view('ormTransaction')->with('inventory', $inventory);
+        $transactions = Company::all();
+        return view('ormTransaction')->with('transactions', $transactions);
     }
 
     /**
@@ -61,9 +61,7 @@ class ormTransactionController extends Controller
             $quantity = $request['quantity'];
             $tot_price = $request['tot_price'];
             $loop = 0;
-            
-            foreach($request['commodity'] as $orders => $items){
-                // dd($orders);
+            foreach($request['commodity'] as $orders => $items){                
                 $orderItems = new Orders;
                 $orderItems['transaction_id'] = $id;
                 $orderItems['stock_id'] = $commodity[$loop];
@@ -111,31 +109,6 @@ class ormTransactionController extends Controller
         $stockItems = Inventory::select('price', 'amount')->where('stock_id','=', $stock_id)->get();
         return response()->json($stockItems);
     }
-
-    /* public function getStocks(Request $request){
-        $search = $request->all();
-        if($search == '')
-        {
-            $data = Inventory::select('id', 'stock_id', 'recyclable', 'amount', 'price')
-            ->get();
-        }
-        
-        else
-        {
-            $data = Inventory::select('id', 'stock_id', 'recyclable', 'amount', 'price')
-            ->where('recyclable','like', '%' .$search . '%')
-            ->get();
-        }
-        $recylables = array();
-            foreach ($data as $stocks) {
-                $recylables[] = array(
-                    "id" => $stocks->id,
-                    "text" => $stocks->recyclable,
-                );
-                dd($recylables);
-            }
-        return response()->json($recylables);
-    } */
 
     /**
      * Display the specified resource.

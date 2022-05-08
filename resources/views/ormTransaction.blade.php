@@ -12,7 +12,7 @@
             <div class="row d-flex justify-content-center">
                 <div class="col-md-8">
                     <div class="title">
-                        <h1>Orders</h1>
+                        <h1>Transactions</h1>
                     </div>
                 </div>
 
@@ -34,28 +34,39 @@
                     <table id="transactTable" class="table table-striped table-hover table-bordered pt-3" data-page-length='50'>
                         <thead>
                             <tr>
-                                <th scope="col">#</th>
-                                <th scope="col">First</th>
-                                <th scope="col">Last</th>
-                                <th scope="col">Handle</th>
-                                <th scope="col">Action</th>
+                            <th scope="col">ID</th>
+                            <th scope="col">Transaction ID</th>
+                            <th scope="col">Company Name</th>
+                            <th scope="col">Client Name</th>
+                            <th scope="col">Address</th>
+                            <th scope="col">Contact Number</th>
+                            <th scope="col">Action</th>
                             </tr>
                         </thead>
                         <tbody>
+                        @if($transactions)
+                            @foreach($transactions as $transactionslist)
                             <tr>
-                                <th scope="row">1</th>
-                                <td>Mark</td>
-                                <td>Otto</td>
-                                <td>@mdo</td>
-                                <td class="d-flex">
-                                    <div type="button" class="btn-inner">
-                                        <a href="#" class="text-nav btn-update d-flex align-items-center justify-content-center"><em class="fa fa-pencil" aria-hidden="true"></em>Edit</a>
-                                    </div>
-                                    <div type="button" class="btn-inner">
-                                        <a href="#" class="text-nav btn-delete d-flex align-items-center justify-content-center"><em class="fa fa-trash" aria-hidden="true"></em>Delete</a>
-                                    </div>
-                                </td>
-                            </tr>
+                            <th data-label="ID" scope="row">{{ $transactionslist->id }}</th>
+                            <td data-label="Transaction_ID">{{ $transactionslist->transaction_id }}</td>
+                            <td data-label="Category_ID">{{ $transactionslist->company_name }}</td>
+                            <td data-label="Quantity">{{ $transactionslist->client_name }}</td>
+                            <td data-label="Total Price">{{ $transactionslist->address }}</td>
+                            <td data-label="Total Price">{{ $transactionslist->contact_no }}</td>
+                            <td class="d-flex">
+                                <div type="button" class="btn-inner">
+                                    <!-- <a href="#" class="text-nav btn-update d-flex align-items-center justify-content-center"><em class="fa fa-pencil" aria-hidden="true"></em>Edit</a> -->
+                                    {{-----***************************** EDIT BUTTON *******************************------}}
+                                    <a data-bs-toggle="modal" type="button" data-id="{{$transactionslist->transaction_id}}" data-bs-target="#ormViewOrders" class="text-nav btn-view d-flex align-items-center justify-content-center">
+                                        <em class="fa fa-eye" aria-hidden="true"></em>View Orders
+                                    </a>
+                                    @include('transaction_views.view_transacts')
+                                </div>
+                                
+                            </td>
+                        </tr>
+                            @endforeach
+                        @endif
                         </tbody>
                     </table>    
                 </div>
@@ -73,7 +84,9 @@
     <script>
     
         $(document).ready(function() {
+            //initialize select2
             initializeSelect2();
+            //fetch data from item selected
             fetchItemData();
 
             $('#add_btn').on('click', function(){
@@ -102,7 +115,7 @@
                 new_order+='<option selected>-- Choose item --</option>';
                 new_order+='</select></td>';
                 new_order+='<td><input type="number" name="quantity[]" class="form-input itemQuantity" required></td>';
-                new_order+='<td><input type="number" name="tot_price[]" min="0.00" max="10000.00" step="0.01" class="form-input itemPrice" required></td>';
+                new_order+='<td><input type="number" name="tot_price[]" min="0.00" max="10000.00" step="0.01" class="form-input itemPrice" required readonly></td>';
                 new_order+='<td class="d-flex justify-content-center align-items-center">';
                 new_order+='<button type="button" class="btn btn-danger btn-inner d-flex justify-content-center align-items-center" id="remove_btn"><em class="fa fa-remove" aria-hidden="true"></em></button>'
                 new_order+='</td>';
@@ -110,9 +123,10 @@
                 
                 $('#table-order').append(new_order);
 
-                
-
+                //initialize select2
                 initializeSelect2();
+                //fetch data from item selected
+                fetchItemData();
             });
 
 
@@ -120,6 +134,7 @@
                 $(".itemList").select2({
                     selectOnClose: true,
                     dropdownParent: $('#ormAddOrder'),
+                    placeholder: "-- Choose Item --",
                     ajax: {
                         url: "{{ route('stockItems') }}",
                         type: "get",
@@ -137,25 +152,63 @@
                             };
                         },
                         cache: true
-                    }
+                    },
                 });
             }
             
             function fetchItemData(){
-                $('.itemList').on('change', function(event){
-                    var selected = $(this).find(':selected').val();           
-                    var itemAmount = 0;
-                    var itemProduct = 0;
+                $('.itemList').on('change', function(){
+                    var selected = $(this).find(':selected').val();  
+                    var parentTR = $(this).closest('tr');
+
                     $.ajax({
                         url: "{{ route('fetchItems') }}",
                         type: "get",
                         data:{stock_id:$(this).find(':selected').val()}, // the value of input having id vid
                         success: function(response){ // What to do if we succeed
-                            $(this).closest('.itemPrice').val(response[0].price);
-                            itemProduct = response[0].price;
-                            console.log(itemProduct);
+                            /* parentRow.find('.itemPrice').val(response[0].price);
+                            parentRow.find('.itemQuantity').val(response[0].amount); */
+                            checkData(response[0].amount, response[0].price);
                         }
                     });
+
+                    parentTR.find('.itemPrice').val("");
+                    parentTR.find('.itemQuantity').val("");
+                });
+            }
+
+            function checkData(amount, price){
+                console.log(amount + ", " + price);
+
+                $('.itemQuantity').change( function(){
+                    var parentRow = $(this).closest('tr');
+                    var inputQuantity = parseInt(parentRow.find('.itemQuantity').val(), 10) || 0;
+                    console.log(inputQuantity);
+                    if(inputQuantity > amount){
+                        Swal.fire({
+                            title: "Invalid Input!",
+                            text: "Not Enough Stock! You Only have " + amount + "kg",
+                            icon: "warning",
+                            showCloseButton: true,
+                            showConfirmButton: false,
+                            timer: 1000
+                        });
+                    }
+                    else{
+                        var totPrice = inputQuantity * price;
+
+                        parentRow.find('.itemPrice').val(totPrice);
+                        
+
+                        if($('#totOrder').val() == ''){
+                            $('#totOrder').val(totPrice);
+                        }
+                        else{
+                            var totalOrders = parseInt($('#totOrder').val()) + totPrice;
+                            $('#totOrder').val(totalOrders);
+                        }
+                        
+                    }
                 });
             }
         });
@@ -163,15 +216,43 @@
 
     <script>
         $(document).on('click', '#remove_btn', function(){
+            var itemTotOrder= parseInt($('#totOrder').val());
+            var itemTotPrice = parseInt($(this).closest('tr').find('.itemPrice').val());
             $(this).closest('tr').remove();
+            $('#totOrder').val(itemTotOrder - itemTotPrice);
         });
 
         $(document).on('hidden.bs.modal', function(){
-            $("#order_tbl").find("tr:gt(1)").remove();
+            $("tbody").find("tr:gt(0)").remove();
+            $('#ormAddOrder form')[0].reset();
+            $(".itemList").select2({
+                selectOnClose: true,
+                dropdownParent: $('#ormAddOrder'),
+                placeholder: "-- Choose Item --",
+                ajax: {
+                    url: "{{ route('stockItems') }}",
+                    type: "get",
+                    delay: 250,
+                    dataType: 'json',
+                    data: function(params) {
+                        return {
+                            query: params.term, // search term
+                            "_token": "{{ csrf_token() }}",
+                        };
+                    },
+                    processResults: function(response) {
+                        return {
+                            results: response
+                        };
+                    },
+                    cache: true
+                },
+            });
         });
 
-        $('#btn-add-new').click(function(){ 
-            $("#order_tbl").find("tr:gt(1)").remove();
+        $('#add-btn-order').click(function(){ 
+            $("tbody").find("tr:gt(0)").remove();
+            $('#ormAddOrder form')[0].reset();
         });
     </script>
 

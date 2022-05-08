@@ -79,10 +79,6 @@
     padding: 0 3px;
 }
 
-.transact-section .btn-update em {
-    color: #9bca3e;
-}
-
-.transact-section .btn-delete em {
-    color: #cc1919;
+.transact-section .btn-view em {
+    color: #1268cd;
 }
