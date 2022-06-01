@@ -66,7 +66,6 @@
     $(document).ready( function () {
         $('#transactTable').DataTable({
             "columnDefs": [
-                { "targets": 5 },
                 {
                     'targets': [6], // column index (start from 0)
                     'orderable': false, // set orderable false for selected columns
@@ -75,5 +74,6 @@
         });
     });
 </script>
+
 
 </html>

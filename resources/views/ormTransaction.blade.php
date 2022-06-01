@@ -47,24 +47,23 @@
                         @if($transactions)
                             @foreach($transactions as $transactionslist)
                             <tr>
-                            <th data-label="ID" scope="row">{{ $transactionslist->id }}</th>
-                            <td data-label="Transaction_ID">{{ $transactionslist->transaction_id }}</td>
-                            <td data-label="Category_ID">{{ $transactionslist->company_name }}</td>
-                            <td data-label="Quantity">{{ $transactionslist->client_name }}</td>
-                            <td data-label="Total Price">{{ $transactionslist->address }}</td>
-                            <td data-label="Total Price">{{ $transactionslist->contact_no }}</td>
-                            <td class="d-flex">
-                                <div type="button" class="btn-inner">
-                                    <!-- <a href="#" class="text-nav btn-update d-flex align-items-center justify-content-center"><em class="fa fa-pencil" aria-hidden="true"></em>Edit</a> -->
-                                    {{-----***************************** EDIT BUTTON *******************************------}}
-                                    <a data-bs-toggle="modal" type="button" data-id="{{$transactionslist->transaction_id}}" data-bs-target="#ormViewOrders" class="text-nav btn-view d-flex align-items-center justify-content-center">
-                                        <em class="fa fa-eye" aria-hidden="true"></em>View Orders
-                                    </a>
-                                    @include('transaction_views.view_transacts')
-                                </div>
-                                
-                            </td>
-                        </tr>
+                                <th data-label="ID" scope="row">{{ $transactionslist->id }}</th>
+                                <td data-label="Transaction_ID">{{ $transactionslist->transaction_id }}</td>
+                                <td data-label="Company_Name">{{ $transactionslist->company_name }}</td>
+                                <td data-label="Client_Name">{{ $transactionslist->client_name }}</td>
+                                <td data-label="Address">{{ $transactionslist->address }}</td>
+                                <td data-label="Contact_No">{{ $transactionslist->contact_no }}</td>
+                                <td class="d-flex">
+                                    <div type="button" class="btn-inner">
+                                        <a data-toggle="modal" type="button" data-id="{{$transactionslist->id}}" class="text-nav btn-view d-flex align-items-center justify-content-center btn_viewOrders">
+                                            <em class="fa fa-eye" aria-hidden="true"></em>View Orders
+                                        </a>
+                                        @include('transaction_views.view_transacts')
+                                        <!-- <a id="orders" class="btn btn-small btn-success" href="{{ route('client_transactions.show', $transactionslist->id) }}">Show</a> -->
+                                        <!-- <a type="button" id="{{$transactionslist->id}}" class="orders btn btn-small btn-success" href="#">Show</a>  -->
+                                    </div>
+                                </td>
+                            </tr>
                             @endforeach
                         @endif
                         </tbody>
@@ -81,8 +80,7 @@
 @section('script')
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     
-    <script>
-    
+    <script>   
         $(document).ready(function() {
             //initialize select2
             initializeSelect2();
@@ -223,7 +221,7 @@
         });
 
         $(document).on('hidden.bs.modal', function(){
-            $("tbody").find("tr:gt(0)").remove();
+            $(".order_tbl tbody").find("tr:gt(0)").remove();
             $('#ormAddOrder form')[0].reset();
             $(".itemList").select2({
                 selectOnClose: true,
@@ -251,7 +249,7 @@
         });
 
         $('#add-btn-order').click(function(){ 
-            $("tbody").find("tr:gt(0)").remove();
+            $(".order_tbl tbody").find("tr:gt(0)").remove();
             $('#ormAddOrder form')[0].reset();
         });
     </script>
@@ -274,4 +272,52 @@
             });
         });
     </script>
+
+    <!-- <script>
+        $('#ormViewOrders').on('show.bs.modal', function(event) {
+        var button = $(event.relatedTarget)
+        var transaction_id = button.data('id')
+
+
+        var modal = $(this)
+        modal.find('.modal-body #transaction_id').val(transaction_id);
+    });
+    </script> -->
+
+    <script>
+        $(document).ready(function () {
+            $('.btn_viewOrders').on('click', function () {
+
+                var transac_id = $(this).data('id');
+                console.log(transac_id);
+
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+
+                $.ajax({
+                        url: '/client_transactions/' + transac_id,
+                        type: 'GET',
+                        dataType: 'html',
+                        success: function (data) {
+                           
+                        },
+                    })
+                    .then(data => {
+                        $('.orders').html(data);
+                        $('#ormViewOrders').modal("show");
+                    })
+                    .catch(error => {
+                        var xhr = $.ajax();
+                        console.log(xhr);
+                        console.log(error);
+                    })
+            });
+        });
+    </script>
+    
+        
+
 @endsection

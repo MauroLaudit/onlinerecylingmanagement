@@ -23,4 +23,9 @@ class Company extends Model
         'created_at',
         'deleted_at',
     ];
+
+    // public function Orders()
+    // {
+    //     return $this->belongsTo(Orders::class);
+    // }
 }

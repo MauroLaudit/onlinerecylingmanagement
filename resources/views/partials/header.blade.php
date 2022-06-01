@@ -107,7 +107,7 @@
                         </a>
                     </li>
                     <li class="nav-item orm-tooltip" data-text="Transaction">
-                        <a href="{{ url('transaction') }}" class="nav-link py-3 {{Request::is('transaction') ? 'active':'' }}" title="" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Orders">
+                        <a href="{{ route('client_transactions.index') }}" class="nav-link py-3 {{Request::is('transaction') ? 'active':'' }}" title="" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Orders">
                             <em class="fa fa-shopping-cart fs-3"></em>
                         </a>
                     </li>

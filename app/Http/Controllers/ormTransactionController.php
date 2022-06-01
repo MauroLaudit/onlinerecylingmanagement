@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use RealRashid\SweetAlert\Facades\Alert;
 use Illuminate\Support\Facades\Response;
+use DataTables;
 
 
 class ormTransactionController extends Controller
@@ -21,10 +22,10 @@ class ormTransactionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $transactions = Company::all();
-        return view('ormTransaction')->with('transactions', $transactions);
+        return view('ormTransaction', compact('transactions'));
     }
 
     /**
@@ -110,15 +111,26 @@ class ormTransactionController extends Controller
         return response()->json($stockItems);
     }
 
+    public function fetchOrderList($transaction_id){
+        $sec = Orders::select('transaction_id')->where('id', '=', $transaction_id)->get();
+        $emp = Orders::whereIn('transaction_id', $sec)->get();
+        return response()->json($emp);
+    }
+
     /**
      * Display the specified resource.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($transaction_id)
     {
-        //
+        $sec = Company::select('transaction_id')->where('id', '=', $transaction_id)->get();
+        $emp = Orders::whereIn('transaction_id', $sec)->get();
+        return response()->json($emp);
+        //return view('transaction_views.view_transacts', compact('emp'));
+        //return dd($emp);
+
     }
 
     /**

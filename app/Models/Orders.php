@@ -24,4 +24,5 @@ class Orders extends Model
         'created_at',
         'deleted_at',
     ];
+
 }
