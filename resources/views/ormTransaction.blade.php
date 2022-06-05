@@ -55,7 +55,7 @@
                                 <td data-label="Contact_No">{{ $transactionslist->contact_no }}</td>
                                 <td class="d-flex">
                                     <div type="button" class="btn-inner">
-                                        <a data-toggle="modal" type="button" data-id="{{$transactionslist->id}}" class="text-nav btn-view d-flex align-items-center justify-content-center btn_viewOrders">
+                                        <a data-bs-toggle="modal" type="button" data-id="{{$transactionslist->transaction_id}}" data-bs-target="#ormViewOrders" class="text-nav btn-view d-flex align-items-center justify-content-center btn_viewOrders">
                                             <em class="fa fa-eye" aria-hidden="true"></em>View Orders
                                         </a>
                                         @include('transaction_views.view_transacts')
@@ -285,36 +285,39 @@
     </script> -->
 
     <script>
-        $(document).ready(function () {
-            $('.btn_viewOrders').on('click', function () {
+        $('#ormViewOrders').on('show.bs.modal', function(event) {
+            var button = $(event.relatedTarget)
+            var id = button.data('id')
+            var loop = 0;
 
-                var transac_id = $(this).data('id');
-                console.log(transac_id);
+            var modal = $(this)
+            /* modal.find('.modal-title').text('View Resident Profile'); */
+            modal.find('.modal-body #transactID').val(id);
 
-                $.ajaxSetup({
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    }
-                });
-
-                $.ajax({
-                        url: '/client_transactions/' + transac_id,
-                        type: 'GET',
-                        dataType: 'html',
-                        success: function (data) {
-                           
-                        },
-                    })
-                    .then(data => {
-                        $('.orders').html(data);
-                        $('#ormViewOrders').modal("show");
-                    })
-                    .catch(error => {
-                        var xhr = $.ajax();
-                        console.log(xhr);
-                        console.log(error);
-                    })
+            $.ajax({
+                url: '{{ route('getOrders') }}',
+                type: 'GET',
+                data:{transaction_id:id},
+                success: function(response){ // What to do if we succeed
+                    $.each(response, function(index, item) {
+                        index+=1;
+                        $('#orderList').append("<tr>\
+										<td>"+index+"</td>\
+										<td>"+item.recyclable+"</td>\
+										<td>"+item.quantity+"</td>\
+                                        <td>"+item.total_price+"</td>\
+										</tr>");
+                    });
+                    
+                }
+                /* error: function(XMLHttpRequest, textStatus, errorThrown) {
+                    alert("some error");
+                } */
             });
+        })
+
+        $(document).on('hidden.bs.modal', function(){
+            $("#viewOrders").find("tr:gt(0)").remove();
         });
     </script>
     

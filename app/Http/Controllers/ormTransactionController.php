@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Validator;
 use RealRashid\SweetAlert\Facades\Alert;
 use Illuminate\Support\Facades\Response;
 use DataTables;
+use DB;
 
 
 class ormTransactionController extends Controller
@@ -111,10 +112,14 @@ class ormTransactionController extends Controller
         return response()->json($stockItems);
     }
 
-    public function fetchOrderList($transaction_id){
-        $sec = Orders::select('transaction_id')->where('id', '=', $transaction_id)->get();
-        $emp = Orders::whereIn('transaction_id', $sec)->get();
-        return response()->json($emp);
+    public function fetchOrderList(Request $request){
+        $transaction_id = $request->all();
+        $orderList = DB::table('company_orders')
+            ->join('inventory', 'company_orders.stock_id', '=', 'inventory.stock_id')
+            ->select('company_orders.*', 'inventory.recyclable')
+            ->where('transaction_id', $transaction_id)->get();
+        /* $sec = Orders::select('transaction_id')->where('id', '=', $transaction_id)->get(); */
+        return response()->json($orderList);
     }
 
     /**

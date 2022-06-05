@@ -32,7 +32,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-12 pb-5">
-                    <table id="inventoryTable" class="table table-striped table-hover table-bordered pt-3">
+                    <table id="inventoryTable" class="table table-striped table-bordered pt-3">
                     <thead>
                         <tr>
                             <th scope="col">ID</th>

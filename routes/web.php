@@ -42,7 +42,7 @@ Route::group([ 'middleware' => ['auth']], function () {
     Route::get('/transaction', [ormTransactionController::class, 'index'])->name('transaction'); //show Transaction Page
     Route::get('stocks', [ormTransactionController::class, 'getStocks'])->name('stockItems');
     Route::get('fetchStocks', [ormTransactionController::class, 'fetchStocksInfo'])->name('fetchItems');
-    Route::get('orderList', [ormTransactionController::class, 'show'])->name('getOrders');
+    Route::get('orderList', [ormTransactionController::class, 'fetchOrderList'])->name('getOrders');
 
 
     Route::get('forecasting', function () {

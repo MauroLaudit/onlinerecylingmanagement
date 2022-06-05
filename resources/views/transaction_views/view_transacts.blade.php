@@ -9,19 +9,17 @@
                     <div class="company-order">
                         <h4>Orders</h4>
                         <div class="order">
-                        <input type="text" id="transaction_id" name="transaction_id" class="form-input transac_id" readonly>
+                        <input type="text" id="transactID" name="transactID" class="form-input transac_id" readonly>
                             <table id="viewOrders" class="table table-striped table-bordered">
                                 <thead>
                                     <tr>
                                         <th scope="col">id</th>
-                                        <th scope="col">transaction_id</th>
-                                        <th scope="col">stock_id</th>
-                                        <th scope="col">quantity</th>
-                                        <th scope="col">total_price</th>
+                                        <th scope="col">Commodity</th>
+                                        <th scope="col">Quantity</th>
+                                        <th scope="col">Total Price</th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    <td class="orders"></td>
+                                <tbody id="orderList">
                                 </tbody>
                             </table>
                         </div>
