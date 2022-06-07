@@ -36,11 +36,11 @@
                     <thead>
                         <tr>
                             <th scope="col">ID</th>
-                            <th scope="col">Stock ID</th>
-                            <th scope="col">Commodity</th>
+                            <th scope="col">Category</th>
+                            <th scope="col">Recyclable</th>
                             <th scope="col">Amount</th>
                             <th scope="col">Price</th>
-                            <th scope="col">Actions</th>
+                            <!-- <th scope="col">Actions</th> -->
                         </tr>
                     </thead>
                     <tbody>
@@ -48,32 +48,17 @@
                         @foreach($inventory as $inventoryList)
                         <tr>
                             <th data-label="ID" scope="row">{{ $inventoryList->id }}</th>
-                            <td data-label="Category_ID">{{ $inventoryList->stock_id }}</td>
+                            <td data-label="Category_ID">{{ $inventoryList->category }}</td>
                             <td data-label="Recyclables">{{ $inventoryList->recyclable }}</td>
-                            <td data-label="Amount">{{ $inventoryList->amount }} kg</td>
-                            <td data-label="Price">Php {{ $inventoryList->price }}</td>
-                            <td class="d-flex">
-                                <div type="button" class="btn-inner">
-                                    <!-- <a href="#" class="text-nav btn-update d-flex align-items-center justify-content-center"><em class="fa fa-pencil" aria-hidden="true"></em>Edit</a> -->
-                                    {{-----***************************** EDIT BUTTON *******************************------}}
-                                    <a data-bs-toggle="modal" type="button"
-                                    data-id="{{$inventoryList->id}}" data-category_id="{{ $inventoryList->stock_id }}" data-recyclables="{{ $inventoryList->recyclable }}"
-                                    data-amount="{{$inventoryList->amount}}" data-price="{{$inventoryList->price}}" 
-                                    data-bs-target="#ormUpdateStock" class="text-nav btn-update d-flex align-items-center justify-content-center">
-                                        <em class="fa fa-pencil" aria-hidden="true"></em>Edit
-                                    </a>
-                                    @include('inventory_views.update_inventory')
-                                </div>
-                                <div type="button" class="btn-inner">
-                                    {{-----***************************** DELETE BUTTON *******************************------}}
-                                    <a href="#" type="button" 
-                                    data-bs-toggle="modal" data-id="{{$inventoryList->id}}"
-                                    data-bs-target="#ormDeleteStock"
-                                    class="text-nav btn-delete d-flex align-items-center justify-content-center">
-                                    <em class="fa fa-trash" aria-hidden="true"></em>Delete</a>
-                                    @include('inventory_views.delete_inventory')
-                                </div>
+                            <td data-label="Amount">
+                                @if($inventoryList->category == "Glass")
+                                    {{ $inventoryList->amount }} pc
+                                @else
+                                    {{ $inventoryList->amount }} kg
+                                @endif
                             </td>
+                            <td data-label="Price">Php {{ $inventoryList->price }}</td>
+                            
                         </tr>
                         @endforeach
                         @endif
@@ -90,58 +75,93 @@
             $('#rec_item').on('change', function(){
                 if($(this).val() == 'White Paper') {
                     $( "span" ).attr( "data-text", "Used bond paper" );
+                    $('#stock_category').val("Paper");
                     item_type = "Paper";
                 }
                 else if($(this).val() == 'Cartons') {
                     $( "span" ).attr( "data-text", "Appliance boxes, Packaging boxes" );
+                    $('#stock_category').val("Paper");
+                    $('#stock_category').val("Paper");
                     item_type = "Paper";
                 }
                 else if($(this).val() == 'Newspaper') {
                     $( "span" ).attr( "data-text", "Newspapers" );
+                    $('#stock_category').val("Paper");
                     item_type = "Paper";
                 }
                 else if($(this).val() == 'Assorted or Mixed Waste Papers') {
                     $( "span" ).attr( "data-text", "Colored papers, papers with heavy prints & others not falling into the previous 3 categories" );
+                    $('#stock_category').val("Paper");
                     item_type = "Paper";
                 }
                 else if($(this).val() == 'PET Bottle') {
                     $( "span" ).attr( "data-text", "Mineral water bottle, clear softdrinks bottle" );
-                    item_type = "Plastic";
-                }
-                else if($(this).val() == 'Aluminum Cans') {
-                    $( "span" ).attr( "data-text", "Softdrink cans" );
+                    $('#stock_category').val("Plastic");
                     item_type = "Plastic";
                 }
                 else if($(this).val() == 'Plastic HDPE') {
                     $( "span" ).attr( "data-text", "Food bottles used for vinegar, soy sauce, ketchup, etc." );
+                    $('#stock_category').val("Plastic");
                     item_type = "Plastic";
                 }
                 else if($(this).val() == 'Plastic LDPE') {
                     $( "span" ).attr( "data-text", "Ice Cream & Margarine Lids" );
+                    $('#stock_category').val("Plastic");
                     item_type = "Plastic";
                 }
-                else if($(this).val() == 'Engineering Plastic ') {
-                    $( "span" ).attr( "data-text", "Computer & printer casing " );
-                    item_type = "Plastic";
-                }
-                else if($(this).val() == 'Copper Wire') {
+                else if($(this).val() == 'Copper Wire A (red color)') {
                     $( "span" ).attr( "data-text", "Heavy duty wires used in aircons" );
+                    $('#stock_category').val("Metal");
+                    item_type = "Metal";
+                }
+                else if($(this).val() == 'Copper Wire B (reddish yellow)') {
+                    $( "span" ).attr( "data-text", "Ordinary wire used in extension cords" );
+                    $('#stock_category').val("Metal");
+                    item_type = "Metal";
+                }
+                else if($(this).val() == 'Copper Wire C (Thin yellow strands)') {
+                    $( "span" ).attr( "data-text", "Wire used in Christmas lights" );
+                    $('#stock_category').val("Metal");
                     item_type = "Metal";
                 }
                 else if($(this).val() == 'Steel') {
                     $( "span" ).attr( "data-text", "Steel tubes used for plumbing" );
+                    $('#stock_category').val("Metal");
                     item_type = "Metal";
                 }
-                else if($(this).val() == 'Tin Can') {
+                else if($(this).val() == 'Tin Cans') {
                     $( "span" ).attr( "data-text", "Sardine can, corned beef can, etc" );
+                    $('#stock_category').val("Metal");
                     item_type = "Metal";
                 }
-                else if($(this).val() == 'Liquor Bottle') {
-                    $( "span" ).attr( "data-text", "Emperador long neck, Emperador lapad, Ginebra gin, Ketchup, Softdrinks bottle" );
+                else if($(this).val() == 'Aluminum Cans') {
+                    $( "span" ).attr( "data-text", "Softdrink cans" );
+                    $('#stock_category').val("Metal");
+                    item_type = "Metal";
+                }
+                else if($(this).val() == 'Emperador (Long Neck)') {
+                    $( "span" ).attr( "data-text", "Liquor Bottles" );
+                    $('#stock_category').val("Glass");
                     item_type = "Glass";
                 }
-                else if($(this).val() == 'Glass Cullets') {
-                    $( "span" ).attr( "data-text", "Broken glass bottles, colorless" );
+                else if($(this).val() == 'Emperador (Lapad)') {
+                    $( "span" ).attr( "data-text", "Liquor Bottles" );
+                    $('#stock_category').val("Glass");
+                    item_type = "Glass";
+                }
+                else if($(this).val() == 'Gin') {
+                    $( "span" ).attr( "data-text", "Liquor Bottles" );
+                    $('#stock_category').val("Glass");
+                    item_type = "Glass";
+                }
+                else if($(this).val() == 'Ketchup') {
+                    $( "span" ).attr( "data-text", "Bottles" );
+                    $('#stock_category').val("Glass");
+                    item_type = "Glass";
+                }
+                else if($(this).val() == 'Softdrinks Bottle') {
+                    $( "span" ).attr( "data-text", "Bottles" );
+                    $('#stock_category').val("Glass");
                     item_type = "Glass";
                 }
                 else{
@@ -153,19 +173,24 @@
 
                 var d = new Date();
                 var strDate = (d.getMonth()+1) + "" + d.getDate() + "" + d.getFullYear();
+                var getCurrentDate = d.getFullYear() + "/" + (d.getMonth()+1) + "/" + d.getDate();
 
                 var sc_type = "";
 
                 if(item_type=="Paper"){
+                    $( '#price' ).attr( "placeholder", "per kilo" );
                     sc_type="PPR";
                 }
                 else if(item_type=="Plastic"){
+                    $( '#price' ).attr( "placeholder", "per kilo" );
                     sc_type="PSC";
                 }
                 else if(item_type=="Metal"){
+                    $( '#price' ).attr( "placeholder", "per kilo" );
                     sc_type="MTL";
                 }
                 else if(item_type=="Glass"){
+                    $( '#price' ).attr( "placeholder", "per piece" );
                     sc_type="GLS";
                 }
                 /* else{
@@ -177,6 +202,7 @@
 
                 $('form #rcID').val(stockID);
                 /* alert($('#rcID').val()); */
+                $('form #stockDate').val(getCurrentDate);
             })
             
         });
@@ -192,7 +218,6 @@
             $('#ormAddStock form')[0].reset();
         });
     </script>
-
     <!-- Update_Inventory -->
     <script>    
         $('#ormUpdateStock').on('show.bs.modal', function(event) {

@@ -13,8 +13,15 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('transaction', function (Blueprint $table) {
-            //
+        Schema::create('stock_inventory', function (Blueprint $table) {
+            $table->id();
+            $table->string('category');
+            $table->string('recyclable');
+            $table->string('amount');
+            $table->string('price');
+
+            $table->timestamps();
+            $table->timestamp('deleted_at')->nullable();
         });
     }
 
@@ -25,8 +32,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('transaction', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('stock_inventory');
     }
 };

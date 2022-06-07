@@ -13,8 +13,10 @@
                     <form action="recyclable" method="post" id="recInventory" class="company-info d-flex row justify-content-between">
                         @csrf
                         <div class="inner-form mb-3">
-                            <label for="fname">Stock ID:</label>
-                            <input type="text" id="rcID" name="rc_id" class="form-input transac_id" placeholder="0000" required readonly>
+                            <label for="stock_category">Category:</label>
+                            <input type="text" id="stock_category" name="stock_category" class="form-input" placeholder="" required readonly>
+                            <input type="text" id="rcID" name="rc_id" class="form-input transac_id" placeholder="0000" required readonly hidden>
+                            <input type="text" id="stockDate" name="stockDate" class="form-input" required readonly>
                         </div>
                         <div class="inner-form mb-3">
                             <div class="item-selection d-flex align-items-center">
@@ -28,20 +30,24 @@
                                 <option value="Newspaper">Newspaper</option>
                                 <option value="Assorted or Mixed Waste Papers">Assorted or Mixed Waste Papers</option>
                                 <option value="PET Bottle">PET Bottle</option>
-                                <option value="Aluminum Cans">Aluminum Cans</option>
                                 <option value="Plastic HDPE">Plastic HDPE</option>
                                 <option value="Plastic LDPE">Plastic LDPE</option>
-                                <option value="Engineering Plastics">Engineering Plastics</option>
-                                <option value="Copper Wire">Copper Wire</option>
+                                <option value="Copper Wire A (red color)">Copper Wire A (red color)</option>
+                                <option value="Copper Wire B (reddish yellow)">Copper Wire B (reddish yellow)</option>
+                                <option value="Copper Wire C (Thin yellow strands)">Copper Wire C (Thin yellow strands)</option>
                                 <option value="Steel">Steel</option>
-                                <option value="Tin Can">Tin Can</option>
-                                <option value="Liquor Bottle">Liquor Bottle</option>
-                                <option value="Glass Cullets">Glass Cullets (Bubog)</option>
+                                <option value="Tin Cans">Tin Cans</option>
+                                <option value="Aluminum Cans">Aluminum Cans</option>
+                                <option value="Emperador (Long Neck)">Emperador (Long Neck)</option>
+                                <option value="Emperador (Lapad)">Emperador (Lapad)</option>
+                                <option value="Gin">Gin</option>
+                                <option value="Ketchup">Ketchup</option>
+                                <option value="Softdrinks Bottle">Softdrinks Bottle</option>
                             </select>
                         </div>
                         <div class="inner-form mb-3">
-                            <label for="amount">Amount (Weight):</label>
-                            <input type="number" id="amount" name="amount" class="form-input " placeholder="per kilo" autocomplete="off" required>
+                            <label for="amount">Amount:</label>
+                            <input type="number" id="amount" name="amount" class="form-input " placeholder="" autocomplete="off" required>
                         </div>
                         <div class="inner-form mb-3">
                             <label for="price">Price:</label>

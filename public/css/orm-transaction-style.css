@@ -23,7 +23,7 @@
 } */
 
 .modal .company-info {
-    width: 80%;
+    width: 90%;
 }
 
 .modal .company-info button {
@@ -81,4 +81,20 @@
 
 .transact-section .btn-view em {
     color: #1268cd;
+}
+
+/* Modal View Orders */
+#ormViewOrders label {
+    width: 200px;
+}
+
+#ormViewOrders input.view-input {
+    border: none;
+    font-weight: 600;
+    width: 80% !important;
+    border-bottom: 1px solid #000000;
+}
+
+#ormViewOrders input.view-input:focus {
+    outline: none;
 }

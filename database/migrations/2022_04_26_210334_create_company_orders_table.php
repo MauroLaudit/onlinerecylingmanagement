@@ -20,7 +20,6 @@ return new class extends Migration
             $table->string('quantity');
             $table->string('total_price');
             
-            $table->rememberToken();
             $table->timestamps();
             $table->timestamp('deleted_at')->nullable();
         });

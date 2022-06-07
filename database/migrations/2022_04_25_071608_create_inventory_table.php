@@ -22,8 +22,8 @@ return new class extends Migration
             $table->string('recyclable');
             $table->string('amount');
             $table->string('price');
+            $table->date('monthly_stock');
             
-            $table->rememberToken();
             $table->timestamps();
             $table->timestamp('deleted_at')->nullable();
         });

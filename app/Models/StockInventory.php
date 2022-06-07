@@ -5,18 +5,16 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Inventory extends Model
+class StockInventory extends Model
 {
     use HasFactory;
-
-    public $table = 'inventory';
+    public $table = 'stock_inventory';
 
     protected $fillable = [
-        'stock_id',
+        'category',
         'recyclable',
         'amount',
         'price',
-        'monthly_stock',
     ];
 
     protected $dates = [

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Inventory;
+use App\Models\StockInventory;
 use App\Models\Company;
 use App\Models\Orders;
 use App\Providers\RouteServiceProvider;
@@ -64,6 +65,15 @@ class ormTransactionController extends Controller
             $tot_price = $request['tot_price'];
             $loop = 0;
             foreach($request['commodity'] as $orders => $items){                
+                
+                $getRecylableAmount = StockInventory::where('id', '=', $commodity[$loop])->pluck('amount');
+
+                $totalAmount = $getRecylableAmount[0] - $quantity[$loop];
+                $stock = array(
+                    'amount' => $totalAmount,
+                ); 
+                StockInventory::findOrFail($commodity[$loop])->update($stock);
+
                 $orderItems = new Orders;
                 $orderItems['transaction_id'] = $id;
                 $orderItems['stock_id'] = $commodity[$loop];
@@ -83,12 +93,12 @@ class ormTransactionController extends Controller
 
         if (!empty($input['query'])) {
 
-            $data = Inventory::select(["id", "stock_id", "recyclable", "amount", "price"])
+            $data = StockInventory::select(["id", "category", "recyclable", "amount", "price"])
                 ->where("recyclable", "LIKE", "%{$input['query']}%")
                 ->get();
         } else {
 
-            $data = Inventory::select(["id", "stock_id", "recyclable", "amount", "price"])
+            $data = StockInventory::select(["id", "category", "recyclable", "amount", "price"])
                 ->get();
         }
 
@@ -98,7 +108,7 @@ class ormTransactionController extends Controller
 
             foreach ($data as $stocks) {
                 $recylables[] = array(
-                    "id" => $stocks->stock_id,
+                    "id" => $stocks->id,
                     "text" => $stocks->recyclable,
                 );
             }
@@ -108,15 +118,15 @@ class ormTransactionController extends Controller
 
     public function fetchStocksInfo(Request $request){
         $stock_id = $request->all();
-        $stockItems = Inventory::select('price', 'amount')->where('stock_id','=', $stock_id)->get();
+        $stockItems = StockInventory::select('price', 'amount')->where('id','=', $stock_id)->get();
         return response()->json($stockItems);
     }
 
     public function fetchOrderList(Request $request){
         $transaction_id = $request->all();
         $orderList = DB::table('company_orders')
-            ->join('inventory', 'company_orders.stock_id', '=', 'inventory.stock_id')
-            ->select('company_orders.*', 'inventory.recyclable')
+            ->join('stock_inventory', 'company_orders.stock_id', '=', 'stock_inventory.id')
+            ->select('company_orders.*', 'stock_inventory.recyclable')
             ->where('transaction_id', $transaction_id)->get();
         /* $sec = Orders::select('transaction_id')->where('id', '=', $transaction_id)->get(); */
         return response()->json($orderList);

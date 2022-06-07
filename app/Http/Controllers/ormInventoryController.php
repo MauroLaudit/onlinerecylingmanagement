@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Inventory;
+use App\Models\StockInventory;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Auth;
@@ -19,7 +20,7 @@ class ormInventoryController extends Controller
      */
     public function index()
     {
-        $inventory = Inventory::all();
+        $inventory = StockInventory::all();
         return view('ormInventory')->with('inventory', $inventory);
     }
 
@@ -43,6 +44,7 @@ class ormInventoryController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'rc_id' => 'required', 'string', 'unique:inventory',
+            'stockDate' => 'required',
             'rec_item' => 'required',
             'amount' => 'required', 'integer',
             'price' => 'required', 'decimal',
@@ -52,13 +54,57 @@ class ormInventoryController extends Controller
             return redirect()->back()->withErrors('Validation Error')->withInput();
         }
 
-        $inventory = Inventory::create([
-            'stock_id' => $request['rc_id'],
-            'recyclable' => $request['rec_item'],
-            'amount' => $request['amount'],
-            'price' => $request['price'],
-        ]); 
-        event(new Registered($inventory));
+        if (StockInventory::where('recyclable', '=', $request['rec_item'])->exists()) {
+            if (Inventory::where('recyclable', '=', $request['rec_item'])->exists() && Inventory::where('monthly_stock', '=', $request['stockDate'])->exists()) {
+                $getInventoryID = Inventory::where('recyclable', '=', $request['rec_item'])->pluck('id');
+                $getInventoryAmount = Inventory::where('recyclable', '=', $request['rec_item'])->pluck('amount');
+
+                $totalInventoryAmount = $getInventoryAmount[0] + $request['amount'];
+                $inventory = array(
+                    'amount' => $totalInventoryAmount,
+                ); 
+                Inventory::findOrFail($getInventoryID[0])->update($inventory);
+            }
+            else{
+                $inventory = Inventory::create([
+                    'stock_id' => $request['rc_id'],
+                    'monthly_stock' => $request['stockDate'],
+                    'recyclable' => $request['rec_item'],
+                    'amount' => $request['amount'],
+                    'price' => $request['price'],
+                ]); 
+                event(new Registered($inventory));
+            }
+
+            $getRecylableID = StockInventory::where('recyclable', '=', $request['rec_item'])->pluck('id');
+            $getRecylableAmount = StockInventory::where('recyclable', '=', $request['rec_item'])->pluck('amount');
+
+            $totalAmount = $getRecylableAmount[0] + $request['amount'];
+            $stocks = array(
+                'amount' => $totalAmount,
+                'price' => $request['price'],
+            ); 
+            StockInventory::findOrFail($getRecylableID[0])->update($stocks);
+            
+        }
+        else{
+            $inventory = Inventory::create([
+                'stock_id' => $request['rc_id'],
+                'monthly_stock' => $request['stockDate'],
+                'recyclable' => $request['rec_item'],
+                'amount' => $request['amount'],
+                'price' => $request['price'],
+            ]); 
+            event(new Registered($inventory));
+
+            $stocks = StockInventory::create([
+                'category' => $request['stock_category'],
+                'recyclable' => $request['rec_item'],
+                'amount' => $request['amount'],
+                'price' => $request['price'],
+            ]); 
+            event(new Registered($stocks));
+        }
 
         return redirect()->intended(route('inventory'))->with('success', 'Added Successfully!');
     }

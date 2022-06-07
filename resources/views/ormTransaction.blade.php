@@ -55,7 +55,7 @@
                                 <td data-label="Contact_No">{{ $transactionslist->contact_no }}</td>
                                 <td class="d-flex">
                                     <div type="button" class="btn-inner">
-                                        <a data-bs-toggle="modal" type="button" data-id="{{$transactionslist->transaction_id}}" data-bs-target="#ormViewOrders" class="text-nav btn-view d-flex align-items-center justify-content-center btn_viewOrders">
+                                        <a data-bs-toggle="modal" type="button" data-id="{{$transactionslist->transaction_id}}" data-company_name="{{ $transactionslist->company_name }}" data-client_name="{{ $transactionslist->client_name }}" data-address="{{ $transactionslist->address }}" data-contact_no="{{ $transactionslist->contact_no }}" data-bs-target="#ormViewOrders" class="text-nav btn-view d-flex align-items-center justify-content-center btn_viewOrders">
                                             <em class="fa fa-eye" aria-hidden="true"></em>View Orders
                                         </a>
                                         @include('transaction_views.view_transacts')
@@ -288,11 +288,18 @@
         $('#ormViewOrders').on('show.bs.modal', function(event) {
             var button = $(event.relatedTarget)
             var id = button.data('id')
-            var loop = 0;
+            var company_name = button.data('company_name')
+            var client_name = button.data('client_name')
+            var address = button.data('address')
+            var contact = button.data('contact_no')
 
             var modal = $(this)
             /* modal.find('.modal-title').text('View Resident Profile'); */
             modal.find('.modal-body #transactID').val(id);
+            modal.find('.modal-body #view_companyName').val(company_name);
+            modal.find('.modal-body #view_clientName').val(client_name);
+            modal.find('.modal-body #view_address').val(address);
+            modal.find('.modal-body #view_contact').val(contact);
 
             $.ajax({
                 url: '{{ route('getOrders') }}',

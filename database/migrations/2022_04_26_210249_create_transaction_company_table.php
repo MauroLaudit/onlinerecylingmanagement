@@ -21,7 +21,6 @@ return new class extends Migration
             $table->string('address');
             $table->string('contact_no');
             
-            $table->rememberToken();
             $table->timestamps();
             $table->timestamp('deleted_at')->nullable();
         });
