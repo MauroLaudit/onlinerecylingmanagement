@@ -45,6 +45,7 @@ class ormInventoryController extends Controller
         $validator = Validator::make($request->all(), [
             'rc_id' => 'required', 'string', 'unique:inventory',
             'stockDate' => 'required',
+            'stock_category' => 'required',
             'rec_item' => 'required',
             'amount' => 'required', 'integer',
             'price' => 'required', 'decimal',

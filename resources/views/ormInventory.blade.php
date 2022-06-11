@@ -8,7 +8,7 @@
 @endpush
 
 @section('content')
-    <section class="head-title">
+    <section class="head-title sticky-top">
         <div class="container">
             <div class="row d-flex justify-content-center">
                 <div class="col-md-8">

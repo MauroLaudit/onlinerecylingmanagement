@@ -6,6 +6,7 @@ use App\Http\Controllers\ormUserController;
 use App\Http\Controllers\ormProfileController;
 use App\Http\Controllers\ormInventoryController;
 use App\Http\Controllers\ormTransactionController;
+use App\Http\Controllers\ormForecastingController;
 use All\Models\User;
 /*
 |--------------------------------------------------------------------------
@@ -45,7 +46,5 @@ Route::group([ 'middleware' => ['auth']], function () {
     Route::get('orderList', [ormTransactionController::class, 'fetchOrderList'])->name('getOrders');
 
 
-    Route::get('forecasting', function () {
-        return view('ormForecasting');
-    });
+    Route::get('forecasting', [ormForecastingController::class, 'index'])->name('forecasting');
 });

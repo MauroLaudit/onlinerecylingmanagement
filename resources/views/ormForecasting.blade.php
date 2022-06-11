@@ -1,11 +1,40 @@
 @extends('layouts.ormApp')
 
-
 @push('styles')
     <!-- Style External File -->
     <link href="{{ asset('css/orm-inventory-style.css') }}" rel="stylesheet">
+@endpush
 
-    <!-- <script>
+@section('content')
+    <section class="head-title">
+        <div class="container">
+            <div class="row d-flex justify-content-center">
+                <div class="col-md-12">
+                    <div class="title">
+                        <h1>Data Charts and Records</h1>
+                    </div>
+                </div>
+
+                <!-- <div class="col-md-4 d-flex justify-content-end align-items-center">
+                    <div type="button" id="btn_addStock" class="btn-nav d-flex align-items-center justify-content-center" data-bs-toggle="modal" data-bs-target="#ormAddStock">
+                        <em class="fa fa-cart-plus" aria-hidden="true"></em> Add Stock
+                    </div>
+                </div> -->
+            </div>
+        </div>
+    </section>
+
+    <section class="forecast-data">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <canvas id="lineChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
         //line
         var ctxL = document.getElementById("lineChart").getContext('2d');
         var myLineChart = new Chart(ctxL, {
@@ -40,37 +69,5 @@
             responsive: true
         }
         });
-    </script> -->
-@endpush
-
-@section('content')
-    <section class="head-title">
-        <div class="container">
-            <div class="row d-flex justify-content-center">
-                <div class="col-md-12">
-                    <div class="title">
-                        <h1>Data Charts and Records</h1>
-                    </div>
-                </div>
-
-                <!-- <div class="col-md-4 d-flex justify-content-end align-items-center">
-                    <div type="button" id="btn_addStock" class="btn-nav d-flex align-items-center justify-content-center" data-bs-toggle="modal" data-bs-target="#ormAddStock">
-                        <em class="fa fa-cart-plus" aria-hidden="true"></em> Add Stock
-                    </div>
-                </div> -->
-            </div>
-        </div>
-    </section>
-
-    <section class="forecast-data">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12">
-                    <canvas id="lineChart"></canvas>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    
+    </script>
 @endsection

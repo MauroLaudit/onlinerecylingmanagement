@@ -60,7 +60,9 @@
 
 <script>
     $(document).ready(function(){
-        $('#inventoryTable').DataTable({})
+        $('#inventoryTable').DataTable({
+            "pageLength": 50,
+        })
     });
 
     $(document).ready( function () {
@@ -71,6 +73,7 @@
                     'orderable': false, // set orderable false for selected columns
                 }
             ],
+            "pageLength": 50,
         });
     });
 </script>
