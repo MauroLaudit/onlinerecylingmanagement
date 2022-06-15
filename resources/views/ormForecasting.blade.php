@@ -2,7 +2,7 @@
 
 @push('styles')
     <!-- Style External File -->
-    <link href="{{ asset('css/orm-inventory-style.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/orm-forecasting-style.css') }}" rel="stylesheet">
     <!-- <script src="https://cdn.jsdelivr.net/npm/chart.js@3.8.0/dist/chart.min.js"></script> -->
     <script src="https://cdn.jsdelivr.net/npm/echarts@5.3.2/dist/echarts.min.js"></script>
     
@@ -33,10 +33,13 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-6">
-                    <a href="" class="btn_forecast">
+                    <a href="" class="btn_forecast" data-bs-toggle="modal" data-bs-target="#ormAddForecast">
                         New Forecast
                     </a>
+
+                    @include('forecasting_views.add_forecast')
                 </div>
+                
                 <div class="col-md-6 d-flex justify-content-end">
                     <select name="category" id="category">
                         <option value="Paper" selected>Paper</option>
@@ -94,6 +97,8 @@
         }
     });
 </script> -->
+
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script type="text/javascript">
         
         $(document).ready(function(){
@@ -137,8 +142,8 @@
                     type: 'GET',
                     data:{input_category:$('.forecast-data').find('#category :selected').val()},
                     success: function(response){ // What to do if we succeed
-                        console.log(response);
-                        console.log($('#category').val());
+                        // console.log(response);
+                        // console.log($('#category').val());
                         var months = [];
                         var supply = [];
                         $.each(response, function(index, item) {
@@ -206,6 +211,81 @@
                             
                         });
                     }
+                });
+            }
+        })
+    </script>
+
+    <!-- Fetch Data to Forecast Specific Data -->
+    <script>
+        $(document).ready(function(){
+            
+            $('#modal_category').change(function(){
+                fetchYearForecast();
+            })
+            $('.yearList').change(function(){
+                fetchMonthSupply();
+            })
+
+            fetchTotalSupply();
+            function fetchYearForecast(){
+                $(".yearList").select2({
+                    selectOnClose: true,
+                    dropdownParent: $('#ormAddForecast'),
+                    placeholder: "-- Choose Item --",
+                    ajax: {
+                        url: "{{ route('yearRecords') }}",
+                        type: "get",
+                        delay: 250,
+                        dataType: 'json',
+                        data: {category:$('#ormAddForecast').find('#modal_category :selected').val()},
+                        processResults: function(response) {
+                            return {
+                                results: response
+                            };
+                        },
+                        cache: true
+                    },
+                });
+            }
+
+            function fetchMonthSupply(){
+                var parentTR = $('.monthList').closest('tr');
+                $(".monthList").select2({
+                    selectOnClose: true,
+                    dropdownParent: $('#ormAddForecast'),
+                    placeholder: "-- Choose Item --",
+                    ajax: {
+                        url: "{{ route('monthRecords') }}",
+                        type: "get",
+                        delay: 250,
+                        dataType: 'json',
+                        data: {year:parentTR.find('.yearList :selected').val(), category:$('#ormAddForecast').find('#modal_category :selected').val()},
+                        processResults: function(response) {
+                            return {
+                                results: response
+                            };
+                        },
+                        cache: true
+                    },
+                });
+            }
+
+            function fetchTotalSupply(){
+                $('.monthList').on('change', function(){
+                    var selected = $(this).find(':selected').val();  
+                    var parentTR = $(this).closest('tr');
+
+                    $.ajax({
+                        url: "{{ route('monthTotalSupply') }}",
+                        type: "get",
+                        dataType: 'json',
+                        data:{month:parentTR.find('.monthList :selected').val(), year:parentTR.find('.yearList :selected').val(), category:$('#ormAddForecast').find('#modal_category :selected').val()},
+                        success: function(response){ // What to do if we succeed
+                            console.log(response[0].totSupply);
+                            parentTR.find('.totalSupply').val(response[0].totSupply);
+                        }
+                    });
                 });
             }
         })

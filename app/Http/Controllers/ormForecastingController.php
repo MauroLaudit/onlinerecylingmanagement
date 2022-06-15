@@ -34,6 +34,177 @@ class ormForecastingController extends Controller
         return view('ormForecasting');
     }
 
+    public function yearsRecord(Request $request){
+        $input_category = $request->all();
+        
+        $category = $input_category;
+        if($input_category['category'] == "Paper"){
+            $category = 'PPR';
+        }else if($input_category['category'] == "Plastic"){
+            $category = 'PSC';
+        }else if($input_category['category'] == "Metal"){
+            $category = 'MTL';
+        }else if($input_category['category'] == "Glass"){
+            $category = 'GLS';
+        }else{
+            $category = "";
+        }
+        
+        $yearsList = [];
+
+        $dataSupplies = DB::table('inventory')
+            ->select(DB::raw('YEAR(created_at) as year'))
+            ->groupby('year')
+            ->where('stock_id', 'like', $category.'%')
+            ->get();
+        
+        if (count($dataSupplies) > 0) {
+
+            foreach ($dataSupplies as $supplyYear) {
+                $yearsList[] = array(
+                    "id" => $supplyYear->year,
+                    "text" => $supplyYear->year,
+                );
+            }
+        }
+        return response()->json($yearsList);
+    }
+
+    public function monthsRecord(Request $request){
+        $input_category = $request->all();
+        $category = $input_category;
+        if($input_category['category'] == "Paper"){
+            $category = 'PPR';
+        }else if($input_category['category'] == "Plastic"){
+            $category = 'PSC';
+        }else if($input_category['category'] == "Metal"){
+            $category = 'MTL';
+        }else if($input_category['category'] == "Glass"){
+            $category = 'GLS';
+        }else{
+            $category = "";
+        }
+        
+        $monthsList = [];
+
+        $dataSupplies = DB::table('inventory')
+            ->select(DB::raw('MONTH(created_at) as month'))
+            ->groupby('month')
+            ->whereYear('created_at','=',  $input_category['year'])
+            ->where('stock_id', 'like', $category.'%')
+            ->get();
+        
+        if (count($dataSupplies) > 0) {
+
+            foreach ($dataSupplies as $supplyMonth) {
+                $wordMonth = "";
+                if($supplyMonth->month == 1){
+                    $wordMonth = "Jan";
+                }else if($supplyMonth->month == 2){
+                    $wordMonth = "Feb";
+                }
+                else if($supplyMonth->month == 3){
+                    $wordMonth = "Mar";
+                }
+                else if($supplyMonth->month == 4){
+                    $wordMonth = "Apr";
+                }
+                else if($supplyMonth->month == 5){
+                    $wordMonth = "May";
+                }
+                else if($supplyMonth->month == 6){
+                    $wordMonth = "Jun";
+                }
+                else if($supplyMonth->month == 7){
+                    $wordMonth = "Jul";
+                }
+                else if($supplyMonth->month == 8){
+                    $wordMonth = "Aug";
+                }
+                else if($supplyMonth->month == 9){
+                    $wordMonth = "Sep";
+                }
+                else if($supplyMonth->month == 10){
+                    $wordMonth = "Oct";
+                }
+                else if($supplyMonth->month == 11){
+                    $wordMonth = "Nov";
+                }
+                else if($supplyMonth->month == 12){
+                    $wordMonth = "Dec";
+                }
+                $monthsList[] = array(
+                    "id" => $wordMonth,
+                    "text" => $wordMonth,
+                );
+            }
+        }
+        return response()->json($monthsList);
+    }
+
+    public function totalSupply(Request $request){
+        $input_category = $request->all();
+        $category = $input_category;
+        if($input_category['category'] == "Paper"){
+            $category = 'PPR';
+        }else if($input_category['category'] == "Plastic"){
+            $category = 'PSC';
+        }else if($input_category['category'] == "Metal"){
+            $category = 'MTL';
+        }else if($input_category['category'] == "Glass"){
+            $category = 'GLS';
+        }else{
+            $category = "";
+        }
+
+        /* Check If What Month In Number */
+        $numMonth = 0;
+        if($input_category['month'] == "Jan"){
+            $numMonth = 1;
+        }else if($input_category['month'] == "Feb"){
+            $numMonth = 2;
+        }
+        else if($input_category['month'] == "Mar"){
+            $numMonth = 3;
+        }
+        else if($input_category['month'] == "Apr"){
+            $numMonth = 4;
+        }
+        else if($input_category['month'] == "May"){
+            $numMonth = 5;
+        }
+        else if($input_category['month'] == "Jun"){
+            $numMonth = 6;
+        }
+        else if($input_category['month'] == "Jul"){
+            $numMonth = 7;
+        }
+        else if($input_category['month'] == "Aug"){
+            $numMonth = 8;
+        }
+        else if($input_category['month'] == "Sep"){
+            $numMonth = 9;
+        }
+        else if($input_category['month'] == "Oct"){
+            $numMonth = 10;
+        }
+        else if($input_category['month'] == "Nov"){
+            $numMonth = 11;
+        }
+        else if($input_category['month'] == "Dec"){
+            $numMonth = 12;
+        }
+        
+        $dataSupplies = DB::table('inventory')
+            ->select(DB::raw('SUM(amount) as totSupply'))
+            ->whereMonth('created_at','=',  $numMonth)
+            ->whereYear('created_at','=',  $input_category['year'])
+            ->where('stock_id', 'like', $category.'%')
+            ->get();
+        //dd( $dataSupplies);
+        return response()->json($dataSupplies);
+    }
+
     public function forecastSupply_data(Request $request){
         $input_category = $request->all();
         $category = $input_category;

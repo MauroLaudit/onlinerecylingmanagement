@@ -1,7 +1,7 @@
 <!-- Modal -->
-<div class="modal fade" id="ormAddStock" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="ormAddOrderModal" aria-hidden="true">
+<div class="modal fade" id="ormAddForecast" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="ormAddOrderModal" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered d-flex justify-content-center">
-        <div class="modal-content col-lg-auto">
+        <div class="modal-content col-lg-12">
             <div class="modal-body">
                 <!-- <hr>
                 <h4>Company Information</h4>
@@ -13,49 +13,56 @@
                     <form action="recyclable" method="post" id="recInventory" class="company-info d-flex row justify-content-between">
                         @csrf
                         <div class="inner-form mb-3">
-                            <label for="stock_category">Category:</label>
-                            <input type="text" id="stock_category" name="stock_category" class="form-input" placeholder="" required readonly>
-                            <input type="text" id="rcID" name="rc_id" class="form-input transac_id" placeholder="0000" required readonly hidden>
-                            <input type="text" id="stockDate" name="stockDate" class="form-input" required readonly>
-                        </div>
-                        <div class="inner-form mb-3">
-                            <div class="item-selection d-flex align-items-center">
-                                <label for="rec-item">Recyclable Commodity:</label>
-                                <span id="selected-item" class="option-viewer ps-2 m-0" data-text="Please Choose An Item"><em class="fa fa-question-circle-o" aria-hidden="true"></em></span>
-                            </div>
-                            <select class="select-form" id="rec_item" name="rec_item" required>
-                                <option selected>Choose Recyclable Item</option>
-                                <option value="White Paper">White Paper</option>
-                                <option value="Cartons">Cartons</option>
-                                <option value="Newspaper">Newspaper</option>
-                                <option value="Assorted or Mixed Waste Papers">Assorted or Mixed Waste Papers</option>
-                                <option value="PET Bottle">PET Bottle</option>
-                                <option value="Plastic HDPE">Plastic HDPE</option>
-                                <option value="Plastic LDPE">Plastic LDPE</option>
-                                <option value="Copper Wire A (red color)">Copper Wire A (red color)</option>
-                                <option value="Copper Wire B (reddish yellow)">Copper Wire B (reddish yellow)</option>
-                                <option value="Copper Wire C (Thin yellow strands)">Copper Wire C (Thin yellow strands)</option>
-                                <option value="Steel">Steel</option>
-                                <option value="Tin Cans">Tin Cans</option>
-                                <option value="Aluminum Cans">Aluminum Cans</option>
-                                <option value="Emperador (Long Neck)">Emperador (Long Neck)</option>
-                                <option value="Emperador (Lapad)">Emperador (Lapad)</option>
-                                <option value="Gin">Gin</option>
-                                <option value="Ketchup">Ketchup</option>
-                                <option value="Softdrinks Bottle">Softdrinks Bottle</option>
+                            <select class="select-form" id="modal_category" name="modal_category" required>
+                                <option selected>Choose Recyclable Category</option>
+                                <option value="Paper">Paper</option>
+                                <option value="Plastic">Plastic</option>
+                                <option value="Metal">Metal</option>
+                                <option value="Glass">Glass</option>
                             </select>
                         </div>
-                        <div class="inner-form mb-3">
-                            <label for="amount">Amount:</label>
-                            <input type="number" id="amount" name="amount" class="form-input " placeholder="" autocomplete="off" required>
-                        </div>
-                        <div class="inner-form mb-3">
-                            <label for="price">Price:</label>
-                            <input type="number" id="price" name="price" min="0.00" max="10000.00" step="0.01" class="form-input" placeholder="per kilo" autocomplete="off" required>
-                        </div>
-                        <div class="btn-nav d-flex justify-content-center">
-                            <button type="submit" class="btn btn-primary" id="btn-modalRecyclable">Add Record</button>
-                        </div>
+                        <table id="order_tbl" class="table table-striped table-bordered">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Year</th>
+                                    <th scope="col">Month</th>
+                                    <th scope="col">Total Supply</th>
+                                    <th scope="col">
+                                        <!-- <button type="button" class="btn btn-success btn-inner d-flex justify-content-center align-items-center" id="add_btn">
+                                            <em class="fa fa-plus" aria-hidden="true"></em>
+                                        </button> -->
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody id="table-order">
+                                <tr id="row_new_orders">
+                                    <td>
+                                        <select name="year" class="js-example-basic-single yearList" required>
+                                        <option></option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <select name="month" class="js-example-basic-single monthList" required>
+                                        <option></option>
+                                        </select>
+                                    </td>
+                                    <td><input type="number" name="totalSupply" class="form-input totalSupply" required readonly></td>
+                                    <td class="d-flex justify-content-center align-items-center">
+                                    <button type="button" class="btn btn-danger btn-inner d-flex justify-content-center align-items-center" id="remove_btn"><em class="fa fa-remove" aria-hidden="true"></em></button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td><input style="direction: rtl;" type="number" id="totOrder" name="totOrder" class="form-input" min="0.00" max="10000.00" step="0.01" placeholder="0"></td>
+                                    <td><button type="button" class="btn btn-success btn-inner d-flex justify-content-center align-items-center" id="add_btn">
+                                            <em class="fa fa-plus" aria-hidden="true"></em>
+                                        </button></td>
+                                </tr>
+                            </tfoot>
+                        </table>
                     </form>
                 </div>
             </div>

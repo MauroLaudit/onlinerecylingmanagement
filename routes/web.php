@@ -48,4 +48,7 @@ Route::group([ 'middleware' => ['auth']], function () {
 
     Route::get('forecasting', [ormForecastingController::class, 'index'])->name('forecasting');
     Route::get('supply_search', [ormForecastingController::class, 'forecastSupply_data'])->name('supply');
+    Route::get('fetch_year', [ormForecastingController::class, 'yearsRecord'])->name('yearRecords');
+    Route::get('fetch_month', [ormForecastingController::class, 'monthsRecord'])->name('monthRecords');
+    Route::get('fetch_totalSupply', [ormForecastingController::class, 'totalSupply'])->name('monthTotalSupply');
 });

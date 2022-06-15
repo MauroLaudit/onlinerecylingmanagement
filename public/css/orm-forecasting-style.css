@@ -1,0 +1,8 @@
+.modal .modal-content {
+    width: 800px;
+}
+
+.modal input,
+.modal select {
+    width: 180px;
+}
