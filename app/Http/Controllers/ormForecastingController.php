@@ -24,13 +24,6 @@ class ormForecastingController extends Controller
      */
     public function index()
     {
-        $paper_totSupply = DB::table('inventory')
-            ->select(DB::raw('SUM(amount) as totSupply'), DB::raw('YEAR(created_at) as year, MONTH(created_at) as month'))
-            ->groupby('year','month')
-            ->where('stock_id', 'like', 'PPR%')
-            ->get();
-
-        //dd($paper_totSupply);
         return view('ormForecasting');
     }
 

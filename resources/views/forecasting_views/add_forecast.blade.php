@@ -21,7 +21,7 @@
                                 <option value="Glass">Glass</option>
                             </select>
                         </div>
-                        <table id="order_tbl" class="table table-striped table-bordered">
+                        <table id="forecast_tbl" class="table table-striped table-bordered">
                             <thead>
                                 <tr>
                                     <th scope="col">Year</th>
@@ -34,8 +34,8 @@
                                     </th>
                                 </tr>
                             </thead>
-                            <tbody id="table-order">
-                                <tr id="row_new_orders">
+                            <tbody id="table-forecast">
+                                <tr id="row_new_forecast">
                                     <td>
                                         <select name="year" class="js-example-basic-single yearList" required>
                                         <option></option>
@@ -55,9 +55,14 @@
                             <tfoot>
                                 <tr>
                                     <td></td>
-                                    <td></td>
-                                    <td><input style="direction: rtl;" type="number" id="totOrder" name="totOrder" class="form-input" min="0.00" max="10000.00" step="0.01" placeholder="0"></td>
-                                    <td><button type="button" class="btn btn-success btn-inner d-flex justify-content-center align-items-center" id="add_btn">
+                                    <td class="d-flex justify-content-end fw-bold">Forecast AVG</td>
+                                    <td>
+                                        <input style="direction: rtl;" type="number" id="avgSupplies" name="avgSupplies" class="form-input" value="0" readonly>
+                                        <input style="direction: rtl;" type="number" id="totalSupplies" name="totalSupplies" class="form-input" value="0" >
+                                        <input style="direction: rtl;" type="number" id="divisor" name="divisor" class="form-input" value="1" >
+                                    </td>
+                                    <td class="d-flex justify-content-center align-items-center">
+                                        <button type="button" class="btn btn-success btn-inner d-flex justify-content-center align-items-center" id="add_btn">
                                             <em class="fa fa-plus" aria-hidden="true"></em>
                                         </button></td>
                                 </tr>

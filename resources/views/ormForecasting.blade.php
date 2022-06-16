@@ -33,7 +33,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-6">
-                    <a href="" class="btn_forecast" data-bs-toggle="modal" data-bs-target="#ormAddForecast">
+                    <a href="" id="btn_forecast" data-bs-toggle="modal" data-bs-target="#ormAddForecast">
                         New Forecast
                     </a>
 
@@ -224,10 +224,44 @@
                 fetchYearForecast();
             })
             $('.yearList').change(function(){
+                
                 fetchMonthSupply();
             })
 
             fetchTotalSupply();
+
+            $('#add_btn').on('click', function(){
+                var totDiv = parseInt($('#divisor').val());
+
+                var new_order='';
+                
+                new_order+='<tr id="row_new_forecast">';
+                new_order+='<td>';
+                new_order+='<select name="year" class="js-example-basic-single yearList" required>';
+                new_order+='<option></option>';
+                new_order+='</select></td>';
+                new_order+='<td>';
+                new_order+='<select name="month" class="js-example-basic-single monthList" required>';
+                new_order+='<option></option>';
+                new_order+='</select></td>';
+                new_order+='<td><input type="number" name="totalSupply" class="form-input totalSupply" required readonly></td>';
+                new_order+='<td class="d-flex justify-content-center align-items-center">';
+                new_order+='<button type="button" class="btn btn-danger btn-inner d-flex justify-content-center align-items-center" id="remove_btn"><em class="fa fa-remove" aria-hidden="true"></em></button></td>';
+                new_order+='</tr>';
+                
+                $('#table-forecast').append(new_order);
+
+                $('#divisor').val(totDiv + 1);
+
+                //initialize select2 for Year
+                fetchYearForecast();
+                $('.yearList').change(function(){
+                    fetchMonthSupply();
+                })
+
+                fetchTotalSupply();
+            });
+
             function fetchYearForecast(){
                 $(".yearList").select2({
                     selectOnClose: true,
@@ -272,9 +306,12 @@
             }
 
             function fetchTotalSupply(){
+                var currentMonth = $('.monthList').val();
                 $('.monthList').on('change', function(){
                     var selected = $(this).find(':selected').val();  
                     var parentTR = $(this).closest('tr');
+                    var currentSupply = parseInt($('#totalSupplies').val());
+                    var currentDivisor = parseInt($('#divisor').val());
 
                     $.ajax({
                         url: "{{ route('monthTotalSupply') }}",
@@ -284,10 +321,36 @@
                         success: function(response){ // What to do if we succeed
                             console.log(response[0].totSupply);
                             parentTR.find('.totalSupply').val(response[0].totSupply);
+
+                            $('#totalSupplies').val(currentSupply + response[0].totSupply);
+                            $('#avgSupplies').val(parseInt($('#totalSupplies').val()) / currentDivisor);
                         }
                     });
+                    
                 });
             }
         })
+
+        $(document).on('click', '#remove_btn', function(){
+            var totSupplies= parseInt($('#totalSupplies').val());
+            var itemTotSupply = parseInt($(this).closest('tr').find('.totalSupply').val());
+            var totDiv = parseInt($('#divisor').val());
+
+            $(this).closest('tr').remove();
+            $('#divisor').val(totDiv - 1);
+            $('#totalSupplies').val(totSupplies - itemTotSupply);
+
+            $('#avgSupplies').val(parseInt($('#totalSupplies').val()) / parseInt($('#divisor').val()));
+        });
+
+        $(document).on('hidden.bs.modal', function(){
+            $(".forecast_tbl tbody").find("tr:gt(0)").remove();
+            $('#ormAddForecast form')[0].reset();
+        });
+
+        $('#btn_forecast').click(function(){ 
+            $(".forecast_tbl tbody").find("tr:gt(0)").remove();
+            $('#ormAddForecast form')[0].reset();
+        });
     </script>
 @endsection
