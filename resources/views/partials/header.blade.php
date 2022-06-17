@@ -69,9 +69,13 @@
     background: #9bca3e;
 }
 
-.side-nav .nav-link.active {
+/* .side-nav .nav-link.active {
     cursor: default;
     pointer-events: none;
+} */
+
+.side-nav .nav-item .dropdown-menu em {
+    color: #1268cd;
 }
 
 .side-nav .dropdown-toggle::after{
@@ -111,10 +115,21 @@
                             <em class="fa fa-shopping-cart fs-3"></em>
                         </a>
                     </li>
-                    <li class="nav-item orm-tooltip" data-text="Forecasting">
-                        <a href="{{ url('forecasting') }}" class="nav-link py-3 {{Request::is('forecasting') ? 'active':'' }}" title="" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Orders">
+                    <li class="nav-item orm-tooltip dropdown" data-text="Forecasting">
+                        <!-- <a href="{{ url('forecasting') }}" class="nav-link py-3 {{Request::is('forecasting') ? 'active':'' }}" title="" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Orders">
+                            <em class="fa fa-line-chart fs-3"></em>
+                        </a> -->
+                        <a href="" id="ddForecast" class="{{Request::is('forecasting-supply', 'forecasting-demand', 'forecasting-revenue') ? 'active':'' }} nav-link dropdown-toggle d-flex align-items-center justify-content-center p-3 link-dark text-decoration-none " title="" data-bs-toggle="dropdown" data-bs-placement="right" data-bs-original-title="Orders">
                             <em class="fa fa-line-chart fs-3"></em>
                         </a>
+
+                        <ul class="dropdown-menu p-1 shadow" aria-labelledby="ddForecast" style="">
+                            <li><a href="{{ url('forecasting-supply') }}" class="dropdown-item"><em class="fa fa-cubes"></em> Supply</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a href="{{ url('forecasting-demand') }}" class="dropdown-item"><em class="fa fa-cart-arrow-down"></em> Demand</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a href="{{ url('forecasting-revenue') }}" class="dropdown-item"><em class="fa fa-usd"></em> Revenue</a></li>
+                        </ul>
                     </li>
                 </ul>
                 <div class="dropdown">
@@ -124,7 +139,7 @@
                         @endunless
                         <img class="image rounded-circle" src="images/{{Auth::user()->upload_img}}" alt="profile_image" style="width: 55px;height: 55px; padding: 5px; margin: 0px; ">
                     </a>
-                    <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser" style="">
+                    <ul class="dropdown-menu text-small p-1 shadow" aria-labelledby="dropdownUser" style="">
                         <li><span class="text-nowrap ps-3 fw-bold">{{Auth::User()->fname ?? 'None'}}</span></li>
                         <li><hr class="dropdown-divider"></li>
                         <li><a class="dropdown-item" href="#">Profile</a></li>

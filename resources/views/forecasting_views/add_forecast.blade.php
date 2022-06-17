@@ -10,7 +10,7 @@
                     <button type="button" id="modal-close" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="col-12 d-flex justify-content-center">
-                    <form action="recyclable" method="post" id="recInventory" class="company-info d-flex row justify-content-between">
+                    <form action="forecast" method="post" id="recInventory" class="company-info d-flex row justify-content-between">
                         @csrf
                         <div class="inner-form mb-3">
                             <select class="select-form" id="modal_category" name="modal_category" required>
@@ -46,7 +46,7 @@
                                         <option></option>
                                         </select>
                                     </td>
-                                    <td><input type="number" name="totalSupply" class="form-input totalSupply" required readonly></td>
+                                    <td><input type="number" name="totalSupply[]" class="form-input totalSupply" required readonly></td>
                                     <td class="d-flex justify-content-center align-items-center">
                                     <button type="button" class="btn btn-danger btn-inner d-flex justify-content-center align-items-center" id="remove_btn"><em class="fa fa-remove" aria-hidden="true"></em></button>
                                     </td>
@@ -55,11 +55,9 @@
                             <tfoot>
                                 <tr>
                                     <td></td>
-                                    <td class="d-flex justify-content-end fw-bold">Forecast AVG</td>
+                                    <td></td>
                                     <td>
-                                        <input style="direction: rtl;" type="number" id="avgSupplies" name="avgSupplies" class="form-input" value="0" readonly>
-                                        <input style="direction: rtl;" type="number" id="totalSupplies" name="totalSupplies" class="form-input" value="0" >
-                                        <input style="direction: rtl;" type="number" id="divisor" name="divisor" class="form-input" value="1" >
+                                        
                                     </td>
                                     <td class="d-flex justify-content-center align-items-center">
                                         <button type="button" class="btn btn-success btn-inner d-flex justify-content-center align-items-center" id="add_btn">
@@ -68,6 +66,10 @@
                                 </tr>
                             </tfoot>
                         </table>
+                        <div class="d-flex justify-content-center">
+                            <button type="submit" class="w-50">FORECAST</button>
+                        </div>
+                        
                     </form>
                 </div>
             </div>

@@ -45,9 +45,15 @@ Route::group([ 'middleware' => ['auth']], function () {
     Route::get('fetchStocks', [ormTransactionController::class, 'fetchStocksInfo'])->name('fetchItems');
     Route::get('orderList', [ormTransactionController::class, 'fetchOrderList'])->name('getOrders');
 
+    Route::resource('forecast', ormForecastingController::class);
 
     Route::get('forecasting', [ormForecastingController::class, 'index'])->name('forecasting');
+    Route::get('forecasting-supply', [ormForecastingController::class, 'indexSupply'])->name('forecasting-supply');
+    Route::get('forecasting-demand', [ormForecastingController::class, 'indexDemand'])->name('forecasting-demand');
+    Route::get('forecasting-revenue', [ormForecastingController::class, 'indexRevenue'])->name('forecasting-revenue');
+    
     Route::get('supply_search', [ormForecastingController::class, 'forecastSupply_data'])->name('supply');
+    Route::get('forecastSupply_search', [ormForecastingController::class, 'forecast_data'])->name('forecastSupply');
     Route::get('fetch_year', [ormForecastingController::class, 'yearsRecord'])->name('yearRecords');
     Route::get('fetch_month', [ormForecastingController::class, 'monthsRecord'])->name('monthRecords');
     Route::get('fetch_totalSupply', [ormForecastingController::class, 'totalSupply'])->name('monthTotalSupply');

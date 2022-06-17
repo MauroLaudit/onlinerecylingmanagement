@@ -14,7 +14,7 @@
             <div class="row d-flex justify-content-center">
                 <div class="col-md-12">
                     <div class="title">
-                        <h1>Supply Forecasting</h1>
+                        <h1>Demand Forecasting</h1>
                     </div>
                 </div>
 

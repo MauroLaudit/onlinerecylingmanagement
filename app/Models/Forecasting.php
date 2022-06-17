@@ -8,4 +8,16 @@ use Illuminate\Database\Eloquent\Model;
 class Forecasting extends Model
 {
     use HasFactory;
+
+    public $table = 'forecasting';
+
+    protected $fillable = [
+        'category',
+        'forecast_supply',
+    ];
+
+    protected $dates = [
+        'updated_at',
+        'created_at',
+    ];
 }

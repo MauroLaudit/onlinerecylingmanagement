@@ -27,6 +27,21 @@ class ormForecastingController extends Controller
         return view('ormForecasting');
     }
 
+    public function indexSupply()
+    {
+        return view('forecasting_views.supply_forecast');
+    }
+
+    public function indexDemand()
+    {
+        return view('forecasting_views.demand_forecast');
+    }
+
+    public function indexRevenue()
+    {
+        return view('forecasting_views.revenue_forecast');
+    }
+
     public function yearsRecord(Request $request){
         $input_category = $request->all();
         
@@ -210,7 +225,6 @@ class ormForecastingController extends Controller
         }else if($input_category['input_category'] == "Glass"){
             $category = 'GLS';
         }
-        
 
         $paper_totSupply = DB::table('inventory')
             ->select(DB::raw('SUM(amount) as totSupply'), DB::raw('YEAR(created_at) as year, MONTH(created_at) as month'))
@@ -218,7 +232,283 @@ class ormForecastingController extends Controller
             ->where('stock_id', 'like', $category.'%')
             ->get();
 
+        $forecast_totSupply = DB::table('forecasting')
+            ->select(DB::raw('forecast_supply as totSupply'), DB::raw('YEAR(created_at) as year, MONTH(created_at) as month'))
+            ->groupby('totSupply','year','month')
+            ->where('category', '=', $input_category['input_category'])
+            ->get();
+
         //dd(count($paper_totSupply));
+
+        $monthSupply = "";
+        $monSupplyValue = 0;
+        $forecastSupplyValue = 0;
+        $foreloop = 0;
+        $supLoop = 0;
+        for($i = 1; $i<=12; $i++){
+            
+            if($i == 1){
+                $monthSupply = "Jan";
+                //condition value for Monthly Supply------------
+                if($supLoop >= count($paper_totSupply)){
+                    $monSupplyValue = '';
+                }else if($i == $paper_totSupply[$supLoop]->month){
+                    $monSupplyValue = $paper_totSupply[$supLoop]->totSupply;
+                    $supLoop+=1;
+                }else{
+                    $monSupplyValue = 0;
+                }
+                //condition value for Forecast Supply------------
+                if($foreloop >= count($forecast_totSupply)){
+                    $forecastSupplyValue = '';
+                }else if($i == $forecast_totSupply[$foreloop]->month){
+                    $forecastSupplyValue = $forecast_totSupply[$foreloop]->totSupply;
+                    $foreloop+=1;
+                }else{
+                    $forecastSupplyValue = 0;
+                }
+            }else if($i == 2){
+                $monthSupply = "Feb";
+                //condition value for Monthly Supply------------
+                if($supLoop >= count($paper_totSupply)){
+                    $monSupplyValue = '';
+                }else if($i == $paper_totSupply[$supLoop]->month){
+                    $monSupplyValue = $paper_totSupply[$supLoop]->totSupply;
+                    $supLoop+=1;
+                }else{
+                    $monSupplyValue = 0;
+                }
+                //condition value for Forecast Supply------------
+                if($foreloop >= count($forecast_totSupply)){
+                    $forecastSupplyValue = '';
+                }else if($i == $forecast_totSupply[$foreloop]->month){
+                    $forecastSupplyValue = $forecast_totSupply[$foreloop]->totSupply;
+                    $foreloop+=1;
+                }else{
+                    $forecastSupplyValue = 0;
+                }
+            }else if($i == 3){
+                $monthSupply = "Mar";
+                //condition value for Monthly Supply------------
+                if($supLoop >= count($paper_totSupply)){
+                    $monSupplyValue = '';
+                }else if($i == $paper_totSupply[$supLoop]->month){
+                    $monSupplyValue = $paper_totSupply[$supLoop]->totSupply;
+                    $supLoop+=1;
+                }else{
+                    $monSupplyValue = 0;
+                }
+                //condition value for Forecast Supply------------
+                if($foreloop >= count($forecast_totSupply)){
+                    $forecastSupplyValue = '';
+                }else if($i == $forecast_totSupply[$foreloop]->month){
+                    $forecastSupplyValue = $forecast_totSupply[$foreloop]->totSupply;
+                    $foreloop+=1;
+                }else{
+                    $forecastSupplyValue = 0;
+                }
+            }else if($i == 4){
+                $monthSupply = "Apr";
+                //condition value for Monthly Supply------------
+                if($supLoop >= count($paper_totSupply)){
+                    $monSupplyValue = '';
+                }else if($i == $paper_totSupply[$supLoop]->month){
+                    $monSupplyValue = $paper_totSupply[$supLoop]->totSupply;
+                    $supLoop+=1;
+                }else{
+                    $monSupplyValue = 0;
+                }
+                //condition value for Forecast Supply------------
+                if($foreloop >= count($forecast_totSupply)){
+                    $forecastSupplyValue = '';
+                }else if($i == $forecast_totSupply[$foreloop]->month){
+                    $forecastSupplyValue = $forecast_totSupply[$foreloop]->totSupply;
+                    $foreloop+=1;
+                }else{
+                    $forecastSupplyValue = 0;
+                }
+            }else if($i == 5){
+                $monthSupply = "May";
+                //condition value for Monthly Supply------------
+                if($supLoop >= count($paper_totSupply)){
+                    $monSupplyValue = '';
+                }else if($i == $paper_totSupply[$supLoop]->month){
+                    $monSupplyValue = $paper_totSupply[$supLoop]->totSupply;
+                    $supLoop+=1;
+                }else{
+                    $monSupplyValue = 0;
+                }
+                //condition value for Forecast Supply------------
+                if($foreloop >= count($forecast_totSupply)){
+                    $forecastSupplyValue = '';
+                }else if($i == $forecast_totSupply[$foreloop]->month){
+                    $forecastSupplyValue = $forecast_totSupply[$foreloop]->totSupply;
+                    $foreloop+=1;
+                }else{
+                    $forecastSupplyValue = 0;
+                }
+            }else if($i == 6){
+                $monthSupply = "Jun";
+                //condition value for Monthly Supply------------
+                if($supLoop >= count($paper_totSupply)){
+                    $monSupplyValue = '';
+                }else if($i == $paper_totSupply[$supLoop]->month){
+                    $monSupplyValue = $paper_totSupply[$supLoop]->totSupply;
+                    $supLoop+=1;
+                }else{
+                    $monSupplyValue = 0;
+                }
+                //condition value for Forecast Supply------------
+                if($foreloop >= count($forecast_totSupply)){
+                    $forecastSupplyValue = '';
+                }else if($i == $forecast_totSupply[$foreloop]->month){
+                    $forecastSupplyValue = $forecast_totSupply[$foreloop]->totSupply;
+                    $foreloop+=1;
+                }else{
+                    $forecastSupplyValue = 0;
+                }
+            }else if($i == 7){
+                $monthSupply = "Jul";
+                //condition value for Monthly Supply------------
+                if($supLoop >= count($paper_totSupply)){
+                    $monSupplyValue = '';
+                }else if($i == $paper_totSupply[$supLoop]->month){
+                    $monSupplyValue = $paper_totSupply[$supLoop]->totSupply;
+                    $supLoop+=1;
+                }else{
+                    $monSupplyValue = 0;
+                }
+                //condition value for Forecast Supply------------
+                if($foreloop >= count($forecast_totSupply)){
+                    $forecastSupplyValue = '';
+                }else if($i == $forecast_totSupply[$foreloop]->month){
+                    $forecastSupplyValue = $forecast_totSupply[$foreloop]->totSupply;
+                    $foreloop+=1;
+                }else{
+                    $forecastSupplyValue = 0;
+                }
+            }else if($i == 8){
+                $monthSupply = "Aug";
+                //condition value for Monthly Supply------------
+                if($supLoop >= count($paper_totSupply)){
+                    $monSupplyValue = '';
+                }else if($i == $paper_totSupply[$supLoop]->month){
+                    $monSupplyValue = $paper_totSupply[$supLoop]->totSupply;
+                    $supLoop+=1;
+                }else{
+                    $monSupplyValue = 0;
+                }
+                //condition value for Forecast Supply------------
+                if($foreloop >= count($forecast_totSupply)){
+                    $forecastSupplyValue = '';
+                }else if($i == $forecast_totSupply[$foreloop]->month){
+                    $forecastSupplyValue = $forecast_totSupply[$foreloop]->totSupply;
+                    $foreloop+=1;
+                }else{
+                    $forecastSupplyValue = 0;
+                }
+            }else if($i == 9){
+                $monthSupply = "Sep";
+                //condition value for Monthly Supply------------
+                if($supLoop >= count($paper_totSupply)){
+                    $monSupplyValue = '';
+                }else if($i == $paper_totSupply[$supLoop]->month){
+                    $monSupplyValue = $paper_totSupply[$supLoop]->totSupply;
+                    $supLoop+=1;
+                }else{
+                    $monSupplyValue = 0;
+                }
+                //condition value for Forecast Supply------------
+                if($foreloop >= count($forecast_totSupply)){
+                    $forecastSupplyValue = '';
+                }else if($i == $forecast_totSupply[$foreloop]->month){
+                    $forecastSupplyValue = $forecast_totSupply[$foreloop]->totSupply;
+                    $foreloop+=1;
+                }else{
+                    $forecastSupplyValue = 0;
+                }
+            }else if($i == 10){
+                $monthSupply = "Oct";
+                //condition value for Monthly Supply------------
+                if($supLoop >= count($paper_totSupply)){
+                    $monSupplyValue = '';
+                }else if($i == $paper_totSupply[$supLoop]->month){
+                    $monSupplyValue = $paper_totSupply[$supLoop]->totSupply;
+                    $supLoop+=1;
+                }else{
+                    $monSupplyValue = 0;
+                }
+                //condition value for Forecast Supply------------
+                if($foreloop >= count($forecast_totSupply)){
+                    $forecastSupplyValue = '';
+                }else if($i == $forecast_totSupply[$foreloop]->month){
+                    $forecastSupplyValue = $forecast_totSupply[$foreloop]->totSupply;
+                    $foreloop+=1;
+                }else{
+                    $forecastSupplyValue = 0;
+                }
+            }else if($i == 11){
+                $monthSupply = "Nov";
+                //condition value for Monthly Supply------------
+                if($supLoop >= count($paper_totSupply)){
+                    $monSupplyValue = '';
+                }else if($i == $paper_totSupply[$supLoop]->month){
+                    $monSupplyValue = $paper_totSupply[$supLoop]->totSupply;
+                    $supLoop+=1;
+                }else{
+                    $monSupplyValue = 0;
+                }
+                //condition value for Forecast Supply------------
+                if($foreloop >= count($forecast_totSupply)){
+                    $forecastSupplyValue = '';
+                }else if($i == $forecast_totSupply[$foreloop]->month){
+                    $forecastSupplyValue = $forecast_totSupply[$foreloop]->totSupply;
+                    $foreloop+=1;
+                }else{
+                    $forecastSupplyValue = 0;
+                }
+            }else if($i == 12){
+                $monthSupply = "Dec";
+                //condition value for Monthly Supply------------
+                if($supLoop >= count($paper_totSupply)){
+                    $monSupplyValue = '';
+                }else if($i == $paper_totSupply[$supLoop]->month){
+                    $monSupplyValue = $paper_totSupply[$supLoop]->totSupply;
+                    $supLoop+=1;
+                }else{
+                    $monSupplyValue = 0;
+                }
+                //condition value for Forecast Supply------------
+                if($foreloop >= count($forecast_totSupply)){
+                    $forecastSupplyValue = '';
+                }else if($i == $forecast_totSupply[$foreloop]->month){
+                    $forecastSupplyValue = $forecast_totSupply[$foreloop]->totSupply;
+                    $foreloop+=1;
+                }else{
+                    $forecastSupplyValue = 0;
+                }
+            }
+
+            $dataSupply[] = array(
+                "monthData" => $monthSupply,
+                "supplyValue" => $monSupplyValue,
+                "forecastSupply" => $forecastSupplyValue
+            );
+        }
+        
+        return response()->json($dataSupply);
+    }
+
+    /* public function forecast_data(Request $request){
+        $input_category = $request->all();
+        
+        $forecast_totSupply = DB::table('forecasting')
+            ->select(DB::raw('forecast_supply as totSupply'), DB::raw('YEAR(created_at) as year, MONTH(created_at) as month'))
+            ->groupby('totSupply','year','month')
+            ->where('category', '=', $input_category['category'])
+            ->get();
+
+        //dd($forecast_totSupply);
 
         $monthSupply = "";
         $monSupplyValue = 0;
@@ -227,120 +517,120 @@ class ormForecastingController extends Controller
             
             if($i == 1){
                 $monthSupply = "Jan";
-                if($supLoop >= count($paper_totSupply)){
+                if($supLoop >= count($forecast_totSupply)){
                     $monSupplyValue = '';
-                }else if($i == $paper_totSupply[$supLoop]->month){
-                    $monSupplyValue = $paper_totSupply[$supLoop]->totSupply;
+                }else if($i == $forecast_totSupply[$supLoop]->month){
+                    $monSupplyValue = $forecast_totSupply[$supLoop]->totSupply;
                     $supLoop+=1;
                 }else{
                     $monSupplyValue = 0;
                 }
             }else if($i == 2){
                 $monthSupply = "Feb";
-                if($supLoop >= count($paper_totSupply)){
+                if($supLoop >= count($forecast_totSupply)){
                     $monSupplyValue = '';
-                }else if($i == $paper_totSupply[$supLoop]->month){
-                    $monSupplyValue = $paper_totSupply[$supLoop]->totSupply;
+                }else if($i == $forecast_totSupply[$supLoop]->month){
+                    $monSupplyValue = $forecast_totSupply[$supLoop]->totSupply;
                     $supLoop+=1;
                 }else{
                     $monSupplyValue = 0;
                 }
             }else if($i == 3){
                 $monthSupply = "Mar";
-                if($supLoop >= count($paper_totSupply)){
+                if($supLoop >= count($forecast_totSupply)){
                     $monSupplyValue = '';
-                }else if($i == $paper_totSupply[$supLoop]->month){
-                    $monSupplyValue = $paper_totSupply[$supLoop]->totSupply;
+                }else if($i == $forecast_totSupply[$supLoop]->month){
+                    $monSupplyValue = $forecast_totSupply[$supLoop]->totSupply;
                     $supLoop+=1;
                 }else{
                     $monSupplyValue = 0;
                 }
             }else if($i == 4){
                 $monthSupply = "Apr";
-                if($supLoop >= count($paper_totSupply)){
+                if($supLoop >= count($forecast_totSupply)){
                     $monSupplyValue = '';
-                }else if($i == $paper_totSupply[$supLoop]->month){
-                    $monSupplyValue = $paper_totSupply[$supLoop]->totSupply;
+                }else if($i == $forecast_totSupply[$supLoop]->month){
+                    $monSupplyValue = $forecast_totSupply[$supLoop]->totSupply;
                     $supLoop+=1;
                 }else{
                     $monSupplyValue = 0;
                 }
             }else if($i == 5){
                 $monthSupply = "May";
-                if($supLoop >= count($paper_totSupply)){
+                if($supLoop >= count($forecast_totSupply)){
                     $monSupplyValue = '';
-                }else if($i == $paper_totSupply[$supLoop]->month){
-                    $monSupplyValue = $paper_totSupply[$supLoop]->totSupply;
+                }else if($i == $forecast_totSupply[$supLoop]->month){
+                    $monSupplyValue = $forecast_totSupply[$supLoop]->totSupply;
                     $supLoop+=1;
                 }else{
                     $monSupplyValue = 0;
                 }
             }else if($i == 6){
                 $monthSupply = "Jun";
-                if($supLoop >= count($paper_totSupply)){
+                if($supLoop >= count($forecast_totSupply)){
                     $monSupplyValue = '';
-                }else if($i == $paper_totSupply[$supLoop]->month){
-                    $monSupplyValue = $paper_totSupply[$supLoop]->totSupply;
+                }else if($i == $forecast_totSupply[$supLoop]->month){
+                    $monSupplyValue = $forecast_totSupply[$supLoop]->totSupply;
                     $supLoop+=1;
                 }else{
                     $monSupplyValue = 0;
                 }
             }else if($i == 7){
                 $monthSupply = "Jul";
-                if($supLoop >= count($paper_totSupply)){
+                if($supLoop >= count($forecast_totSupply)){
                     $monSupplyValue = '';
-                }else if($i == $paper_totSupply[$supLoop]->month){
-                    $monSupplyValue = $paper_totSupply[$supLoop]->totSupply;
+                }else if($i == $forecast_totSupply[$supLoop]->month){
+                    $monSupplyValue = $forecast_totSupply[$supLoop]->totSupply;
                     $supLoop+=1;
                 }else{
                     $monSupplyValue = 0;
                 }
             }else if($i == 8){
                 $monthSupply = "Aug";
-                if($supLoop >= count($paper_totSupply)){
+                if($supLoop >= count($forecast_totSupply)){
                     $monSupplyValue = '';
-                }else if($i == $paper_totSupply[$supLoop]->month){
-                    $monSupplyValue = $paper_totSupply[$supLoop]->totSupply;
+                }else if($i == $forecast_totSupply[$supLoop]->month){
+                    $monSupplyValue = $forecast_totSupply[$supLoop]->totSupply;
                     $supLoop+=1;
                 }else{
                     $monSupplyValue = 0;
                 }
             }else if($i == 9){
                 $monthSupply = "Sep";
-                if($supLoop >= count($paper_totSupply)){
+                if($supLoop >= count($forecast_totSupply)){
                     $monSupplyValue = '';
-                }else if($i == $paper_totSupply[$supLoop]->month){
-                    $monSupplyValue = $paper_totSupply[$supLoop]->totSupply;
+                }else if($i == $forecast_totSupply[$supLoop]->month){
+                    $monSupplyValue = $forecast_totSupply[$supLoop]->totSupply;
                     $supLoop+=1;
                 }else{
                     $monSupplyValue = 0;
                 }
             }else if($i == 10){
                 $monthSupply = "Oct";
-                if($supLoop >= count($paper_totSupply)){
+                if($supLoop >= count($forecast_totSupply)){
                     $monSupplyValue = '';
-                }else if($i == $paper_totSupply[$supLoop]->month){
-                    $monSupplyValue = $paper_totSupply[$supLoop]->totSupply;
+                }else if($i == $forecast_totSupply[$supLoop]->month){
+                    $monSupplyValue = $forecast_totSupply[$supLoop]->totSupply;
                     $supLoop+=1;
                 }else{
                     $monSupplyValue = 0;
                 }
             }else if($i == 11){
                 $monthSupply = "Nov";
-                if($supLoop >= count($paper_totSupply)){
+                if($supLoop >= count($forecast_totSupply)){
                     $monSupplyValue = '';
-                }else if($i == $paper_totSupply[$supLoop]->month){
-                    $monSupplyValue = $paper_totSupply[$supLoop]->totSupply;
+                }else if($i == $forecast_totSupply[$supLoop]->month){
+                    $monSupplyValue = $forecast_totSupply[$supLoop]->totSupply;
                     $supLoop+=1;
                 }else{
                     $monSupplyValue = 0;
                 }
             }else if($i == 12){
                 $monthSupply = "Dec";
-                if($supLoop >= count($paper_totSupply)){
+                if($supLoop >= count($forecast_totSupply)){
                     $monSupplyValue = '';
-                }else if($i == $paper_totSupply[$supLoop]->month){
-                    $monSupplyValue = $paper_totSupply[$supLoop]->totSupply;
+                }else if($i == $forecast_totSupply[$supLoop]->month){
+                    $monSupplyValue = $forecast_totSupply[$supLoop]->totSupply;
                     $supLoop+=1;
                 }else{
                     $monSupplyValue = 0;
@@ -354,7 +644,7 @@ class ormForecastingController extends Controller
         }
         
         return response()->json($dataSupply);
-    }
+    } */
 
     public function monthly_supply(){
         $paper_totSupply = DB::table('inventory')
@@ -448,7 +738,7 @@ class ormForecastingController extends Controller
      */
     public function create()
     {
-        //
+        return view('ormForecasting');
     }
 
     /**
@@ -459,7 +749,23 @@ class ormForecastingController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $supply = $request['totalSupply'];
+        $totSup = 0;
+        //dd($supply);
+        for($i = 0; $i < count($request['totalSupply']); $i++){
+            $totSup += (int)$supply[$i]; 
+        }//dd($totSup/count($request['totalSupply']));
+
+        $avg = $totSup/count($request['totalSupply']);
+
+        $forecast = Forecasting::create([
+            'category' => $request['modal_category'],
+            'forecast_supply' => $avg,
+        ]); 
+        event(new Registered($forecast));
+
+        return redirect()->intended(route('forecasting'))->with('success', 'Forecast Successfully!');
+
     }
 
     /**
