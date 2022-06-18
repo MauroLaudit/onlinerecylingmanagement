@@ -78,6 +78,20 @@
     color: #1268cd;
 }
 
+.side-nav .nav-item .dropdown-menu em.revenue {
+    text-align: center;
+    color: #ffffff;
+    background-color: #1268cd;
+    font-size: 12px;
+    height: 18px;
+    width: 18px;
+    border-radius: 9px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 5px;
+}
+
 .side-nav .dropdown-toggle::after{
     color: #ffffff;
     border-top: .3em solid;
@@ -128,7 +142,7 @@
                             <li><hr class="dropdown-divider"></li>
                             <li><a href="{{ url('forecasting-demand') }}" class="dropdown-item"><em class="fa fa-cart-arrow-down"></em> Demand</a></li>
                             <li><hr class="dropdown-divider"></li>
-                            <li><a href="{{ url('forecasting-revenue') }}" class="dropdown-item"><em class="fa fa-usd"></em> Revenue</a></li>
+                            <li><a href="{{ url('forecasting-revenue') }}" class="dropdown-item d-flex align-items-center"><em class="fa fa-usd revenue"></em> Revenue</a></li>
                         </ul>
                     </li>
                 </ul>

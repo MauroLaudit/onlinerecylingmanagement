@@ -12,6 +12,7 @@ use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use RealRashid\SweetAlert\Facades\Alert;
+use Illuminate\Support\Facades\Route;
 use DB;
 use Carbon\Carbon;
 
@@ -42,7 +43,8 @@ class ormForecastingController extends Controller
         return view('forecasting_views.revenue_forecast');
     }
 
-    public function yearsRecord(Request $request){
+    //-----------MONTHLY SUPPLY FORECAST--------------------//
+    public function yearsSupplyRecord(Request $request){
         $input_category = $request->all();
         
         $category = $input_category;
@@ -78,7 +80,7 @@ class ormForecastingController extends Controller
         return response()->json($yearsList);
     }
 
-    public function monthsRecord(Request $request){
+    public function monthsSupplyRecord(Request $request){
         $input_category = $request->all();
         $category = $input_category;
         if($input_category['category'] == "Paper"){
@@ -215,6 +217,7 @@ class ormForecastingController extends Controller
 
     public function forecastSupply_data(Request $request){
         $input_category = $request->all();
+        $year = 0;
         $category = $input_category;
         if($input_category['input_category'] == "Paper"){
             $category = 'PPR';
@@ -225,17 +228,27 @@ class ormForecastingController extends Controller
         }else if($input_category['input_category'] == "Glass"){
             $category = 'GLS';
         }
+        
+        if($input_category['year'] == ""){
+            $year = Carbon::now()->format('Y');
+        }
+        else{
+            $year = $input_category['year'];
+        }
 
         $paper_totSupply = DB::table('inventory')
             ->select(DB::raw('SUM(amount) as totSupply'), DB::raw('YEAR(created_at) as year, MONTH(created_at) as month'))
             ->groupby('year','month')
             ->where('stock_id', 'like', $category.'%')
+            ->whereYear('created_at', '=', $year)
             ->get();
 
         $forecast_totSupply = DB::table('forecasting')
-            ->select(DB::raw('forecast_supply as totSupply'), DB::raw('YEAR(created_at) as year, MONTH(created_at) as month'))
+            ->select(DB::raw('forecast_value as totSupply'), DB::raw('YEAR(forecast_month) as year, MONTH(forecast_month) as month'))
             ->groupby('totSupply','year','month')
             ->where('category', '=', $input_category['input_category'])
+            ->where('forecast_category', '=','Supply')
+            ->whereYear('forecast_month', '=', $year)
             ->get();
 
         //dd(count($paper_totSupply));
@@ -498,238 +511,782 @@ class ormForecastingController extends Controller
         
         return response()->json($dataSupply);
     }
+    //-----------END MONTHLY SUPPLY FORECAST--------------------//
 
-    /* public function forecast_data(Request $request){
+    //-----------MONTHLY DEMAND FORECAST--------------------//
+    public function yearsOrderRecord(Request $request){
         $input_category = $request->all();
         
-        $forecast_totSupply = DB::table('forecasting')
-            ->select(DB::raw('forecast_supply as totSupply'), DB::raw('YEAR(created_at) as year, MONTH(created_at) as month'))
-            ->groupby('totSupply','year','month')
+        $yearsList = [];
+
+        $dataDemand = DB::table('company_orders')
+            ->join('stock_inventory', 'company_orders.stock_id', '=', 'stock_inventory.id')
+            ->select('company_orders.*', 'stock_inventory.category', 'stock_inventory.recyclable')
+            ->select(DB::raw('YEAR(company_orders.created_at) as year'))
+            ->groupby('year')
             ->where('category', '=', $input_category['category'])
             ->get();
+        
+        if (count($dataDemand) > 0) {
 
-        //dd($forecast_totSupply);
+            foreach ($dataDemand as $demandYear) {
+                $yearsList[] = array(
+                    "id" => $demandYear->year,
+                    "text" => $demandYear->year,
+                );
+            }
+        }
+        return response()->json($yearsList);
+    }
 
-        $monthSupply = "";
-        $monSupplyValue = 0;
+    public function monthsOrderRecord(Request $request){
+        $input_category = $request->all();
+        
+        $monthsList = [];
+
+        $dataDemand = DB::table('company_orders')
+            ->join('stock_inventory', 'company_orders.stock_id', '=', 'stock_inventory.id')
+            ->select('company_orders.*', 'stock_inventory.category', 'stock_inventory.recyclable')
+            ->select(DB::raw('MONTH(company_orders.created_at) as month'))
+            ->groupby('month')
+            ->whereYear('company_orders.created_at','=',  $input_category['year'])
+            ->where('category', '=', $input_category['category'])
+            ->get();
+        
+        if (count($dataDemand) > 0) {
+
+            foreach ($dataDemand as $demandMonth) {
+                $wordMonth = "";
+                if($demandMonth->month == 1){
+                    $wordMonth = "Jan";
+                }else if($demandMonth->month == 2){
+                    $wordMonth = "Feb";
+                }
+                else if($demandMonth->month == 3){
+                    $wordMonth = "Mar";
+                }
+                else if($demandMonth->month == 4){
+                    $wordMonth = "Apr";
+                }
+                else if($demandMonth->month == 5){
+                    $wordMonth = "May";
+                }
+                else if($demandMonth->month == 6){
+                    $wordMonth = "Jun";
+                }
+                else if($demandMonth->month == 7){
+                    $wordMonth = "Jul";
+                }
+                else if($demandMonth->month == 8){
+                    $wordMonth = "Aug";
+                }
+                else if($demandMonth->month == 9){
+                    $wordMonth = "Sep";
+                }
+                else if($demandMonth->month == 10){
+                    $wordMonth = "Oct";
+                }
+                else if($demandMonth->month == 11){
+                    $wordMonth = "Nov";
+                }
+                else if($demandMonth->month == 12){
+                    $wordMonth = "Dec";
+                }
+                $monthsList[] = array(
+                    "id" => $wordMonth,
+                    "text" => $wordMonth,
+                );
+            }
+        }
+        return response()->json($monthsList);
+    }
+
+    public function totalDemand(Request $request){
+        $input_category = $request->all();
+
+        /* Check If What Month In Number */
+        $numMonth = 0;
+        if($input_category['month'] == "Jan"){
+            $numMonth = 1;
+        }else if($input_category['month'] == "Feb"){
+            $numMonth = 2;
+        }
+        else if($input_category['month'] == "Mar"){
+            $numMonth = 3;
+        }
+        else if($input_category['month'] == "Apr"){
+            $numMonth = 4;
+        }
+        else if($input_category['month'] == "May"){
+            $numMonth = 5;
+        }
+        else if($input_category['month'] == "Jun"){
+            $numMonth = 6;
+        }
+        else if($input_category['month'] == "Jul"){
+            $numMonth = 7;
+        }
+        else if($input_category['month'] == "Aug"){
+            $numMonth = 8;
+        }
+        else if($input_category['month'] == "Sep"){
+            $numMonth = 9;
+        }
+        else if($input_category['month'] == "Oct"){
+            $numMonth = 10;
+        }
+        else if($input_category['month'] == "Nov"){
+            $numMonth = 11;
+        }
+        else if($input_category['month'] == "Dec"){
+            $numMonth = 12;
+        }
+        
+        $dataDemand = DB::table('company_orders')
+            ->join('stock_inventory', 'company_orders.stock_id', '=', 'stock_inventory.id')
+            ->select('company_orders.*', 'stock_inventory.category', 'stock_inventory.recyclable')
+            ->select(DB::raw('SUM(quantity) as totDemand'))
+            ->whereMonth('company_orders.created_at','=',  $numMonth)
+            ->whereYear('company_orders.created_at','=',  $input_category['year'])
+            ->where('category', '=', $input_category['category'])
+            ->get();
+        //dd( $dataSupplies);
+        return response()->json($dataDemand);
+    }
+
+    public function forecastDemand_data(Request $request){
+        $input_category = $request->all();
+        $year = 0;
+        
+        if($input_category['year'] == ""){
+            $year = Carbon::now()->format('Y');
+        }
+        else{
+            $year = $input_category['year'];
+        }
+
+        $monthly_totDemand = DB::table('company_orders')
+            ->join('stock_inventory', 'company_orders.stock_id', '=', 'stock_inventory.id')
+            ->select('company_orders.*', 'stock_inventory.category', 'stock_inventory.recyclable')
+            ->select(DB::raw('SUM(quantity) as total_demand'), DB::raw('YEAR(company_orders.created_at) as year, MONTH(company_orders.created_at) as month'))
+            ->groupby('year','month')
+            ->where('category', '=', $input_category['input_category'])
+            ->whereYear('company_orders.created_at', '=', $year)
+            ->get();
+
+        $forecast_totDemand = DB::table('forecasting')
+            ->select(DB::raw('forecast_value as totDemand'), DB::raw('YEAR(forecast_month) as year, MONTH(forecast_month) as month'))
+            ->groupby('totDemand','year','month')
+            ->where('category', '=', $input_category['input_category'])
+            ->where('forecast_category', '=','Demand')
+            ->whereYear('forecast_month', '=', $year)
+            ->get();
+
+        //dd($forecast_totDemand);
+
+        $monthDemand = "";
+        $monDemandValue = 0;
+        $forecastDemandValue = 0;
+        $foreloop = 0;
         $supLoop = 0;
         for($i = 1; $i<=12; $i++){
             
             if($i == 1){
-                $monthSupply = "Jan";
-                if($supLoop >= count($forecast_totSupply)){
-                    $monSupplyValue = '';
-                }else if($i == $forecast_totSupply[$supLoop]->month){
-                    $monSupplyValue = $forecast_totSupply[$supLoop]->totSupply;
+                $monthDemand = "Jan";
+                //condition value for Monthly Demand------------
+                if($supLoop >= count($monthly_totDemand)){
+                    $monDemandValue = '';
+                }else if($i == $monthly_totDemand[$supLoop]->month){
+                    $monDemandValue = $monthly_totDemand[$supLoop]->total_demand;
                     $supLoop+=1;
                 }else{
-                    $monSupplyValue = 0;
+                    $monDemandValue = 0;
+                }
+                //condition value for Forecast Demand------------
+                if($foreloop >= count($forecast_totDemand)){
+                    $forecastDemandValue = '';
+                }else if($i == $forecast_totDemand[$foreloop]->month){
+                    $forecastDemandValue = $forecast_totDemand[$foreloop]->totDemand;
+                    $foreloop+=1;
+                }else{
+                    $forecastDemandValue = 0;
                 }
             }else if($i == 2){
-                $monthSupply = "Feb";
-                if($supLoop >= count($forecast_totSupply)){
-                    $monSupplyValue = '';
-                }else if($i == $forecast_totSupply[$supLoop]->month){
-                    $monSupplyValue = $forecast_totSupply[$supLoop]->totSupply;
+                $monthDemand = "Feb";
+                //condition value for Monthly Demand------------
+                if($supLoop >= count($monthly_totDemand)){
+                    $monDemandValue = '';
+                }else if($i == $monthly_totDemand[$supLoop]->month){
+                    $monDemandValue = $monthly_totDemand[$supLoop]->total_demand;
                     $supLoop+=1;
                 }else{
-                    $monSupplyValue = 0;
+                    $monDemandValue = 0;
+                }
+                //condition value for Forecast Demand------------
+                if($foreloop >= count($forecast_totDemand)){
+                    $forecastDemandValue = '';
+                }else if($i == $forecast_totDemand[$foreloop]->month){
+                    $forecastDemandValue = $forecast_totDemand[$foreloop]->totDemand;
+                    $foreloop+=1;
+                }else{
+                    $forecastDemandValue = 0;
                 }
             }else if($i == 3){
-                $monthSupply = "Mar";
-                if($supLoop >= count($forecast_totSupply)){
-                    $monSupplyValue = '';
-                }else if($i == $forecast_totSupply[$supLoop]->month){
-                    $monSupplyValue = $forecast_totSupply[$supLoop]->totSupply;
+                $monthDemand = "Mar";
+                //condition value for Monthly Demand------------
+                if($supLoop >= count($monthly_totDemand)){
+                    $monDemandValue = '';
+                }else if($i == $monthly_totDemand[$supLoop]->month){
+                    $monDemandValue = $monthly_totDemand[$supLoop]->total_demand;
                     $supLoop+=1;
                 }else{
-                    $monSupplyValue = 0;
+                    $monDemandValue = 0;
+                }
+                //condition value for Forecast Demand------------
+                if($foreloop >= count($forecast_totDemand)){
+                    $forecastDemandValue = '';
+                }else if($i == $forecast_totDemand[$foreloop]->month){
+                    $forecastDemandValue = $forecast_totDemand[$foreloop]->totDemand;
+                    $foreloop+=1;
+                }else{
+                    $forecastDemandValue = 0;
                 }
             }else if($i == 4){
-                $monthSupply = "Apr";
-                if($supLoop >= count($forecast_totSupply)){
-                    $monSupplyValue = '';
-                }else if($i == $forecast_totSupply[$supLoop]->month){
-                    $monSupplyValue = $forecast_totSupply[$supLoop]->totSupply;
+                $monthDemand = "Apr";
+                //condition value for Monthly Demand------------
+                if($supLoop >= count($monthly_totDemand)){
+                    $monDemandValue = '';
+                }else if($i == $monthly_totDemand[$supLoop]->month){
+                    $monDemandValue = $monthly_totDemand[$supLoop]->total_demand;
                     $supLoop+=1;
                 }else{
-                    $monSupplyValue = 0;
+                    $monDemandValue = 0;
+                }
+                //condition value for Forecast Demand------------
+                if($foreloop >= count($forecast_totDemand)){
+                    $forecastDemandValue = '';
+                }else if($i == $forecast_totDemand[$foreloop]->month){
+                    $forecastDemandValue = $forecast_totDemand[$foreloop]->totDemand;
+                    $foreloop+=1;
+                }else{
+                    $forecastDemandValue = 0;
                 }
             }else if($i == 5){
-                $monthSupply = "May";
-                if($supLoop >= count($forecast_totSupply)){
-                    $monSupplyValue = '';
-                }else if($i == $forecast_totSupply[$supLoop]->month){
-                    $monSupplyValue = $forecast_totSupply[$supLoop]->totSupply;
+                $monthDemand = "May";
+                //condition value for Monthly Demand------------
+                if($supLoop >= count($monthly_totDemand)){
+                    $monDemandValue = '';
+                }else if($i == $monthly_totDemand[$supLoop]->month){
+                    $monDemandValue = $monthly_totDemand[$supLoop]->total_demand;
                     $supLoop+=1;
                 }else{
-                    $monSupplyValue = 0;
+                    $monDemandValue = 0;
+                }
+                //condition value for Forecast Demand------------
+                if($foreloop >= count($forecast_totDemand)){
+                    $forecastDemandValue = '';
+                }else if($i == $forecast_totDemand[$foreloop]->month){
+                    $forecastDemandValue = $forecast_totDemand[$foreloop]->totDemand;
+                    $foreloop+=1;
+                }else{
+                    $forecastDemandValue = 0;
                 }
             }else if($i == 6){
-                $monthSupply = "Jun";
-                if($supLoop >= count($forecast_totSupply)){
-                    $monSupplyValue = '';
-                }else if($i == $forecast_totSupply[$supLoop]->month){
-                    $monSupplyValue = $forecast_totSupply[$supLoop]->totSupply;
+                $monthDemand = "Jun";
+                //condition value for Monthly Demand------------
+                if($supLoop >= count($monthly_totDemand)){
+                    $monDemandValue = '';
+                }else if($i == $monthly_totDemand[$supLoop]->month){
+                    $monDemandValue = $monthly_totDemand[$supLoop]->total_demand;
                     $supLoop+=1;
                 }else{
-                    $monSupplyValue = 0;
+                    $monDemandValue = 0;
+                }
+                //condition value for Forecast Demand------------
+                if($foreloop >= count($forecast_totDemand)){
+                    $forecastDemandValue = '';
+                }else if($i == $forecast_totDemand[$foreloop]->month){
+                    $forecastDemandValue = $forecast_totDemand[$foreloop]->totDemand;
+                    $foreloop+=1;
+                }else{
+                    $forecastDemandValue = 0;
                 }
             }else if($i == 7){
-                $monthSupply = "Jul";
-                if($supLoop >= count($forecast_totSupply)){
-                    $monSupplyValue = '';
-                }else if($i == $forecast_totSupply[$supLoop]->month){
-                    $monSupplyValue = $forecast_totSupply[$supLoop]->totSupply;
+                $monthDemand = "Jul";
+                //condition value for Monthly Demand------------
+                if($supLoop >= count($monthly_totDemand)){
+                    $monDemandValue = '';
+                }else if($i == $monthly_totDemand[$supLoop]->month){
+                    $monDemandValue = $monthly_totDemand[$supLoop]->total_demand;
                     $supLoop+=1;
                 }else{
-                    $monSupplyValue = 0;
+                    $monDemandValue = 0;
+                }
+                //condition value for Forecast Demand------------
+                if($foreloop >= count($forecast_totDemand)){
+                    $forecastDemandValue = '';
+                }else if($i == $forecast_totDemand[$foreloop]->month){
+                    $forecastDemandValue = $forecast_totDemand[$foreloop]->totDemand;
+                    $foreloop+=1;
+                }else{
+                    $forecastDemandValue = 0;
                 }
             }else if($i == 8){
-                $monthSupply = "Aug";
-                if($supLoop >= count($forecast_totSupply)){
-                    $monSupplyValue = '';
-                }else if($i == $forecast_totSupply[$supLoop]->month){
-                    $monSupplyValue = $forecast_totSupply[$supLoop]->totSupply;
+                $monthDemand = "Aug";
+                //condition value for Monthly Demand------------
+                if($supLoop >= count($monthly_totDemand)){
+                    $monDemandValue = '';
+                }else if($i == $monthly_totDemand[$supLoop]->month){
+                    $monDemandValue = $monthly_totDemand[$supLoop]->total_demand;
                     $supLoop+=1;
                 }else{
-                    $monSupplyValue = 0;
+                    $monDemandValue = 0;
+                }
+                //condition value for Forecast Demand------------
+                if($foreloop >= count($forecast_totDemand)){
+                    $forecastDemandValue = '';
+                }else if($i == $forecast_totDemand[$foreloop]->month){
+                    $forecastDemandValue = $forecast_totDemand[$foreloop]->totDemand;
+                    $foreloop+=1;
+                }else{
+                    $forecastDemandValue = 0;
                 }
             }else if($i == 9){
-                $monthSupply = "Sep";
-                if($supLoop >= count($forecast_totSupply)){
-                    $monSupplyValue = '';
-                }else if($i == $forecast_totSupply[$supLoop]->month){
-                    $monSupplyValue = $forecast_totSupply[$supLoop]->totSupply;
+                $monthDemand = "Sep";
+                //condition value for Monthly Demand------------
+                if($supLoop >= count($monthly_totDemand)){
+                    $monDemandValue = '';
+                }else if($i == $monthly_totDemand[$supLoop]->month){
+                    $monDemandValue = $monthly_totDemand[$supLoop]->total_demand;
                     $supLoop+=1;
                 }else{
-                    $monSupplyValue = 0;
+                    $monDemandValue = 0;
+                }
+                //condition value for Forecast Demand------------
+                if($foreloop >= count($forecast_totDemand)){
+                    $forecastDemandValue = '';
+                }else if($i == $forecast_totDemand[$foreloop]->month){
+                    $forecastDemandValue = $forecast_totDemand[$foreloop]->totDemand;
+                    $foreloop+=1;
+                }else{
+                    $forecastDemandValue = 0;
                 }
             }else if($i == 10){
-                $monthSupply = "Oct";
-                if($supLoop >= count($forecast_totSupply)){
-                    $monSupplyValue = '';
-                }else if($i == $forecast_totSupply[$supLoop]->month){
-                    $monSupplyValue = $forecast_totSupply[$supLoop]->totSupply;
+                $monthDemand = "Oct";
+                //condition value for Monthly Demand------------
+                if($supLoop >= count($monthly_totDemand)){
+                    $monDemandValue = '';
+                }else if($i == $monthly_totDemand[$supLoop]->month){
+                    $monDemandValue = $monthly_totDemand[$supLoop]->total_demand;
                     $supLoop+=1;
                 }else{
-                    $monSupplyValue = 0;
+                    $monDemandValue = 0;
+                }
+                //condition value for Forecast Demand------------
+                if($foreloop >= count($forecast_totDemand)){
+                    $forecastDemandValue = '';
+                }else if($i == $forecast_totDemand[$foreloop]->month){
+                    $forecastDemandValue = $forecast_totDemand[$foreloop]->totDemand;
+                    $foreloop+=1;
+                }else{
+                    $forecastDemandValue = 0;
                 }
             }else if($i == 11){
-                $monthSupply = "Nov";
-                if($supLoop >= count($forecast_totSupply)){
-                    $monSupplyValue = '';
-                }else if($i == $forecast_totSupply[$supLoop]->month){
-                    $monSupplyValue = $forecast_totSupply[$supLoop]->totSupply;
+                $monthDemand = "Nov";
+                //condition value for Monthly Demand------------
+                if($supLoop >= count($monthly_totDemand)){
+                    $monDemandValue = '';
+                }else if($i == $monthly_totDemand[$supLoop]->month){
+                    $monDemandValue = $monthly_totDemand[$supLoop]->total_demand;
                     $supLoop+=1;
                 }else{
-                    $monSupplyValue = 0;
+                    $monDemandValue = 0;
+                }
+                //condition value for Forecast Demand------------
+                if($foreloop >= count($forecast_totDemand)){
+                    $forecastDemandValue = '';
+                }else if($i == $forecast_totDemand[$foreloop]->month){
+                    $forecastDemandValue = $forecast_totDemand[$foreloop]->totDemand;
+                    $foreloop+=1;
+                }else{
+                    $forecastDemandValue = 0;
                 }
             }else if($i == 12){
-                $monthSupply = "Dec";
-                if($supLoop >= count($forecast_totSupply)){
-                    $monSupplyValue = '';
-                }else if($i == $forecast_totSupply[$supLoop]->month){
-                    $monSupplyValue = $forecast_totSupply[$supLoop]->totSupply;
+                $monthDemand = "Dec";
+                //condition value for Monthly Demand------------
+                if($supLoop >= count($monthly_totDemand)){
+                    $monDemandValue = '';
+                }else if($i == $monthly_totDemand[$supLoop]->month){
+                    $monDemandValue = $monthly_totDemand[$supLoop]->total_demand;
                     $supLoop+=1;
                 }else{
-                    $monSupplyValue = 0;
+                    $monDemandValue = 0;
+                }
+                //condition value for Forecast Demand------------
+                if($foreloop >= count($forecast_totDemand)){
+                    $forecastDemandValue = '';
+                }else if($i == $forecast_totDemand[$foreloop]->month){
+                    $forecastDemandValue = $forecast_totDemand[$foreloop]->totDemand;
+                    $foreloop+=1;
+                }else{
+                    $forecastDemandValue = 0;
                 }
             }
 
-            $dataSupply[] = array(
-                "monthData" => $monthSupply,
-                "supplyValue" => $monSupplyValue
+            $dataDemand[] = array(
+                "monthData" => $monthDemand,
+                "demandValue" => $monDemandValue,
+                "forecastDemand" => $forecastDemandValue
             );
         }
         
-        return response()->json($dataSupply);
-    } */
+        return response()->json($dataDemand);
+    }
+    //-----------END MONTHLY DEMAND FORECAST--------------------//
 
-    public function monthly_supply(){
-        $paper_totSupply = DB::table('inventory')
-            ->select(DB::raw('SUM(amount) as totSupply'), DB::raw('YEAR(created_at) as year, MONTH(created_at) as month'))
-            ->groupby('year','month')
-            ->where('stock_id', 'like', 'PPR%')
+    //-----------MONTHLY REVENUE FORECAST--------------------//
+    public function totalRevenue(Request $request){
+        $input_category = $request->all();
+
+        /* Check If What Month In Number */
+        $numMonth = 0;
+        if($input_category['month'] == "Jan"){
+            $numMonth = 1;
+        }else if($input_category['month'] == "Feb"){
+            $numMonth = 2;
+        }
+        else if($input_category['month'] == "Mar"){
+            $numMonth = 3;
+        }
+        else if($input_category['month'] == "Apr"){
+            $numMonth = 4;
+        }
+        else if($input_category['month'] == "May"){
+            $numMonth = 5;
+        }
+        else if($input_category['month'] == "Jun"){
+            $numMonth = 6;
+        }
+        else if($input_category['month'] == "Jul"){
+            $numMonth = 7;
+        }
+        else if($input_category['month'] == "Aug"){
+            $numMonth = 8;
+        }
+        else if($input_category['month'] == "Sep"){
+            $numMonth = 9;
+        }
+        else if($input_category['month'] == "Oct"){
+            $numMonth = 10;
+        }
+        else if($input_category['month'] == "Nov"){
+            $numMonth = 11;
+        }
+        else if($input_category['month'] == "Dec"){
+            $numMonth = 12;
+        }
+        
+        $dataDemand = DB::table('company_orders')
+            ->join('stock_inventory', 'company_orders.stock_id', '=', 'stock_inventory.id')
+            ->select('company_orders.*', 'stock_inventory.category', 'stock_inventory.recyclable')
+            ->select(DB::raw('SUM(total_price) as total_revenue'))
+            ->whereMonth('company_orders.created_at','=',  $numMonth)
+            ->whereYear('company_orders.created_at','=',  $input_category['year'])
+            ->where('category', '=', $input_category['category'])
             ->get();
-        $plastic_totSupply = DB::table('inventory')
-            ->select(DB::raw('SUM(amount) as totSupply'), DB::raw('YEAR(created_at) as year, MONTH(created_at) as month'))
-            ->groupby('year','month')
-            ->where('stock_id', 'like', 'PSC%')
-            ->get();
-        $metal_totSupply = DB::table('inventory')
-            ->select(DB::raw('SUM(amount) as totSupply'), DB::raw('YEAR(created_at) as year, MONTH(created_at) as month'))
-            ->groupby('year','month')
-            ->where('stock_id', 'like', 'MTL%')
-            ->get();
-        $glass_totSupply = DB::table('inventory')
-            ->select(DB::raw('SUM(amount) as totSupply'), DB::raw('YEAR(created_at) as year, MONTH(created_at) as month'))
-            ->groupby('year','month')
-            ->where('stock_id', 'like', 'GLS%')
-            ->get();
+        //dd( $dataSupplies);
+        return response()->json($dataDemand);
     }
 
-    public function monthly_demand(){
-        $paper_totDemand = DB::table('company_orders')
-            ->join('stock_inventory', 'company_orders.stock_id', '=', 'stock_inventory.id')
-            ->select('company_orders.*', 'stock_inventory.category', 'stock_inventory.recyclable')
-            ->select(DB::raw('SUM(quantity) as total_demand'), DB::raw('YEAR(company_orders.created_at) as year, MONTH(company_orders.created_at) as month'))
-            ->groupby('year','month')
-            ->where('category', '=', 'Paper')
-            ->get();
-        $plastic_totDemand = DB::table('company_orders')
-            ->join('stock_inventory', 'company_orders.stock_id', '=', 'stock_inventory.id')
-            ->select('company_orders.*', 'stock_inventory.category', 'stock_inventory.recyclable')
-            ->select(DB::raw('SUM(quantity) as total_demand'), DB::raw('YEAR(company_orders.created_at) as year, MONTH(company_orders.created_at) as month'))
-            ->groupby('year','month')
-            ->where('category', '=', 'Plastic')
-            ->get();
-        $metal_totDemand = DB::table('company_orders')
-            ->join('stock_inventory', 'company_orders.stock_id', '=', 'stock_inventory.id')
-            ->select('company_orders.*', 'stock_inventory.category', 'stock_inventory.recyclable')
-            ->select(DB::raw('SUM(quantity) as total_demand'), DB::raw('YEAR(company_orders.created_at) as year, MONTH(company_orders.created_at) as month'))
-            ->groupby('year','month')
-            ->where('category', '=', 'Metal')
-            ->get();
-        $glass_totDemand = DB::table('company_orders')
-            ->join('stock_inventory', 'company_orders.stock_id', '=', 'stock_inventory.id')
-            ->select('company_orders.*', 'stock_inventory.category', 'stock_inventory.recyclable')
-            ->select(DB::raw('SUM(quantity) as total_demand'), DB::raw('YEAR(company_orders.created_at) as year, MONTH(company_orders.created_at) as month'))
-            ->groupby('year','month')
-            ->where('category', '=', 'Glass')
-            ->get();
-    }
+    public function forecastRevenue_data(Request $request){
+        $input_category = $request->all();
+        $year = 0;
+        
+        if($input_category['year'] == ""){
+            $year = Carbon::now()->format('Y');
+        }
+        else{
+            $year = $input_category['year'];
+        }
 
-    public function monthly_revenue(){
-        $paper_totRevenue = DB::table('company_orders')
+        $monthly_totRevenue = DB::table('company_orders')
             ->join('stock_inventory', 'company_orders.stock_id', '=', 'stock_inventory.id')
             ->select('company_orders.*', 'stock_inventory.category', 'stock_inventory.recyclable')
             ->select(DB::raw('SUM(total_price) as total_revenue'), DB::raw('YEAR(company_orders.created_at) as year, MONTH(company_orders.created_at) as month'))
             ->groupby('year','month')
-            ->where('category', '=', 'Paper')
+            ->where('category', '=', $input_category['input_category'])
+            ->whereYear('company_orders.created_at', '=', $year)
             ->get();
-        $plastic_totRevenue = DB::table('company_orders')
-            ->join('stock_inventory', 'company_orders.stock_id', '=', 'stock_inventory.id')
-            ->select('company_orders.*', 'stock_inventory.category', 'stock_inventory.recyclable')
-            ->select(DB::raw('SUM(total_price) as total_revenue'), DB::raw('YEAR(company_orders.created_at) as year, MONTH(company_orders.created_at) as month'))
-            ->groupby('year','month')
-            ->where('category', '=', 'Plastic')
+
+        $forecast_totRevenue = DB::table('forecasting')
+            ->select(DB::raw('forecast_value as totRevenue'), DB::raw('YEAR(forecast_month) as year, MONTH(forecast_month) as month'))
+            ->groupby('totRevenue','year','month')
+            ->where('category', '=', $input_category['input_category'])
+            ->where('forecast_category', '=','Revenue')
+            ->whereYear('forecast_month', '=', $year)
             ->get();
-        $metal_totRevenue = DB::table('company_orders')
-            ->join('stock_inventory', 'company_orders.stock_id', '=', 'stock_inventory.id')
-            ->select('company_orders.*', 'stock_inventory.category', 'stock_inventory.recyclable')
-            ->select(DB::raw('SUM(total_price) as total_revenue'), DB::raw('YEAR(company_orders.created_at) as year, MONTH(company_orders.created_at) as month'))
-            ->groupby('year','month')
-            ->where('category', '=', 'Metal')
-            ->get();
-        $glass_totRevenue = DB::table('company_orders')
-            ->join('stock_inventory', 'company_orders.stock_id', '=', 'stock_inventory.id')
-            ->select('company_orders.*', 'stock_inventory.category', 'stock_inventory.recyclable')
-            ->select(DB::raw('SUM(total_price) as total_revenue'), DB::raw('YEAR(company_orders.created_at) as year, MONTH(company_orders.created_at) as month'))
-            ->groupby('year','month')
-            ->where('category', '=', 'Glass')
-            ->get();
+
+        //dd($forecast_totRevenue);
+
+        $monthRevenue = "";
+        $monRevenueValue = 0;
+        $forecastRevenueValue = 0;
+        $foreloop = 0;
+        $supLoop = 0;
+        for($i = 1; $i<=12; $i++){
+            
+            if($i == 1){
+                $monthRevenue = "Jan";
+                //condition value for Monthly Revenue------------
+                if($supLoop >= count($monthly_totRevenue)){
+                    $monRevenueValue = '';
+                }else if($i == $monthly_totRevenue[$supLoop]->month){
+                    $monRevenueValue = $monthly_totRevenue[$supLoop]->total_revenue;
+                    $supLoop+=1;
+                }else{
+                    $monRevenueValue = 0;
+                }
+                //condition value for Forecast Revenue------------
+                if($foreloop >= count($forecast_totRevenue)){
+                    $forecastRevenueValue = '';
+                }else if($i == $forecast_totRevenue[$foreloop]->month){
+                    $forecastRevenueValue = $forecast_totRevenue[$foreloop]->totRevenue;
+                    $foreloop+=1;
+                }else{
+                    $forecastRevenueValue = 0;
+                }
+            }else if($i == 2){
+                $monthRevenue = "Feb";
+                //condition value for Monthly Revenue------------
+                if($supLoop >= count($monthly_totRevenue)){
+                    $monRevenueValue = '';
+                }else if($i == $monthly_totRevenue[$supLoop]->month){
+                    $monRevenueValue = $monthly_totRevenue[$supLoop]->total_revenue;
+                    $supLoop+=1;
+                }else{
+                    $monRevenueValue = 0;
+                }
+                //condition value for Forecast Revenue------------
+                if($foreloop >= count($forecast_totRevenue)){
+                    $forecastRevenueValue = '';
+                }else if($i == $forecast_totRevenue[$foreloop]->month){
+                    $forecastRevenueValue = $forecast_totRevenue[$foreloop]->totRevenue;
+                    $foreloop+=1;
+                }else{
+                    $forecastRevenueValue = 0;
+                }
+            }else if($i == 3){
+                $monthRevenue = "Mar";
+                //condition value for Monthly Revenue------------
+                if($supLoop >= count($monthly_totRevenue)){
+                    $monRevenueValue = '';
+                }else if($i == $monthly_totRevenue[$supLoop]->month){
+                    $monRevenueValue = $monthly_totRevenue[$supLoop]->total_revenue;
+                    $supLoop+=1;
+                }else{
+                    $monRevenueValue = 0;
+                }
+                //condition value for Forecast Revenue------------
+                if($foreloop >= count($forecast_totRevenue)){
+                    $forecastRevenueValue = '';
+                }else if($i == $forecast_totRevenue[$foreloop]->month){
+                    $forecastRevenueValue = $forecast_totRevenue[$foreloop]->totRevenue;
+                    $foreloop+=1;
+                }else{
+                    $forecastRevenueValue = 0;
+                }
+            }else if($i == 4){
+                $monthRevenue = "Apr";
+                //condition value for Monthly Revenue------------
+                if($supLoop >= count($monthly_totRevenue)){
+                    $monRevenueValue = '';
+                }else if($i == $monthly_totRevenue[$supLoop]->month){
+                    $monRevenueValue = $monthly_totRevenue[$supLoop]->total_revenue;
+                    $supLoop+=1;
+                }else{
+                    $monRevenueValue = 0;
+                }
+                //condition value for Forecast Revenue------------
+                if($foreloop >= count($forecast_totRevenue)){
+                    $forecastRevenueValue = '';
+                }else if($i == $forecast_totRevenue[$foreloop]->month){
+                    $forecastRevenueValue = $forecast_totRevenue[$foreloop]->totRevenue;
+                    $foreloop+=1;
+                }else{
+                    $forecastRevenueValue = 0;
+                }
+            }else if($i == 5){
+                $monthRevenue = "May";
+                //condition value for Monthly Revenue------------
+                if($supLoop >= count($monthly_totRevenue)){
+                    $monRevenueValue = '';
+                }else if($i == $monthly_totRevenue[$supLoop]->month){
+                    $monRevenueValue = $monthly_totRevenue[$supLoop]->total_revenue;
+                    $supLoop+=1;
+                }else{
+                    $monRevenueValue = 0;
+                }
+                //condition value for Forecast Revenue------------
+                if($foreloop >= count($forecast_totRevenue)){
+                    $forecastRevenueValue = '';
+                }else if($i == $forecast_totRevenue[$foreloop]->month){
+                    $forecastRevenueValue = $forecast_totRevenue[$foreloop]->totRevenue;
+                    $foreloop+=1;
+                }else{
+                    $forecastRevenueValue = 0;
+                }
+            }else if($i == 6){
+                $monthRevenue = "Jun";
+                //condition value for Monthly Revenue------------
+                if($supLoop >= count($monthly_totRevenue)){
+                    $monRevenueValue = '';
+                }else if($i == $monthly_totRevenue[$supLoop]->month){
+                    $monRevenueValue = $monthly_totRevenue[$supLoop]->total_revenue;
+                    $supLoop+=1;
+                }else{
+                    $monRevenueValue = 0;
+                }
+                //condition value for Forecast Revenue------------
+                if($foreloop >= count($forecast_totRevenue)){
+                    $forecastRevenueValue = '';
+                }else if($i == $forecast_totRevenue[$foreloop]->month){
+                    $forecastRevenueValue = $forecast_totRevenue[$foreloop]->totRevenue;
+                    $foreloop+=1;
+                }else{
+                    $forecastRevenueValue = 0;
+                }
+            }else if($i == 7){
+                $monthRevenue = "Jul";
+                //condition value for Monthly Revenue------------
+                if($supLoop >= count($monthly_totRevenue)){
+                    $monRevenueValue = '';
+                }else if($i == $monthly_totRevenue[$supLoop]->month){
+                    $monRevenueValue = $monthly_totRevenue[$supLoop]->total_revenue;
+                    $supLoop+=1;
+                }else{
+                    $monRevenueValue = 0;
+                }
+                //condition value for Forecast Revenue------------
+                if($foreloop >= count($forecast_totRevenue)){
+                    $forecastRevenueValue = '';
+                }else if($i == $forecast_totRevenue[$foreloop]->month){
+                    $forecastRevenueValue = $forecast_totRevenue[$foreloop]->totRevenue;
+                    $foreloop+=1;
+                }else{
+                    $forecastRevenueValue = 0;
+                }
+            }else if($i == 8){
+                $monthRevenue = "Aug";
+                //condition value for Monthly Revenue------------
+                if($supLoop >= count($monthly_totRevenue)){
+                    $monRevenueValue = '';
+                }else if($i == $monthly_totRevenue[$supLoop]->month){
+                    $monRevenueValue = $monthly_totRevenue[$supLoop]->total_revenue;
+                    $supLoop+=1;
+                }else{
+                    $monRevenueValue = 0;
+                }
+                //condition value for Forecast Revenue------------
+                if($foreloop >= count($forecast_totRevenue)){
+                    $forecastRevenueValue = '';
+                }else if($i == $forecast_totRevenue[$foreloop]->month){
+                    $forecastRevenueValue = $forecast_totRevenue[$foreloop]->totRevenue;
+                    $foreloop+=1;
+                }else{
+                    $forecastRevenueValue = 0;
+                }
+            }else if($i == 9){
+                $monthRevenue = "Sep";
+                //condition value for Monthly Revenue------------
+                if($supLoop >= count($monthly_totRevenue)){
+                    $monRevenueValue = '';
+                }else if($i == $monthly_totRevenue[$supLoop]->month){
+                    $monRevenueValue = $monthly_totRevenue[$supLoop]->total_revenue;
+                    $supLoop+=1;
+                }else{
+                    $monRevenueValue = 0;
+                }
+                //condition value for Forecast Revenue------------
+                if($foreloop >= count($forecast_totRevenue)){
+                    $forecastRevenueValue = '';
+                }else if($i == $forecast_totRevenue[$foreloop]->month){
+                    $forecastRevenueValue = $forecast_totRevenue[$foreloop]->totRevenue;
+                    $foreloop+=1;
+                }else{
+                    $forecastRevenueValue = 0;
+                }
+            }else if($i == 10){
+                $monthRevenue = "Oct";
+                //condition value for Monthly Revenue------------
+                if($supLoop >= count($monthly_totRevenue)){
+                    $monRevenueValue = '';
+                }else if($i == $monthly_totRevenue[$supLoop]->month){
+                    $monRevenueValue = $monthly_totRevenue[$supLoop]->total_revenue;
+                    $supLoop+=1;
+                }else{
+                    $monRevenueValue = 0;
+                }
+                //condition value for Forecast Revenue------------
+                if($foreloop >= count($forecast_totRevenue)){
+                    $forecastRevenueValue = '';
+                }else if($i == $forecast_totRevenue[$foreloop]->month){
+                    $forecastRevenueValue = $forecast_totRevenue[$foreloop]->totRevenue;
+                    $foreloop+=1;
+                }else{
+                    $forecastRevenueValue = 0;
+                }
+            }else if($i == 11){
+                $monthRevenue = "Nov";
+                //condition value for Monthly Revenue------------
+                if($supLoop >= count($monthly_totRevenue)){
+                    $monRevenueValue = '';
+                }else if($i == $monthly_totRevenue[$supLoop]->month){
+                    $monRevenueValue = $monthly_totRevenue[$supLoop]->total_revenue;
+                    $supLoop+=1;
+                }else{
+                    $monRevenueValue = 0;
+                }
+                //condition value for Forecast Revenue------------
+                if($foreloop >= count($forecast_totRevenue)){
+                    $forecastRevenueValue = '';
+                }else if($i == $forecast_totRevenue[$foreloop]->month){
+                    $forecastRevenueValue = $forecast_totRevenue[$foreloop]->totRevenue;
+                    $foreloop+=1;
+                }else{
+                    $forecastRevenueValue = 0;
+                }
+            }else if($i == 12){
+                $monthRevenue = "Dec";
+                //condition value for Monthly Revenue------------
+                if($supLoop >= count($monthly_totRevenue)){
+                    $monRevenueValue = '';
+                }else if($i == $monthly_totRevenue[$supLoop]->month){
+                    $monRevenueValue = $monthly_totRevenue[$supLoop]->total_revenue;
+                    $supLoop+=1;
+                }else{
+                    $monRevenueValue = 0;
+                }
+                //condition value for Forecast Revenue------------
+                if($foreloop >= count($forecast_totRevenue)){
+                    $forecastRevenueValue = '';
+                }else if($i == $forecast_totRevenue[$foreloop]->month){
+                    $forecastRevenueValue = $forecast_totRevenue[$foreloop]->totRevenue;
+                    $foreloop+=1;
+                }else{
+                    $forecastRevenueValue = 0;
+                }
+            }
+
+            $dataRevenue[] = array(
+                "monthData" => $monthRevenue,
+                "revenueValue" => $monRevenueValue,
+                "forecastRevenue" => $forecastRevenueValue
+            );
+        }
+        
+        return response()->json($dataRevenue);
     }
+    //-----------END MONTHLY REVENUE FORECAST--------------------//
 
     /**
      * Show the form for creating a new resource.
@@ -759,13 +1316,20 @@ class ormForecastingController extends Controller
         $avg = $totSup/count($request['totalSupply']);
 
         $forecast = Forecasting::create([
+            'forecast_category' => $request['forecast_type'],
             'category' => $request['modal_category'],
-            'forecast_supply' => $avg,
+            'forecast_value' => $avg,
+            'forecast_month' => $request['forecast_month'].-01,
         ]); 
         event(new Registered($forecast));
 
-        return redirect()->intended(route('forecasting'))->with('success', 'Forecast Successfully!');
-
+        if ($request['forecast_type'] == "Supply") {
+            return redirect()->intended(route('forecasting-supply'))->with('success', 'Forecast Successfully!');
+        }else if ($request['forecast_type'] == "Demand") {
+            return redirect()->intended(route('forecasting-demand'))->with('success', 'Forecast Successfully!');
+        }else if ($request['forecast_type'] == "Revenue") {
+            return redirect()->intended(route('forecasting-revenue'))->with('success', 'Forecast Successfully!');
+        }
     }
 
     /**

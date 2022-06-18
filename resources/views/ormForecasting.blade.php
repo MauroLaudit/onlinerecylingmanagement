@@ -278,7 +278,7 @@
                     dropdownParent: $('#ormAddForecast'),
                     placeholder: "-- Choose Item --",
                     ajax: {
-                        url: "{{ route('yearRecords') }}",
+                        url: "{{ route('yearSupplyRecords') }}",
                         type: "get",
                         delay: 250,
                         dataType: 'json',
@@ -300,7 +300,7 @@
                     dropdownParent: $('#ormAddForecast'),
                     placeholder: "-- Choose Item --",
                     ajax: {
-                        url: "{{ route('monthRecords') }}",
+                        url: "{{ route('monthSupplyRecords') }}",
                         type: "get",
                         delay: 250,
                         dataType: 'json',

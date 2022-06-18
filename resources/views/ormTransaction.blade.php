@@ -59,8 +59,6 @@
                                             <em class="fa fa-eye" aria-hidden="true"></em>View Orders
                                         </a>
                                         @include('transaction_views.view_transacts')
-                                        <!-- <a id="orders" class="btn btn-small btn-success" href="{{ route('client_transactions.show', $transactionslist->id) }}">Show</a> -->
-                                        <!-- <a type="button" id="{{$transactionslist->id}}" class="orders btn btn-small btn-success" href="#">Show</a>  -->
                                     </div>
                                 </td>
                             </tr>

@@ -12,8 +12,10 @@ class Forecasting extends Model
     public $table = 'forecasting';
 
     protected $fillable = [
+        'forecast_category',
         'category',
-        'forecast_supply',
+        'forecast_value',
+        'forecast_month',
     ];
 
     protected $dates = [

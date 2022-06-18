@@ -1,18 +1,20 @@
 <!-- Modal -->
-<div class="modal fade" id="ormAddForecast" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="ormAddOrderModal" aria-hidden="true">
+<div class="modal fade" id="ormAddForecast" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="ormAddForecast" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered d-flex justify-content-center">
         <div class="modal-content col-lg-12">
             <div class="modal-body">
                 <!-- <hr>
                 <h4>Company Information</h4>
                 <hr> -->
-                <div class="col-md-12 d-flex justify-content-end sticky-top pt-3">
+                <div class="col-md-12 d-flex justify-content-end sticky-top pt-1">
                     <button type="button" id="modal-close" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="col-12 d-flex justify-content-center">
-                    <form action="forecast" method="post" id="recInventory" class="company-info d-flex row justify-content-between">
+                    <form action="forecast" method="post" id="recForecast" class="company-info d-flex row justify-content-between">
                         @csrf
-                        <div class="inner-form mb-3">
+                        <div class="inner-form mb-3 d-flex">
+                            <input type="text" name="forecast_type" id="forecast-type" required hidden>
+                            <input type="month" name="forecast_month" id="forecast-month" required>
                             <select class="select-form" id="modal_category" name="modal_category" required>
                                 <option selected>Choose Recyclable Category</option>
                                 <option value="Paper">Paper</option>
@@ -26,7 +28,7 @@
                                 <tr>
                                     <th scope="col">Year</th>
                                     <th scope="col">Month</th>
-                                    <th scope="col">Total Supply</th>
+                                    <th scope="col">Total</th>
                                     <th scope="col">
                                         <!-- <button type="button" class="btn btn-success btn-inner d-flex justify-content-center align-items-center" id="add_btn">
                                             <em class="fa fa-plus" aria-hidden="true"></em>
@@ -56,9 +58,7 @@
                                 <tr>
                                     <td></td>
                                     <td></td>
-                                    <td>
-                                        
-                                    </td>
+                                    <td></td>
                                     <td class="d-flex justify-content-center align-items-center">
                                         <button type="button" class="btn btn-success btn-inner d-flex justify-content-center align-items-center" id="add_btn">
                                             <em class="fa fa-plus" aria-hidden="true"></em>
@@ -67,7 +67,7 @@
                             </tfoot>
                         </table>
                         <div class="d-flex justify-content-center">
-                            <button type="submit" class="w-50">FORECAST</button>
+                            <button type="submit" class="btn_forecast">FORECAST</button>
                         </div>
                         
                     </form>

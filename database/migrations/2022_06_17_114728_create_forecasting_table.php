@@ -15,8 +15,10 @@ return new class extends Migration
     {
         Schema::create('forecasting', function (Blueprint $table) {
             $table->id();
+            $table->string('forecast_category');
             $table->string('category');
-            $table->string('forecast_supply');
+            $table->string('forecast_value');
+            $table->date('forecast_month');
             $table->timestamps();
         });
     }

@@ -51,10 +51,22 @@ Route::group([ 'middleware' => ['auth']], function () {
     Route::get('forecasting-supply', [ormForecastingController::class, 'indexSupply'])->name('forecasting-supply');
     Route::get('forecasting-demand', [ormForecastingController::class, 'indexDemand'])->name('forecasting-demand');
     Route::get('forecasting-revenue', [ormForecastingController::class, 'indexRevenue'])->name('forecasting-revenue');
-    
+
+    //----FETCH AND FORECAST SUPPLY DATA----//
     Route::get('supply_search', [ormForecastingController::class, 'forecastSupply_data'])->name('supply');
-    Route::get('forecastSupply_search', [ormForecastingController::class, 'forecast_data'])->name('forecastSupply');
-    Route::get('fetch_year', [ormForecastingController::class, 'yearsRecord'])->name('yearRecords');
-    Route::get('fetch_month', [ormForecastingController::class, 'monthsRecord'])->name('monthRecords');
+    Route::get('fetchSupply_year', [ormForecastingController::class, 'yearsSupplyRecord'])->name('yearSupplyRecords');
+    Route::get('fetchSupply_month', [ormForecastingController::class, 'monthsSupplyRecord'])->name('monthSupplyRecords');
     Route::get('fetch_totalSupply', [ormForecastingController::class, 'totalSupply'])->name('monthTotalSupply');
+
+    //----FETCH RECORDS FOR ORDER IN YEAR AND MONTHS----//
+    Route::get('fetchOrder_year', [ormForecastingController::class, 'yearsOrderRecord'])->name('yearOrderRecords');
+    Route::get('fetchOrder_month', [ormForecastingController::class, 'monthsOrderRecord'])->name('monthOrderRecords');
+
+    //----FORECAST DEMAND DATA----//
+    Route::get('demand_search', [ormForecastingController::class, 'forecastDemand_data'])->name('demand');
+    Route::get('fetch_totalDemand', [ormForecastingController::class, 'totalDemand'])->name('monthTotalDemand');
+
+    //----FORECAST REVENUE DATA----//
+    Route::get('revenue_search', [ormForecastingController::class, 'forecastRevenue_data'])->name('revenue');
+    Route::get('fetch_totalRevenue', [ormForecastingController::class, 'totalRevenue'])->name('monthTotalRevenue');
 });
