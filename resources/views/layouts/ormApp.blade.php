@@ -78,6 +78,12 @@
             "pageLength": 50,
         });
     });
+
+    $(document).ready(function(){
+        $('#manageUserTable').DataTable({
+            "pageLength": 50,
+        })
+    });
 </script>
 
 

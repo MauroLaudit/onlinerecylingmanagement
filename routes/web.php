@@ -7,6 +7,7 @@ use App\Http\Controllers\ormProfileController;
 use App\Http\Controllers\ormInventoryController;
 use App\Http\Controllers\ormTransactionController;
 use App\Http\Controllers\ormForecastingController;
+use App\Http\Controllers\ormDashboardController;
 use All\Models\User;
 /*
 |--------------------------------------------------------------------------
@@ -32,7 +33,11 @@ Route::post('update_img', [ormProfileController::class, 'updatePicture'])->name(
 Route::resource('register', ormUserController::class);
 
 Route::group([ 'middleware' => ['auth']], function () {
-    Route::get('/', [ormLoginController::class, 'dashboard'])->name('dashboard'); /* Show Dashboard */
+    //---- DASHBOARD VIEWS AND DATA ----//
+    Route::get('/', [ormDashboardController::class, 'index'])->name('dashboard'); /* Show Dashboard */
+    Route::get('searchTransacts', [ormDashboardController::class, 'forecastDashBoard'])->name('transactRecords');
+    Route::get('searchRevenue', [ormDashboardController::class, 'recordRevenue'])->name('revenueRecords');
+    Route::get('searchRevenueCategories', [ormDashboardController::class, 'categorizeRevenue'])->name('revenueCategories');
 
     Route::resource('recyclable', ormInventoryController::class);
 
@@ -69,4 +74,8 @@ Route::group([ 'middleware' => ['auth']], function () {
     //----FORECAST REVENUE DATA----//
     Route::get('revenue_search', [ormForecastingController::class, 'forecastRevenue_data'])->name('revenue');
     Route::get('fetch_totalRevenue', [ormForecastingController::class, 'totalRevenue'])->name('monthTotalRevenue');
+
+    //----USER MANAGEMENT----//
+    Route::get('manage-user', [ormUserController::class, 'userManagement'])->name('manage-user');
+    Route::get('my-profile', [ormUserController::class, 'userProfile'])->name('my-profile');
 });

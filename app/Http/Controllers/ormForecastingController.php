@@ -217,7 +217,7 @@ class ormForecastingController extends Controller
 
     public function forecastSupply_data(Request $request){
         $input_category = $request->all();
-        $year = 0;
+        
         $category = $input_category;
         if($input_category['input_category'] == "Paper"){
             $category = 'PPR';
@@ -228,19 +228,12 @@ class ormForecastingController extends Controller
         }else if($input_category['input_category'] == "Glass"){
             $category = 'GLS';
         }
-        
-        if($input_category['year'] == ""){
-            $year = Carbon::now()->format('Y');
-        }
-        else{
-            $year = $input_category['year'];
-        }
 
         $paper_totSupply = DB::table('inventory')
             ->select(DB::raw('SUM(amount) as totSupply'), DB::raw('YEAR(created_at) as year, MONTH(created_at) as month'))
             ->groupby('year','month')
             ->where('stock_id', 'like', $category.'%')
-            ->whereYear('created_at', '=', $year)
+            ->whereYear('created_at', '=', $input_category['year'])
             ->get();
 
         $forecast_totSupply = DB::table('forecasting')
@@ -248,7 +241,7 @@ class ormForecastingController extends Controller
             ->groupby('totSupply','year','month')
             ->where('category', '=', $input_category['input_category'])
             ->where('forecast_category', '=','Supply')
-            ->whereYear('forecast_month', '=', $year)
+            ->whereYear('forecast_month', '=', $input_category['year'])
             ->get();
 
         //dd(count($paper_totSupply));
@@ -656,14 +649,6 @@ class ormForecastingController extends Controller
 
     public function forecastDemand_data(Request $request){
         $input_category = $request->all();
-        $year = 0;
-        
-        if($input_category['year'] == ""){
-            $year = Carbon::now()->format('Y');
-        }
-        else{
-            $year = $input_category['year'];
-        }
 
         $monthly_totDemand = DB::table('company_orders')
             ->join('stock_inventory', 'company_orders.stock_id', '=', 'stock_inventory.id')
@@ -671,7 +656,7 @@ class ormForecastingController extends Controller
             ->select(DB::raw('SUM(quantity) as total_demand'), DB::raw('YEAR(company_orders.created_at) as year, MONTH(company_orders.created_at) as month'))
             ->groupby('year','month')
             ->where('category', '=', $input_category['input_category'])
-            ->whereYear('company_orders.created_at', '=', $year)
+            ->whereYear('company_orders.created_at', '=', $input_category['year'])
             ->get();
 
         $forecast_totDemand = DB::table('forecasting')
@@ -679,7 +664,7 @@ class ormForecastingController extends Controller
             ->groupby('totDemand','year','month')
             ->where('category', '=', $input_category['input_category'])
             ->where('forecast_category', '=','Demand')
-            ->whereYear('forecast_month', '=', $year)
+            ->whereYear('forecast_month', '=', $input_category['year'])
             ->get();
 
         //dd($forecast_totDemand);
@@ -1000,14 +985,6 @@ class ormForecastingController extends Controller
 
     public function forecastRevenue_data(Request $request){
         $input_category = $request->all();
-        $year = 0;
-        
-        if($input_category['year'] == ""){
-            $year = Carbon::now()->format('Y');
-        }
-        else{
-            $year = $input_category['year'];
-        }
 
         $monthly_totRevenue = DB::table('company_orders')
             ->join('stock_inventory', 'company_orders.stock_id', '=', 'stock_inventory.id')
@@ -1015,7 +992,7 @@ class ormForecastingController extends Controller
             ->select(DB::raw('SUM(total_price) as total_revenue'), DB::raw('YEAR(company_orders.created_at) as year, MONTH(company_orders.created_at) as month'))
             ->groupby('year','month')
             ->where('category', '=', $input_category['input_category'])
-            ->whereYear('company_orders.created_at', '=', $year)
+            ->whereYear('company_orders.created_at', '=', $input_category['year'])
             ->get();
 
         $forecast_totRevenue = DB::table('forecasting')
@@ -1023,7 +1000,7 @@ class ormForecastingController extends Controller
             ->groupby('totRevenue','year','month')
             ->where('category', '=', $input_category['input_category'])
             ->where('forecast_category', '=','Revenue')
-            ->whereYear('forecast_month', '=', $year)
+            ->whereYear('forecast_month', '=', $input_category['year'])
             ->get();
 
         //dd($forecast_totRevenue);

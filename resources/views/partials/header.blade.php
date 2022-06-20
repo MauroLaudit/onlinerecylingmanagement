@@ -145,6 +145,11 @@
                             <li><a href="{{ url('forecasting-revenue') }}" class="dropdown-item d-flex align-items-center"><em class="fa fa-usd revenue"></em> Revenue</a></li>
                         </ul>
                     </li>
+                    <li class="nav-item orm-tooltip" data-text="Manage User">
+                        <a href="{{ url('manage-user') }}" class="nav-link py-3 {{Request::is('manage-user') ? 'active':'' }}" title="" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Manage User">
+                            <em class="fa fa-user fs-3"></em>
+                        </a>
+                    </li>
                 </ul>
                 <div class="dropdown">
                     <a href="#" class="d-flex align-items-center justify-content-center p-3 link-dark text-decoration-none dropdown-toggle" id="dropdownUser" data-bs-toggle="dropdown" aria-expanded="false">
@@ -156,7 +161,7 @@
                     <ul class="dropdown-menu text-small p-1 shadow" aria-labelledby="dropdownUser" style="">
                         <li><span class="text-nowrap ps-3 fw-bold">{{Auth::User()->fname ?? 'None'}}</span></li>
                         <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item" href="#">Profile</a></li>
+                        <li><a class="dropdown-item" href="{{ url('my-profile') }}">Profile</a></li>
                         <li><hr class="dropdown-divider"></li>
                         <li><a class="dropdown-item" href="{{ url('signout') }}">Sign out</a></li>
                     </ul>

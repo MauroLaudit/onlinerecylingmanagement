@@ -67,7 +67,7 @@
                             </tfoot>
                         </table>
                         <div class="d-flex justify-content-center">
-                            <button type="submit" class="btn_forecast">FORECAST</button>
+                            <input type="submit" value="FORECAST" class="btn_forecast" disabled='disabled'>
                         </div>
                         
                     </form>

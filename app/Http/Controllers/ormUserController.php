@@ -23,6 +23,17 @@ class ormUserController extends Controller
         return view('auth.ormLogin');
     }
 
+    public function userManagement()
+    {
+        $user = User::all();
+        return view('ormUserManagement')->with('user', $user);
+    }
+
+    public function userProfile()
+    {
+        return view('ormProfile');
+    }
+
     /**
      * Show the form for creating a new resource.
      *

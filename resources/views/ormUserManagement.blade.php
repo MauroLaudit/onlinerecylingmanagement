@@ -1,9 +1,81 @@
 @extends('layouts.ormApp')
 
-@push('styles')
-    <!-- Styles -->
-    <link href="{{ asset('css/orm-login-style.css') }}" rel="stylesheet">
 
+@push('styles')
+    <!-- Style External File -->
+    <link href="{{ asset('css/orm-manageuser-style.css') }}" rel="stylesheet">
+@endpush
+
+@section('content')
+    <section class="head-title sticky-top">
+        <div class="container">
+            <div class="row d-flex justify-content-center">
+                <div class="col-md-8">
+                    <div class="title">
+                        <h1>Manage Users</h1>
+                    </div>
+                </div>
+
+                <div class="col-md-4 d-flex justify-content-end align-items-center">
+                    <div type="button" class="btn-nav d-flex align-items-center justify-content-center" data-bs-toggle="modal" data-bs-target="#signupModal" id="add-btn-order">
+                        <em class="fa fa-user-plus" aria-hidden="true"></em> Add User
+                    </div>
+                </div>
+            </div>  
+        </div>
+    </section>
+    @include('auth.ormRegistration')
+
+    <section class="usermanage-section my-4">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <table id="manageUserTable" class="table table-striped table-hover table-bordered pt-3" data-page-length='50'>
+                        <thead>
+                            <tr>
+                            <th scope="col">Profile</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Email</th>
+                            <th scope="col">Role</th>
+                            <!-- <th scope="col">Action</th> -->
+                            </tr>
+                        </thead>
+                        <tbody>
+                        @if($user)
+                            @foreach($user as $userList)
+                            <tr>
+                                <td data-label="profile_picture" scope="row">
+                                <img class="image rounded" src="images/{{$userList->upload_img}}" alt="profile_image" style="width: 55px;height: 55px; padding: 5px; margin: 0px; ">
+                                </td>
+                                <td data-label="user_name">
+                                    {{ $userList->lname }}, {{ $userList->fname }} 
+                                    @if( $userList->mname  != '-')
+                                        <span>{{ $userList->mname }}</span>
+                                    @endif
+                                    
+                                </td>
+                                <td data-label="user_email">{{ $userList->email }}</td>
+                                <td data-label="user_role">{{ $userList->role }}</td>
+                                <!-- <td class="">
+                                    <div type="button" class="btn-inner">
+                                        <a data-bs-toggle="modal" type="button" data-bs-target="#" class="text-nav btn-view d-flex align-items-center justify-content-center text-decoration-none btn_viewOrders">
+                                            <em class="fa fa-pencil" aria-hidden="true"></em>View Orders
+                                        </a>
+                                    </div>
+                                </td> -->
+                            </tr>
+                            @endforeach
+                        @endif
+                        </tbody>
+                    </table>    
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+    <!-- // ----SCRIPT SECTION---- // -->
     <!-- Clear All Input After Closing The Modal -->
     <script>
         $('#btn-register').on('click', function () {
@@ -159,7 +231,7 @@
         });
         
         $(document).ready(function(){
-            $('#btn-register').on('click', function(){
+            $('#add-btn-order').on('click', function(){
                 $("#pi-next").prop("disabled", true);
                 $("#ai-next").prop("disabled", true);
             });
@@ -235,49 +307,4 @@
             s3.style.color = "#000000"; 
         }
     </script>
-@endpush
-
-@section('content')
-    <section class="container d-flex justify-content-center login-section mt-5">
-        <div class="col-md-4 logo-section d-flex justify-content-center align-items-center">
-        <!-- @if(session()->has('success'))
-            <div class="alert alert-success">
-                {{ session()->get('success') }}
-            </div>
-        @endif -->
-            <div class="content">
-                <div class="img-logo d-flex justify-content-center">
-                    <img src="{{ asset('images/logo2.png') }}" alt="">
-                </div>
-                <div class="title h1 text-center">Online Waste Recycling Management System</div>
-                <!-- <div class="text-button d-flex justify-content-center align-items-end">
-                    <div id="btn-register" type="button" class="btn btn-signup" data-bs-toggle="modal" data-bs-target="#signupModal">SIGN UP</div>
-                </div> -->
-            </div>
-
-            @include('auth.ormRegistration')
-        </div>
-
-        <!-- Sign In Section -->
-        <div class="col-md-8 form-section d-flex justify-content-center align-items-center">
-            <div class="content col-6">
-                <div class="form-title h2">Sign In to your Account</div>
-                <form method="post" action="custom-login">
-                    @csrf
-                    <div class="inner-form d-flex">
-                        <span class="login-icon d-flex align-items-center justify-content-center"><em class="fa fa-envelope-o"></em></span>
-                        <input class="form-input" type="email" id="email" name="email" placeholder="Email">
-                    </div>
-                    <div class="inner-form d-flex">
-                        <span class="login-icon d-flex align-items-center justify-content-center"><em class="fa fa-lock"></em></span>
-                        <input class="form-input" type="password" id="password" name="password" placeholder="Password" required>
-                        <span class="show_li_password d-flex align-items-center justify-content-end" id="login-pass-show"><i class="fa fa-eye-slash" aria-hidden="true"></i></span>
-                    </div>
-
-                    <div class="fp"><a href="/forgot-password">Forgot Password?</a></div>
-                    
-                    <button type="submit" class="btn btn-signin">SIGN IN</button>
-                </form>
-            </div>
-        </div>
-    </section>
+@endsection

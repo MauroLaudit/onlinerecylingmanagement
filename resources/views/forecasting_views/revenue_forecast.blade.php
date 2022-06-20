@@ -51,7 +51,7 @@
             </div>
             <div class="row">
                 <div class="col-md-12">
-                    <div id="supply_forecast" style="width:100%;height:450px;margin-top:-20px;"></div>
+                    <div id="supply_forecast" style="width:100%;height:430px;"></div>
                 </div>
             </div>
         </div>
@@ -67,28 +67,33 @@
             fetchYearRecord();
             fetchDataSupply();
             $('#category').on('change', function(){
-                /* alert($('#category').val()); */
-                fetchYearRecord();
+                fetchDataSupply();
+            })
+
+            $('#yearRecords').on('change', function(){
                 fetchDataSupply();
             })
 
             function fetchYearRecord(){
+                var dataYear = [];
+
+                var currentYear = new Date().getFullYear() + 5;
+                //Loop and add the Year values to DropDownList.
+                for (var i = currentYear; i >= 1950; i--) {
+                    var obj = new Object;
+
+                    if(i==(currentYear-5)){
+                        obj.selected = true;
+                    }
+
+                    obj.id = i;
+                    obj.text = i;
+                    dataYear.push(obj);
+                }
                 $("#yearRecords").select2({
                     selectOnClose: true,
-                    placeholder: 'Choose Year',
-                    ajax: {
-                        url: "{{ route('yearOrderRecords') }}",
-                        type: "get",
-                        delay: 250,
-                        dataType: 'json',
-                        data: {category:$('#category :selected').val()},
-                        processResults: function(response) {
-                            return {
-                                results: response
-                            };
-                        },
-                        cache: true
-                    },
+                    //placeholder: "-- Choose Year --",
+                    data: dataYear,
                 });
             }
 
@@ -125,7 +130,7 @@
                 $.ajax({
                     url: '{{ route('revenue') }}',
                     type: 'GET',
-                    data:{input_category:$('.forecast-data').find('#category :selected').val(), year:$("#yearRecords").val()},
+                    data:{input_category:$('.forecast-data').find('#category :selected').val(), year:$('#yearRecords :selected').val()},
                     success: function(response){ // What to do if we succeed
                         // console.log(response);
                         // console.log($('#category').val());
@@ -246,6 +251,14 @@
                 
                 $('#table-forecast').append(new_order);
 
+                var rowCount = $('tbody tr').length;
+
+                if(rowCount > 1){
+                    $('#ormAddForecast').find('.btn_forecast').removeAttr('disabled');
+                }else{
+                    $('#ormAddForecast').find('.btn_forecast').prop('disabled', true);
+                }
+
                 $('#divisor').val(totDiv + 1);
 
                 //initialize select2 for Year
@@ -323,19 +336,22 @@
 
         $(document).on('click', '#remove_btn', function(){
             $(this).closest('tr').remove();
+
+            var rowCount = $('tbody tr').length;
+
+            if(rowCount > 1){
+                $('#ormAddForecast').find('.btn_forecast').removeAttr('disabled');
+            }else{
+                $('#ormAddForecast').find('.btn_forecast').prop('disabled', true);
+            }
         });
 
         $(document).on('hidden.bs.modal', function(){
-            $(".forecast_tbl tbody").find("tr:gt(0)").remove();
+            $("#forecast_tbl tbody").find("tr:gt(0)").remove();
             $('#ormAddForecast form')[0].reset();
 
             $(".yearList").select2({});
             $(".monthList").select2({});
-        });
-
-        $('#btn_forecast').click(function(){ 
-            $(".forecast_tbl tbody").find("tr:gt(0)").remove();
-            $('#ormAddForecast form')[0].reset();
         });
     </script>
 

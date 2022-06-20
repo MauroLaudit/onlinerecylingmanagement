@@ -28,6 +28,16 @@
     border-radius: 5px;
 }
 
+.forecast-data .searchCol {
+    position: relative;
+    z-index: 10 !important;
+}
+
+.forecast-data .supply_forecast {
+    position: relative;
+    z-index: 1 !important;
+}
+
 .forecast-data select {
     position: relative;
     display: block;
@@ -45,6 +55,24 @@
 
 .forecast-data select:focus {
     outline: 1px solid #1268cd;
+}
+
+.forecast-data #category {
+    position: relative;
+    z-index: 5 !important;
+}
+
+.forecast-data #category {
+    margin-right: 10px;
+}
+
+.forecast-data .select2-container .select2-selection--single {
+    padding-top: 6px;
+    height: 40px !important;
+}
+
+.forecast-data .select2-container .select2-selection--single .select2-selection__arrow {
+    height: 40px !important;
 }
 
 .modal .modal-content {

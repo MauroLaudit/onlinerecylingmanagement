@@ -1,0 +1,9 @@
+.dashboard-section .box-data {
+    border: 2px solid #1268cd;
+    padding: 15px 0px;
+    border-radius: 10px;
+}
+
+.dashboard-section .monthlyTransacts {
+    border: 1px solid #000000;
+}
