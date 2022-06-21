@@ -18,4 +18,24 @@
             </div>  
         </div>
     </section>
+
+    <section class="profile-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3">
+                    <img class="image-profile rounded" src="images/{{Auth::user()->upload_img}}" alt="profile_image" width="200px">
+                </div>
+                <div class="col-md-9">
+                    <div>
+                        <span>Name: </span>
+                        <span class="h3">{{Auth::user()->lname}}, {{Auth::user()->fname}} 
+                            @if(Auth::user()->mname != "-")
+                                {{Auth::user()->mname}}
+                            @endif
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 @endsection

@@ -16,7 +16,7 @@
                             <label for="stock_category">Category:</label>
                             <input type="text" id="stock_category" name="stock_category" class="form-input" placeholder="" required readonly>
                             <input type="text" id="rcID" name="rc_id" class="form-input transac_id" placeholder="0000" required readonly hidden>
-                            <input type="text" id="stockDate" name="stockDate" class="form-input" required readonly>
+                            <input type="text" id="stockDate" name="stockDate" class="form-input" required readonly hidden>
                         </div>
                         <div class="inner-form mb-3">
                             <div class="item-selection d-flex align-items-center">

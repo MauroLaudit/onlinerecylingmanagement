@@ -159,10 +159,11 @@
                         <img class="image rounded-circle" src="images/{{Auth::user()->upload_img}}" alt="profile_image" style="width: 55px;height: 55px; padding: 5px; margin: 0px; ">
                     </a>
                     <ul class="dropdown-menu text-small p-1 shadow" aria-labelledby="dropdownUser" style="">
+                    <li><hr class="dropdown-divider"></li>
                         <li><span class="text-nowrap ps-3 fw-bold">{{Auth::User()->fname ?? 'None'}}</span></li>
-                        <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item" href="{{ url('my-profile') }}">Profile</a></li>
-                        <li><hr class="dropdown-divider"></li>
+                        <!-- <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="{{ url('my-profile') }}">Profile</a></li> -->
+                        <li><hr class="dropdown-divider"></li><li><hr class="dropdown-divider"></li>
                         <li><a class="dropdown-item" href="{{ url('signout') }}">Sign out</a></li>
                     </ul>
                 </div>

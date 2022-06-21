@@ -25,23 +25,12 @@ class ormDashboardController extends Controller
      */
     public function index()
     {
-        $monthly_totRevenue = DB::table('company_orders')
-            ->join('stock_inventory', 'company_orders.stock_id', '=', 'stock_inventory.id')
-            ->select('company_orders.*', 'stock_inventory.category', 'stock_inventory.recyclable')
-            ->select(DB::raw('SUM(total_price) as total_revenue'), DB::raw('stock_inventory.category as categories'))
-            ->groupby('stock_inventory.category')
-            ->whereMonth('company_orders.created_at', '=', 4)
-            ->whereYear('company_orders.created_at', '=', 2022)
-            ->get();
-            
-        $monthRecords = DB::table('company_orders')
-            ->select(DB::raw('YEAR(created_at) as year, MONTH(created_at) as month'))
-            ->groupby('year', 'month')
-            ->whereYear('company_orders.created_at', '=', 2022)
-            ->get();
+        if(Auth::check()){
+            return view('ormDashboard');
+        }
 
-        //dd($monthly_totRevenue);
-        return view('ormDashboard');
+        return redirect("login")->withErrors('You are not allowed to access');
+        
     }
 
     public function forecastDashBoard(Request $request){
