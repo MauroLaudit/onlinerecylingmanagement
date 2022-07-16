@@ -234,6 +234,7 @@
             $('#add-btn-order').on('click', function(){
                 $("#pi-next").prop("disabled", true);
                 $("#ai-next").prop("disabled", true);
+                $('#parent_page').val("User Management Page");
             });
             
             // #form1 checking Inputs

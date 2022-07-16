@@ -25,6 +25,16 @@ class ormDashboardController extends Controller
      */
     public function index()
     {
+        $monthly_catRevenue = DB::table('company_orders')
+                ->join('stock_inventory', 'company_orders.stock_id', '=', 'stock_inventory.id')
+                ->select('company_orders.*', 'stock_inventory.category', 'stock_inventory.recyclable')
+                ->select(DB::raw('SUM(total_price) as totCatRevenue'), DB::raw('stock_inventory.category as categories'))
+                ->groupby('stock_inventory.category')
+                ->whereMonth('company_orders.created_at', '=', 7)
+                ->whereYear('company_orders.created_at', '=', 2022)
+                ->get();
+
+                dd($monthly_catRevenue);
         if(Auth::check()){
             return view('ormDashboard');
         }
@@ -624,7 +634,6 @@ class ormDashboardController extends Controller
                 }
                 
             }
-
             $dataRevenue[] = array(
                 "monthData" => $monthRevenue,
                 "glassValue" => $glassRevenue,

@@ -8,13 +8,25 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Alert;
+use DB;
 
 class ormLoginController extends Controller
 {
     /* SHow Login Page */
     public function index()
     {
-        return view('auth.ormLogin');
+        $checkUsertbl = "";
+        $modalClose = "";
+        if(DB::table('users')->count() > 0){
+            $checkUsertbl = "has user";
+            $modalClose = "d-block";
+        }else if(DB::table('users')->count() == 0){
+            $checkUsertbl = "no user";
+            $modalClose = "d-none";
+        }
+
+        return view('auth.ormLogin')->with('checkUsertbl', $checkUsertbl)->with('modalClose', $modalClose);
+        
     }
 
     public function userLogin(Request $request)

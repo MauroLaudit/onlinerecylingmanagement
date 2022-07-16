@@ -4,7 +4,7 @@
         <div class="modal-content col-md-12">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Create Your Account</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close {{$modalClose}}" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <div class="step-row d-flex justify-content-center">
@@ -20,6 +20,7 @@
                             <div class="header-form h4">Personal Information</div>
                         </div>
                         <div class="input-group row">
+                            <input type="text" name="parent_page" id="parent_page" hidden>
                             <div class="inner-form">
                                 <label for="fname">First Name:</label>
                                 <input type="text" id="fname" name="fname" class="form-input " placeholder="First Name" required style="text-transform: capitalize;">
@@ -57,7 +58,7 @@
                         </div>
 
                         <div class="input-group row">
-                            <div class="inner-form">
+                            <div class="inner-form in-role">
                                 <label for="role">Role in the Company:</label>
                                 <select name="role" id="role" class="form-option">
                                     <option selected>Choose Role</option>

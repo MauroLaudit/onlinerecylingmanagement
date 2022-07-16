@@ -179,7 +179,7 @@
                                     name: 'supplies',
                                     type: 'bar',
                                     data: supplies,
-                                    color: ['#cbe5fe'],
+                                    color: ['#00ff1e'],
                                 },{
                                     name: 'demands',
                                     type: 'bar',
@@ -309,7 +309,7 @@
                                     name: 'paper',
                                     type: 'bar',
                                     data: paper,
-                                    color: ['#cbe5fe'],
+                                    color: ['#ffdd00'],
                                 },{
                                     name: 'plastic',
                                     type: 'bar',

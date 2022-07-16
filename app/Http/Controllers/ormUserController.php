@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use RealRashid\SweetAlert\Facades\Alert;
+use DB;
 
 class ormUserController extends Controller
 {
@@ -26,7 +27,13 @@ class ormUserController extends Controller
     public function userManagement()
     {
         $user = User::all();
-        return view('ormUserManagement')->with('user', $user);
+        $modalClose = "";
+        if(DB::table('users')->count() > 0){
+            $modalClose = "d-block";
+        }else if(DB::table('users')->count() == 0){
+            $modalClose = "d-none";
+        }
+        return view('ormUserManagement')->with('user', $user)->with('modalClose', $modalClose);
     }
 
     public function userProfile()
@@ -62,27 +69,52 @@ class ormUserController extends Controller
             return redirect()->back()->withErrors('Required field is empty')->withInput();
         }
 
-        Auth::login($user = User::create([
-            'fname' => $request['fname'],
-            'mname' => $request['mname'],
-            'lname' => $request['lname'],
-            'gender' => $request['gender'],
-            'role' => $request['role'],
-            'email' => $request['email'],
-            'password' => Hash::make($request['password']),
-            'confirm_password' => Hash::make($request['confirm_password']),
-            // 'upload_img' => $request['upload_img'],
-        ]));
-
-        $file = $request->hasFile('upload_img');
-        if ($file)
-        {
-            $upload_img = request()->file('upload_img')->getClientOriginalName();
-            request()->file('upload_img')->move('images/', $upload_img);
-            $user->update(['upload_img' => $upload_img]);
+        if($request['parent_page'] == "Login Page"){
+            Auth::login($user = User::create([
+                'fname' => $request['fname'],
+                'mname' => $request['mname'],
+                'lname' => $request['lname'],
+                'gender' => $request['gender'],
+                'role' => $request['role'],
+                'email' => $request['email'],
+                'password' => Hash::make($request['password']),
+                'confirm_password' => Hash::make($request['confirm_password']),
+                // 'upload_img' => $request['upload_img'],
+            ]));
+    
+            $file = $request->hasFile('upload_img');
+            if ($file)
+            {
+                $upload_img = request()->file('upload_img')->getClientOriginalName();
+                request()->file('upload_img')->move('images/', $upload_img);
+                $user->update(['upload_img' => $upload_img]);
+            }
+    
+            return redirect()->intended(route('dashboard'))->with('success', 'Login Successfully!', $user, 'user');
+        } else if($request['parent_page'] == "User Management Page"){
+            $user = User::create([
+                'fname' => $request['fname'],
+                'mname' => $request['mname'],
+                'lname' => $request['lname'],
+                'gender' => $request['gender'],
+                'role' => $request['role'],
+                'email' => $request['email'],
+                'password' => Hash::make($request['password']),
+                'confirm_password' => Hash::make($request['confirm_password']),
+                // 'upload_img' => $request['upload_img'],
+            ]);
+    
+            $file = $request->hasFile('upload_img');
+            if ($file)
+            {
+                $upload_img = request()->file('upload_img')->getClientOriginalName();
+                request()->file('upload_img')->move('images/', $upload_img);
+                $user->update(['upload_img' => $upload_img]);
+            }
+    
+            return redirect()->intended(route('manage-user'))->with('success', 'Login Successfully!');
         }
-
-        return redirect()->intended(route('dashboard'))->with('success', 'Login Successfully!', $user, 'user');
+        
         
         
     }
