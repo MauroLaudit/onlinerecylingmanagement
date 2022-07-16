@@ -34,7 +34,7 @@ class ormDashboardController extends Controller
                 ->whereYear('company_orders.created_at', '=', 2022)
                 ->get();
 
-                dd($monthly_catRevenue);
+                //dd($monthly_catRevenue);
         if(Auth::check()){
             return view('ormDashboard');
         }
@@ -363,277 +363,87 @@ class ormDashboardController extends Controller
                 ->whereYear('company_orders.created_at', '=', $data['year'])
                 ->get();
 
-        //dd($forecast_totRevenue);
+        $monthly_glassRevenue = DB::table('company_orders')
+            ->join('stock_inventory', 'company_orders.stock_id', '=', 'stock_inventory.id')
+            ->select('company_orders.*', 'stock_inventory.category', 'stock_inventory.recyclable')
+            ->select(DB::raw('SUM(total_price) as totCatRevenue'), DB::raw('MONTH(company_orders.created_at) as month'))
+            ->groupby('month')
+            ->where('stock_inventory.category', '=', "Glass")
+            ->whereYear('company_orders.created_at', '=', $data['year'])
+            ->get();
+        $monthly_metalRevenue = DB::table('company_orders')
+            ->join('stock_inventory', 'company_orders.stock_id', '=', 'stock_inventory.id')
+            ->select('company_orders.*', 'stock_inventory.category', 'stock_inventory.recyclable')
+            ->select(DB::raw('SUM(total_price) as totCatRevenue'), DB::raw('MONTH(company_orders.created_at) as month'))
+            ->groupby('month')
+            ->where('stock_inventory.category', '=', "Metal")
+            ->whereYear('company_orders.created_at', '=', $data['year'])
+            ->get();
+        $monthly_paperRevenue = DB::table('company_orders')
+            ->join('stock_inventory', 'company_orders.stock_id', '=', 'stock_inventory.id')
+            ->select('company_orders.*', 'stock_inventory.category', 'stock_inventory.recyclable')
+            ->select(DB::raw('SUM(total_price) as totCatRevenue'), DB::raw('MONTH(company_orders.created_at) as month'))
+            ->groupby('month')
+            ->where('stock_inventory.category', '=', "Paper")
+            ->whereYear('company_orders.created_at', '=', $data['year'])
+            ->get();
+        $monthly_plasticRevenue = DB::table('company_orders')
+            ->join('stock_inventory', 'company_orders.stock_id', '=', 'stock_inventory.id')
+            ->select('company_orders.*', 'stock_inventory.category', 'stock_inventory.recyclable')
+            ->select(DB::raw('SUM(total_price) as totCatRevenue'), DB::raw('MONTH(company_orders.created_at) as month'))
+            ->groupby('month')
+            ->where('stock_inventory.category', '=', "Plastic")
+            ->whereYear('company_orders.created_at', '=', $data['year'])
+            ->get();
 
-        $monthRevenue = "";
+        //dd($monthly_catRevenue);
+
+        $monthRevenue = new Carbon();
         $glassRevenue = 0;
         $metalRevenue = 0;
         $paperRevenue = 0;
         $plasticRevenue = 0;
-        $loop = 0;
-        $ctr = 0;
+        $ctrG = 0;
+        $ctrM = 0;
+        $ctrP = 0;
+        $ctrPl = 0;
+
         for($i = 1; $i<=12; $i++){
-            $monthly_catRevenue = DB::table('company_orders')
-                ->join('stock_inventory', 'company_orders.stock_id', '=', 'stock_inventory.id')
-                ->select('company_orders.*', 'stock_inventory.category', 'stock_inventory.recyclable')
-                ->select(DB::raw('SUM(total_price) as totCatRevenue'), DB::raw('stock_inventory.category as categories'))
-                ->groupby('stock_inventory.category')
-                ->whereMonth('company_orders.created_at', '=', $i)
-                ->whereYear('company_orders.created_at', '=', $data['year'])
-                ->get();
-            
-            if($i == 1){
-                $monthRevenue = "Jan";
-                //condition value for Categorize Revenue------------
-                if($ctr >= count($monthRecords)){
-                    $glassRevenue = "";
-                    $metalRevenue = "";
-                    $paperRevenue = "";
-                    $plasticRevenue = "";
-                }else if($i == $monthRecords[$ctr]->month){
-                    $glassRevenue = $monthly_catRevenue[$loop]->totCatRevenue;
-                    $metalRevenue = $monthly_catRevenue[$loop+1]->totCatRevenue;
-                    $paperRevenue = $monthly_catRevenue[$loop+2]->totCatRevenue;
-                    $plasticRevenue = $monthly_catRevenue[$loop+3]->totCatRevenue;
-                    $ctr+=1;
-                }else{
-                    $glassRevenue = 0;
-                    $metalRevenue = 0;
-                    $paperRevenue = 0;
-                    $plasticRevenue = 0;
-                }
-            }else if($i == 2){
-                $monthRevenue = "Feb";
-                //condition value for Categorize Revenue------------
-                if($ctr >= count($monthRecords)){
-                    $glassRevenue = "";
-                    $metalRevenue = "";
-                    $paperRevenue = "";
-                    $plasticRevenue = "";
-                }else if($i == $monthRecords[$ctr]->month){
-                    $glassRevenue = $monthly_catRevenue[$loop]->totCatRevenue;
-                    $metalRevenue = $monthly_catRevenue[$loop+1]->totCatRevenue;
-                    $paperRevenue = $monthly_catRevenue[$loop+2]->totCatRevenue;
-                    $plasticRevenue = $monthly_catRevenue[$loop+3]->totCatRevenue;
-                    $ctr+=1;
-                }else{
-                    $glassRevenue = 0;
-                    $metalRevenue = 0;
-                    $paperRevenue = 0;
-                    $plasticRevenue = 0;
-                }
-                
-            }else if($i == 3){
-                $monthRevenue = "Mar";
-                //condition value for Categorize Revenue------------
-                if($ctr >= count($monthRecords)){
-                    $glassRevenue = "";
-                    $metalRevenue = "";
-                    $paperRevenue = "";
-                    $plasticRevenue = "";
-                }else if($i == $monthRecords[$ctr]->month){
-                    $glassRevenue = $monthly_catRevenue[$loop]->totCatRevenue;
-                    $metalRevenue = $monthly_catRevenue[$loop+1]->totCatRevenue;
-                    $paperRevenue = $monthly_catRevenue[$loop+2]->totCatRevenue;
-                    $plasticRevenue = $monthly_catRevenue[$loop+3]->totCatRevenue;
-                    $ctr+=1;
-                }else{
-                    $glassRevenue = 0;
-                    $metalRevenue = 0;
-                    $paperRevenue = 0;
-                    $plasticRevenue = 0;
-                }
-                
-            }else if($i == 4){
-                $monthRevenue = "Apr";
-                //condition value for Categorize Revenue------------
-                if($ctr >= count($monthRecords)){
-                    $glassRevenue = "";
-                    $metalRevenue = "";
-                    $paperRevenue = "";
-                    $plasticRevenue = "";
-                }else if($i == $monthRecords[$ctr]->month){
-                    $glassRevenue = $monthly_catRevenue[$loop]->totCatRevenue;
-                    $metalRevenue = $monthly_catRevenue[$loop+1]->totCatRevenue;
-                    $paperRevenue = $monthly_catRevenue[$loop+2]->totCatRevenue;
-                    $plasticRevenue = $monthly_catRevenue[$loop+3]->totCatRevenue;
-                    $ctr+=1;
-                }else{
-                    $glassRevenue = 0;
-                    $metalRevenue = 0;
-                    $paperRevenue = 0;
-                    $plasticRevenue = 0;
-                }
-                
-            }else if($i == 5){
-                $monthRevenue = "May";
-                //condition value for Categorize Revenue------------
-                if($ctr >= count($monthRecords)){
-                    $glassRevenue = "";
-                    $metalRevenue = "";
-                    $paperRevenue = "";
-                    $plasticRevenue = "";
-                }else if($i == $monthRecords[$ctr]->month){
-                    $glassRevenue = $monthly_catRevenue[$loop]->totCatRevenue;
-                    $metalRevenue = $monthly_catRevenue[$loop+1]->totCatRevenue;
-                    $paperRevenue = $monthly_catRevenue[$loop+2]->totCatRevenue;
-                    $plasticRevenue = $monthly_catRevenue[$loop+3]->totCatRevenue;
-                    $ctr+=1;
-                }else{
-                    $glassRevenue = 0;
-                    $metalRevenue = 0;
-                    $paperRevenue = 0;
-                    $plasticRevenue = 0;
-                }
-                
-            }else if($i == 6){
-                $monthRevenue = "Jun";
-                //condition value for Categorize Revenue------------
-                if($ctr >= count($monthRecords)){
-                    $glassRevenue = "";
-                    $metalRevenue = "";
-                    $paperRevenue = "";
-                    $plasticRevenue = "";
-                }else if($i == $monthRecords[$ctr]->month){
-                    $glassRevenue = $monthly_catRevenue[$loop]->totCatRevenue;
-                    $metalRevenue = $monthly_catRevenue[$loop+1]->totCatRevenue;
-                    $paperRevenue = $monthly_catRevenue[$loop+2]->totCatRevenue;
-                    $plasticRevenue = $monthly_catRevenue[$loop+3]->totCatRevenue;
-                    $ctr+=1;
-                }else{
-                    $glassRevenue = 0;
-                    $metalRevenue = 0;
-                    $paperRevenue = 0;
-                    $plasticRevenue = 0;
-                }
-                
-            }else if($i == 7){
-                $monthRevenue = "Jul";
-                //condition value for Categorize Revenue------------
-                if($ctr >= count($monthRecords)){
-                    $glassRevenue = "";
-                    $metalRevenue = "";
-                    $paperRevenue = "";
-                    $plasticRevenue = "";
-                }else if($i == $monthRecords[$ctr]->month){
-                    $glassRevenue = $monthly_catRevenue[$loop]->totCatRevenue;
-                    $metalRevenue = $monthly_catRevenue[$loop+1]->totCatRevenue;
-                    $paperRevenue = $monthly_catRevenue[$loop+2]->totCatRevenue;
-                    $plasticRevenue = $monthly_catRevenue[$loop+3]->totCatRevenue;
-                    $ctr+=1;
-                }else{
-                    $glassRevenue = 0;
-                    $metalRevenue = 0;
-                    $paperRevenue = 0;
-                    $plasticRevenue = 0;
-                }
-                
-            }else if($i == 8){
-                $monthRevenue = "Aug";
-                //condition value for Categorize Revenue------------
-                if($ctr >= count($monthRecords)){
-                    $glassRevenue = "";
-                    $metalRevenue = "";
-                    $paperRevenue = "";
-                    $plasticRevenue = "";
-                }else if($i == $monthRecords[$ctr]->month){
-                    $glassRevenue = $monthly_catRevenue[$loop]->totCatRevenue;
-                    $metalRevenue = $monthly_catRevenue[$loop+1]->totCatRevenue;
-                    $paperRevenue = $monthly_catRevenue[$loop+2]->totCatRevenue;
-                    $plasticRevenue = $monthly_catRevenue[$loop+3]->totCatRevenue;
-                    $ctr+=1;
-                }else{
-                    $glassRevenue = 0;
-                    $metalRevenue = 0;
-                    $paperRevenue = 0;
-                    $plasticRevenue = 0;
-                }
-                
-            }else if($i == 9){
-                $monthRevenue = "Sep";
-                //condition value for Categorize Revenue------------
-                if($ctr >= count($monthRecords)){
-                    $glassRevenue = "";
-                    $metalRevenue = "";
-                    $paperRevenue = "";
-                    $plasticRevenue = "";
-                }else if($i == $monthRecords[$ctr]->month){
-                    $glassRevenue = $monthly_catRevenue[$loop]->totCatRevenue;
-                    $metalRevenue = $monthly_catRevenue[$loop+1]->totCatRevenue;
-                    $paperRevenue = $monthly_catRevenue[$loop+2]->totCatRevenue;
-                    $plasticRevenue = $monthly_catRevenue[$loop+3]->totCatRevenue;
-                    $ctr+=1;
-                }else{
-                    $glassRevenue = 0;
-                    $metalRevenue = 0;
-                    $paperRevenue = 0;
-                    $plasticRevenue = 0;
-                }
-                
-            }else if($i == 10){
-                $monthRevenue = "Oct";
-                //condition value for Categorize Revenue------------
-                if($ctr >= count($monthRecords)){
-                    $glassRevenue = "";
-                    $metalRevenue = "";
-                    $paperRevenue = "";
-                    $plasticRevenue = "";
-                }else if($i == $monthRecords[$ctr]->month){
-                    $glassRevenue = $monthly_catRevenue[$loop]->totCatRevenue;
-                    $metalRevenue = $monthly_catRevenue[$loop+1]->totCatRevenue;
-                    $paperRevenue = $monthly_catRevenue[$loop+2]->totCatRevenue;
-                    $plasticRevenue = $monthly_catRevenue[$loop+3]->totCatRevenue;
-                    $ctr+=1;
-                }else{
-                    $glassRevenue = 0;
-                    $metalRevenue = 0;
-                    $paperRevenue = 0;
-                    $plasticRevenue = 0;
-                }
-                
-            }else if($i == 11){
-                $monthRevenue = "Nov";
-                //condition value for Categorize Revenue------------
-                if($ctr >= count($monthRecords)){
-                    $glassRevenue = "";
-                    $metalRevenue = "";
-                    $paperRevenue = "";
-                    $plasticRevenue = "";
-                }else if($i == $monthRecords[$ctr]->month){
-                    $glassRevenue = $monthly_catRevenue[$loop]->totCatRevenue;
-                    $metalRevenue = $monthly_catRevenue[$loop+1]->totCatRevenue;
-                    $paperRevenue = $monthly_catRevenue[$loop+2]->totCatRevenue;
-                    $plasticRevenue = $monthly_catRevenue[$loop+3]->totCatRevenue;
-                    $ctr+=1;
-                }else{
-                    $glassRevenue = 0;
-                    $metalRevenue = 0;
-                    $paperRevenue = 0;
-                    $plasticRevenue = 0;
-                }
-                
-            }else if($i == 12){
-                $monthRevenue = "Dec";
-                //condition value for Categorize Revenue------------
-                if($ctr >= count($monthRecords)){
-                    $glassRevenue = "";
-                    $metalRevenue = "";
-                    $paperRevenue = "";
-                    $plasticRevenue = "";
-                }else if($i == $monthRecords[$ctr]->month){
-                    $glassRevenue = $monthly_catRevenue[$loop]->totCatRevenue;
-                    $metalRevenue = $monthly_catRevenue[$loop+1]->totCatRevenue;
-                    $paperRevenue = $monthly_catRevenue[$loop+2]->totCatRevenue;
-                    $plasticRevenue = $monthly_catRevenue[$loop+3]->totCatRevenue;
-                    $ctr+=1;
-                }else{
-                    $glassRevenue = 0;
-                    $metalRevenue = 0;
-                    $paperRevenue = 0;
-                    $plasticRevenue = 0;
-                }
-                
+            $monthRevenue = Carbon::parse($data['year'].'-'.$i)->format('M');
+
+            if($ctrG >= count($monthly_glassRevenue)){
+                $glassRevenue = "";
+            }else if($i == $monthly_glassRevenue[$ctrG]->month){
+                $glassRevenue = $monthly_glassRevenue[$ctrG]->totCatRevenue;
+                $ctrG+=1;
+            }else{
+                $glassRevenue = 0;
             }
+            if($ctrM >= count($monthly_metalRevenue)){
+                $metalRevenue = "";
+            }else if($i == $monthly_metalRevenue[$ctrM]->month){
+                $metalRevenue = $monthly_metalRevenue[$ctrM]->totCatRevenue;
+                $ctrM+=1;
+            }else{
+                $metalRevenue = 0;
+            }
+            if($ctrP >= count($monthly_paperRevenue)){
+                $paperRevenue = "";
+            }else if($i == $monthly_paperRevenue[$ctrP]->month){
+                $paperRevenue = $monthly_paperRevenue[$ctrP]->totCatRevenue;
+                $ctrP+=1;
+            }else{
+                $paperRevenue = 0;
+            }
+            if($ctrPl >= count($monthly_plasticRevenue)){
+                $plasticRevenue = "";
+            }else if($i == $monthly_plasticRevenue[$ctrPl]->month){
+                $plasticRevenue = $monthly_plasticRevenue[$ctrPl]->totCatRevenue;
+                $ctrPl+=1;
+            }else{
+                $plasticRevenue = 0;
+            }
+            
             $dataRevenue[] = array(
                 "monthData" => $monthRevenue,
                 "glassValue" => $glassRevenue,
@@ -642,6 +452,7 @@ class ormDashboardController extends Controller
                 "plasticValue" => $plasticRevenue
             );
         }
+        
         
         return response()->json($dataRevenue);
     }
